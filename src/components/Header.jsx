@@ -1,30 +1,28 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import DarkModeToggleButton from "./DarkModeToggleButton";
+import { fetchHeader } from "../../lib/contentful";
+import DarkModeToggleButton from "./DarkModeToggleButton"; // Uncomment to enable dark mode toggle
 
 export default function Header() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const [headerData, setHeaderData] = useState(null);
   const menuRef = useRef(null);
 
-  const navLinks = [
-    { href: "/work", label: "work" },
-    { href: "/about", label: "about" },
-    { href: "/contact", label: "contact" },
-  ];
-
-  const toggleMenu = (e) => {
-    e.stopPropagation();
-    setIsOpen(!isOpen);
-  };
+  useEffect(() => {
+    const getHeaderData = async () => {
+      const data = await fetchHeader();
+      setHeaderData(data);
+    };
+    getHeaderData();
+  }, []);
 
   const handleClickOutside = (e) => {
     if (menuRef.current && !menuRef.current.contains(e.target)) {
       setIsOpen(false);
     }
   };
-
   useEffect(() => {
     if (isOpen) {
       document.addEventListener("click", handleClickOutside);
@@ -36,10 +34,29 @@ export default function Header() {
     };
   }, [isOpen]);
 
+  if (!headerData) {
+    return null; // Render nothing until data is loaded
+  }
+
+  const { title, logo, navigationLinks } = headerData;
+
+  const toggleMenu = (e) => {
+    e.stopPropagation();
+    setIsOpen(!isOpen);
+  };
+
   return (
     <header className="header">
-      <Link className="header-title hover:scale-50 duration-200" href="/work">
-        Amichai Green
+      <Link className="header-title hover:scale-50 duration-200" href="/">
+        {logo ? (
+          <img
+            src={`https:${logo.fields.file.url}`}
+            alt={title}
+            className="h-8"
+          />
+        ) : (
+          title
+        )}
       </Link>
       <div className="md:hidden">
         <button
@@ -52,15 +69,15 @@ export default function Header() {
         </button>
       </div>
       <nav className="hidden md:flex items-center space-x-4">
-        {navLinks.map(({ href, label }) => (
+        {navigationLinks.map(({ fields: { label, url } }) => (
           <Link
-            key={href}
+            key={url}
             className={`nav-link hover:font-semibold ${
-              router.pathname === href
+              router.pathname === url
                 ? "text-secondaryGray pointer-events-none cursor-default"
                 : ""
             }`}
-            href={href}
+            href={url}
           >
             {label}
           </Link>
@@ -74,15 +91,15 @@ export default function Header() {
           className="absolute top-16 right-4 bg-backgroundColor shadow-md rounded-lg p-4 z-50 text-right md:hidden"
         >
           <nav className="flex flex-col space-y-4">
-            {navLinks.map(({ href, label }) => (
+            {navigationLinks.map(({ fields: { label, url } }) => (
               <Link
-                key={href}
+                key={url}
                 className={`nav-link hover:font-semibold ${
-                  router.pathname === href
+                  router.pathname === url
                     ? "text-secondaryGray pointer-events-none cursor-default"
                     : ""
                 }`}
-                href={href}
+                href={url}
                 onClick={() => setIsOpen(false)}
               >
                 {label}
