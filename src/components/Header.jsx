@@ -39,7 +39,7 @@ export default function Header() {
   return (
     <header className="header">
       <Link className="header-title hover:scale-50 duration-200" href="/work">
-        yoav hainebach
+        Amichai Green
       </Link>
       <div className="md:hidden">
         <button
@@ -65,7 +65,7 @@ export default function Header() {
             {label}
           </Link>
         ))}
-        <DarkModeToggleButton />
+        {/* <DarkModeToggleButton /> (uncomment to enable dark mode)*/}
       </nav>
       {isOpen && (
         <div
