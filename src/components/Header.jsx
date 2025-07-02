@@ -88,7 +88,7 @@ export default function Header() {
                 {label}
               </Link>
             ))}
-            <DarkModeToggleButton />
+            {/* <DarkModeToggleButton /> */}
           </nav>
         </div>
       )}

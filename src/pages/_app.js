@@ -13,7 +13,7 @@ export default function App({ Component, pageProps }) {
 
   useEffect(() => {
     const getProjects = async () => {
-      const entries = await fetchEntries("images");
+      const entries = await fetchEntries("project");
       setProjects(entries);
     };
     getProjects();

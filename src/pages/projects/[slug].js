@@ -5,7 +5,7 @@ import Image from "next/image";
 import Footer from "@/components/Footer";
 
 export async function getStaticPaths() {
-  const entries = await fetchEntries("images");
+  const entries = await fetchEntries("project");
   console.log("fetched entries: ", entries);
 
   const paths = entries.map((entry) => ({
@@ -19,7 +19,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const entries = await fetchEntries("images");
+  const entries = await fetchEntries("project");
   const project = entries.find((entry) => entry.fields.slug === params.slug);
   if (!project) {
     return {
