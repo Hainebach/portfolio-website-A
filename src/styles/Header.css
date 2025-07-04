@@ -40,3 +40,9 @@
 .nav-link:last-child {
   margin-right: 5;
 }
+
+.image-container {
+  position: relative;
+  height: 4rem; /* Adjust as needed */
+  width: 10rem; /* Adjust as needed */
+}

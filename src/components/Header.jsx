@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/router";
 import { fetchHeader } from "../../lib/contentful";
 import DarkModeToggleButton from "./DarkModeToggleButton"; // Uncomment to enable dark mode toggle
@@ -48,12 +49,15 @@ export default function Header() {
   return (
     <header className="header">
       <Link className="header-title hover:scale-50 duration-200" href="/">
-        {logo ? (
-          <img
-            src={`https:${logo.fields.file.url}`}
-            alt={title}
-            className="h-8"
-          />
+        {logo && logo.fields?.file?.url ? (
+          <div className="image-container">
+            <Image
+              src={`https:${logo.fields.file.url}`}
+              alt={title}
+              fill // Specify height
+              className="h-8 object-contain"
+            />
+          </div>
         ) : (
           title
         )}

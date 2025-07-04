@@ -22,13 +22,13 @@ export default function About() {
     return <div>Loading...</div>;
   }
 
-  const { name, about, statement, email, image, cv, instagramLink } =
+  const { name, about, references, email, image, cv, instagramLink } =
     info.fields;
 
   const sections = {
     about: documentToReactComponents(about),
-    statement: documentToReactComponents(statement),
-    cv: <ReactMarkdown>{cv}</ReactMarkdown>,
+    references: documentToReactComponents(references),
+    ...(cv && { cv: <ReactMarkdown>{cv}</ReactMarkdown> }),
   };
 
   const toggleSection = (section) => {
