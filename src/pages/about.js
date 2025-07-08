@@ -43,64 +43,65 @@ export default function About() {
     if (key === "cv") {
       return "CV";
     }
-    return key.charAt(0).toLowerCase() + key.slice(1);
+    return key.charAt(0).toUpperCase() + key.slice(1);
   };
 
   return (
-    <div className="flex items-center justify-center ">
-      <div className="w-full max-w-4xl md:max-w-4xl md:p-8 p-0 rounded md:shadow-md shadow-none h-[950px] overflow-hidden ">
-        <div className="flex justify-center">
+    <div className="flex min-h-screen">
+      {/* Left side - Image and Navigation */}
+      <div className="w-1/3 p-8 flex flex-col items-center justify-start">
+        <div className="sticky top-8">
           <Image
             src={`https:${image.fields.file.url}`}
             alt={name}
-            objectFit="cover"
-            width={200}
-            height={200}
-            className="rounded"
+            width={300}
+            height={300}
+            className="rounded mb-6"
           />
-        </div>
-        <div className="flex flex-col items-center justify-center pt-4 h-[calc(100%-200px)]">
-          <div className="flex flex-row justify-around text-xl w-full max-w-3xl pb-4 mb-4">
+
+          <div className="flex space-x-4 mb-6 justify-center">
             {Object.keys(sections).map((key) => (
-              <button key={key}>
-                <h3
-                  className="font-semibold hover:font-bold cursor-pointer"
-                  onClick={() => toggleSection(key)}
-                >
-                  {getTitle(key)}
-                </h3>
+              <button
+                key={key}
+                onClick={() => toggleSection(key)}
+                className={`text-lg font-medium transition-colors ${
+                  activeSection === key
+                    ? "text-gray-900 font-semibold"
+                    : "text-gray-500 hover:text-gray-700"
+                }`}
+              >
+                {getTitle(key)}
               </button>
             ))}
           </div>
 
-          <div
-            ref={contentRef} // Attach ref to the content container
-            className="md:max-w-6xl w-full text-justify h-[580px] overflow-y-auto"
-          >
-            {Object.keys(sections).map(
-              (key) =>
-                activeSection === key && (
-                  <div
-                    className="font-light prose md:prose-lg prose-sm text-secondaryGray prose-strong:text-primaryGray mx-auto"
-                    key={key}
-                  >
-                    {sections[key]}
-                  </div>
-                )
-            )}
-          </div>
-
           {instagramLink && (
-            <div className="mt-4 justify-center ">
+            <div className="flex justify-center">
               <a
                 href={instagramLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`text-gray-500 hover:text-gray-900`}
+                className="text-gray-500 hover:text-gray-900"
               >
                 <FaInstagram size={30} />
               </a>
             </div>
+          )}
+        </div>
+      </div>
+
+      {/* Right side - Content (2/3 width) */}
+      <div className="w-2/3 p-8">
+        <h1 className="text-4xl font-bold mb-8 text-midGray">{name}</h1>
+
+        {/* Content area */}
+        <div
+          ref={contentRef}
+          className="prose prose-lg max-w-none text-justify text-secondaryGray prose-strong:text-primaryGray"
+        >
+          {Object.keys(sections).map(
+            (key) =>
+              activeSection === key && <div key={key}>{sections[key]}</div>
           )}
         </div>
       </div>
