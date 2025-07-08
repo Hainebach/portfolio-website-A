@@ -36,7 +36,6 @@ export async function getStaticProps({ params }) {
 export default function ProjectPage({ project, projects }) {
   const { title, image, year, size, technique, tags } = project.fields;
   const [selectedImage, setSelectedImage] = useState(null);
-  // console.log("project fields: ", project.fields);
 
   const handleClick = (index) => {
     setSelectedImage(index);
@@ -94,43 +93,77 @@ export default function ProjectPage({ project, projects }) {
 
   return (
     <>
-      <div className="sticky top-0 bg-[rgb(var(--background-rgb))] pt-2">
-        <h1 className="text-3xl font-bold mb-4 text-midGray">{title}</h1>
-        <p className="text-sm mb-4 text-secondaryGray">
-          {technique} {year && `| ${year}`}
-        </p>
+      <div className="flex min-h-screen">
+        {/* Left sidebar - Project info (1/3 width) */}
+        <div className="w-1/3 p-8 bg-[rgb(var(--background-rgb))] sticky top-0 h-screen overflow-y-auto">
+          <h1 className="text-3xl font-bold mb-4 text-midGray">{title}</h1>
+          <div className="text-sm mb-4 text-secondaryGray space-y-2">
+            {technique && (
+              <p>
+                <strong>Technique:</strong> {technique}
+              </p>
+            )}
+            {year && (
+              <p>
+                <strong>Year:</strong> {year}
+              </p>
+            )}
+            {size && (
+              <p>
+                <strong>Size:</strong> {size}
+              </p>
+            )}
+            {tags && (
+              <p>
+                <strong>Tags:</strong> {tags}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Right side - Images (2/3 width) */}
+        <div className="w-2/3 p-8 space-y-8">
+          {image.map((img, index) => (
+            <div key={img.sys.id || index} className="mb-8">
+              <Image
+                src={`https:${img.fields.file.url}`}
+                alt={img.fields.title || title}
+                width={img.fields.file.details.image.width}
+                height={img.fields.file.details.image.height}
+                className="w-full h-auto cursor-pointer "
+                onClick={() => handleClick(index)}
+              />
+              {img.fields.title && (
+                <h3 className="text-lg  mt-4 text-center">
+                  {img.fields.title}
+                </h3>
+              )}
+              {img.fields.description && (
+                <p className="text-sm text-secondaryGray mt-2 text-center">
+                  {img.fields.description}
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className="grid grid-cols-2  md:grid-cols-3 gap-6">
-        {image.map((img, index) => (
-          <Image
-            key={img.sys.id || index}
-            src={`https:${img.fields.file.url}`}
-            alt={title}
-            loading="lazy"
-            width={img.fields.file.details.image.width}
-            height={img.fields.file.details.image.height}
-            className="w-full h-auto cursor-pointer"
-            onClick={() => handleClick(index)}
-          />
-        ))}
-      </div>
-
+      {/* Modal for enlarged image view */}
       {selectedImage !== null && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
           <div
-            className="absolute inset-0 bg-background-color-opacity"
+            className="absolute inset-0 bg-black bg-opacity-75"
             onClick={handleClose}
           ></div>
           <button
             onClick={handleClose}
-            className="absolute top-4 right-4 text-gray text-2xl z-50"
+            className="absolute top-4 right-4 text-white text-2xl z-50"
           >
             ×
           </button>
           <button
             onClick={handlePrev}
-            className="absolute left-4 text-gray text-2xl z-50"
+            className="absolute left-4 text-white text-2xl z-50"
           >
             ‹
           </button>
@@ -146,17 +179,17 @@ export default function ProjectPage({ project, projects }) {
               className="object-contain"
             />
           </div>
-          <div className="absolute bottom-7 text-center  z-50 bg-transparent p-4">
-            <h2 className="text-lg font-bold pt-4 text-primaryGray">
+          <div className="absolute bottom-7 text-center z-50 bg-transparent p-4">
+            <h2 className="text-lg font-bold pt-4 text-white">
               {image[selectedImage].fields.title}
             </h2>
-            <p className="text-sm text-midGray">
+            <p className="text-sm text-gray-300">
               {image[selectedImage].fields.description}
             </p>
           </div>
           <button
             onClick={handleNext}
-            className="absolute right-4 text-gray text-2xl z-50"
+            className="absolute right-4 text-white text-2xl z-50"
           >
             ›
           </button>
