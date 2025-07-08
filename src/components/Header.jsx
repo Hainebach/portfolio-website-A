@@ -48,14 +48,14 @@ export default function Header() {
 
   return (
     <header className="header">
-      <Link className="header-title hover:scale-50 duration-200" href="/">
+      <Link className="header-title hover:scale-75 duration-200" href="/">
         {logo && logo.fields?.file?.url ? (
           <div className="image-container">
             <Image
               src={`https:${logo.fields.file.url}`}
               alt={title}
               fill // Specify height
-              className="h-8 object-contain"
+              className="h-20 object-contain"
             />
           </div>
         ) : (
@@ -73,18 +73,22 @@ export default function Header() {
         </button>
       </div>
       <nav className="hidden md:flex items-center space-x-4">
-        {navigationLinks.map(({ fields: { label, url } }) => (
-          <Link
-            key={url}
-            className={`nav-link hover:font-semibold ${
-              router.pathname === url
-                ? "text-gray-400 pointer-events-none cursor-default"
-                : ""
-            }`}
-            href={url}
-          >
-            {label}
-          </Link>
+        {navigationLinks.map(({ fields: { label, url }, index }) => (
+          <React.Fragment key={url}>
+            <Link
+              className={`nav-link hover:font-semibold text-2xl ${
+                router.pathname === url
+                  ? "text-gray-400 pointer-events-none cursor-default"
+                  : ""
+              }`}
+              href={url}
+            >
+              {label}
+            </Link>
+            {index < navigationLinks.length - 1 && (
+              <span className="text-2xl text-gray-400">|</span>
+            )}
+          </React.Fragment>
         ))}
         {/* <DarkModeToggleButton /> (uncomment to enable dark mode)*/}
       </nav>
@@ -98,7 +102,7 @@ export default function Header() {
             {navigationLinks.map(({ fields: { label, url } }) => (
               <Link
                 key={url}
-                className={`nav-link hover:font-semibold ${
+                className={`nav-link hover:font-semibold text-2xl ${
                   router.pathname === url
                     ? "text-secondaryGray pointer-events-none cursor-default"
                     : ""
