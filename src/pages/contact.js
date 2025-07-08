@@ -40,15 +40,9 @@ export default function Contact({ contactData }) {
         <div className="text-lg mb-4">
           {documentToReactComponents(contactText)} {/* Render Rich Text */}
         </div>
-        <p className="text-lg mb-2">
-          <strong>Name:</strong> {name}
-        </p>
-        <p className="text-lg mb-2">
-          <strong>Email:</strong> {email}
-        </p>
-        <p className="text-lg mb-2">
-          <strong>Phone:</strong> {phone}
-        </p>
+        <p className="text-lg mb-2">{name}</p>
+        <p className="text-lg mb-2">{email}</p>
+        <p className="text-lg mb-2">{phone}</p>
       </div>
     </div>
   );
