@@ -78,7 +78,7 @@ export default function Header() {
             key={url}
             className={`nav-link hover:font-semibold ${
               router.pathname === url
-                ? "text-secondaryGray pointer-events-none cursor-default"
+                ? "text-gray-400 pointer-events-none cursor-default"
                 : ""
             }`}
             href={url}
