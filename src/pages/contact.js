@@ -24,25 +24,37 @@ export default function Contact({ contactData }) {
   const { name, email, phone, contactText, contactImage } = contactData;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <div className="w-full max-w-4xl p-8 rounded shadow-md">
-        <h1 className="text-2xl font-bold mb-4">Contact</h1>
-        {contactImage && (
-          <div className="mb-4">
+    <div className="flex min-h-screen">
+      {/* Left side - Image only */}
+      <div className="w-1/3 p-8 flex flex-col items-center justify-start">
+        <div className="sticky top-8">
+          {contactImage && (
             <Image
               src={`https:${contactImage.fields.file.url}`}
               alt="Contact Image"
-              width={200}
-              height={200}
+              width={300}
+              height={300}
+              className="rounded mb-6"
             />
-          </div>
-        )}
-        <div className="text-lg mb-4">
-          {documentToReactComponents(contactText)} {/* Render Rich Text */}
+          )}
         </div>
-        <p className="text-lg mb-2">{name}</p>
-        <p className="text-lg mb-2">{email}</p>
-        <p className="text-lg mb-2">{phone}</p>
+      </div>
+
+      {/* Right side - Contact Text and Contact Info */}
+      <div className="w-2/3 p-8">
+        <h1 className="text-4xl font-bold mb-8 text-midGray">Contact</h1>
+
+        {/* Contact Text */}
+        <div className="prose prose-lg max-w-none text-justify text-secondaryGray prose-strong:text-primaryGray mb-8">
+          {documentToReactComponents(contactText)}
+        </div>
+
+        {/* Contact Information */}
+        <div className="space-y-2">
+          <p className="text-lg font-medium text-gray-900">{name}</p>
+          <p className="text-lg text-gray-600">{email}</p>
+          <p className="text-lg text-gray-600">{phone}</p>
+        </div>
       </div>
     </div>
   );
