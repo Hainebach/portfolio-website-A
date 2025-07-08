@@ -2,7 +2,6 @@ import { useState, useEffect, useCallback } from "react";
 import { fetchEntries } from "../../../lib/contentful";
 import { useGesture } from "react-use-gesture";
 import Image from "next/image";
-import Footer from "@/components/Footer";
 
 export async function getStaticPaths() {
   const entries = await fetchEntries("project");
@@ -163,7 +162,6 @@ export default function ProjectPage({ project, projects }) {
           </button>
         </div>
       )}
-      <Footer project={project} projects={projects} />
     </>
   );
 }
