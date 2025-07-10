@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { fetchEntries } from "../../../lib/contentful";
 import { useGesture } from "react-use-gesture";
 import Image from "next/image";
+import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 
 export async function getStaticPaths() {
   const entries = await fetchEntries("project");
@@ -34,7 +35,7 @@ export async function getStaticProps({ params }) {
 }
 
 export default function ProjectPage({ project, projects }) {
-  const { title, image, year, size, technique, tags } = project.fields;
+  const { title, image, year, technique, description } = project.fields;
   const [selectedImage, setSelectedImage] = useState(null);
 
   const handleClick = (index) => {
@@ -94,7 +95,6 @@ export default function ProjectPage({ project, projects }) {
   return (
     <>
       <div className="flex min-h-screen">
-        {/* Left sidebar - Project info (1/3 width) */}
         <div className="w-1/3 p-8 bg-[rgb(var(--background-rgb))] sticky top-0 h-screen overflow-y-auto">
           <h1 className="text-3xl font-bold mb-4 text-midGray">{title}</h1>
           <div className="text-sm mb-4 text-secondaryGray space-y-2">
@@ -108,20 +108,17 @@ export default function ProjectPage({ project, projects }) {
                 <strong>Year:</strong> {year}
               </p>
             )}
-            {size && (
-              <p>
-                <strong>Size:</strong> {size}
-              </p>
-            )}
-            {tags && (
-              <p>
-                <strong>Tags:</strong> {tags}
-              </p>
+            {description && (
+              <div className="mt-6">
+                <div className="text-sm text-gray-700">
+                  {" "}
+                  {documentToReactComponents(description)}
+                </div>
+              </div>
             )}
           </div>
         </div>
 
-        {/* Right side - Images (2/3 width) */}
         <div className="w-2/3 p-8 space-y-8">
           {image.map((img, index) => (
             <div key={img.sys.id || index} className="mb-8">
