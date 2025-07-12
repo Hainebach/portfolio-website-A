@@ -23,17 +23,17 @@ export default function App({ Component, pageProps }) {
   return (
     <AnimatePresence mode="wait">
       {!isIndexPage && <Header />}
-      <motion.main
+      {/* <motion.main
         key={router.route}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
         className={`${isIndexPage ? "" : "py-6 px-12 mt-10"}`}
-      >
-        <Component {...pageProps} projects={projects} />
-        <Footer />
-      </motion.main>
+      > */}
+      <Component {...pageProps} projects={projects} />
+      <Footer />
+      {/* </motion.main> */}
     </AnimatePresence>
   );
 }

@@ -90,7 +90,7 @@ export default function Header() {
             )}
           </React.Fragment>
         ))}
-        {/* <DarkModeToggleButton /> (uncomment to enable dark mode)*/}
+        {/* <DarkModeToggleButton /> */}
       </nav>
       {isOpen && (
         <div

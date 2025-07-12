@@ -94,8 +94,9 @@ export default function ProjectPage({ project, projects }) {
 
   return (
     <>
-      <div className="flex min-h-screen">
-        <div className="w-1/3 p-8 bg-[rgb(var(--background-rgb))] sticky top-0 h-screen overflow-y-auto">
+      <div className="flex flex-col md:flex-row min-h-screen pb-16">
+        {/* Text section - Full width on mobile, 1/3 on desktop */}
+        <div className="w-full md:w-1/3 p-8 bg-[rgb(var(--background-rgb))] md:sticky md:top-0 md:h-screen md:overflow-y-auto">
           <h1 className="text-3xl font-bold mb-4 text-midGray">{title}</h1>
           <div className="text-sm mb-4 text-secondaryGray space-y-2">
             {technique && (
@@ -103,15 +104,10 @@ export default function ProjectPage({ project, projects }) {
                 <strong>Technique:</strong> {technique}
               </p>
             )}
-            {year && (
-              <p>
-                <strong>Year:</strong> {year}
-              </p>
-            )}
+            {year && <p>{year}</p>}
             {description && (
               <div className="mt-6">
-                <div className="text-sm text-gray-700">
-                  {" "}
+                <div className="text-xl text-gray-700">
                   {documentToReactComponents(description)}
                 </div>
               </div>
@@ -119,7 +115,8 @@ export default function ProjectPage({ project, projects }) {
           </div>
         </div>
 
-        <div className="w-2/3 p-8 space-y-8">
+        {/* Images section - Full width on mobile, 2/3 on desktop */}
+        <div className="w-full md:w-2/3 p-4 md:p-8 space-y-8">
           {image.map((img, index) => (
             <div key={img.sys.id || index} className="mb-8">
               <Image
@@ -127,16 +124,14 @@ export default function ProjectPage({ project, projects }) {
                 alt={img.fields.title || title}
                 width={img.fields.file.details.image.width}
                 height={img.fields.file.details.image.height}
-                className="w-full h-auto cursor-pointer "
+                className="w-full h-auto cursor-pointer"
                 onClick={() => handleClick(index)}
               />
-              {img.fields.title && (
-                <h3 className="text-lg  mt-4 text-center">
-                  {img.fields.title}
-                </h3>
-              )}
+              {/* {img.fields.title && (
+                <h3 className="text-lg mt-4 text-center">{img.fields.title}</h3>
+              )} */}
               {img.fields.description && (
-                <p className="text-sm text-secondaryGray mt-2 text-center">
+                <p className="text-secondaryGray mt-2 text-center">
                   {img.fields.description}
                 </p>
               )}

@@ -47,10 +47,10 @@ export default function About() {
   };
 
   return (
-    <div className="flex min-h-screen">
-      {/* Left side - Image and Navigation */}
-      <div className="w-1/3 p-8 flex flex-col items-center justify-start">
-        <div className="sticky top-8">
+    <div className="flex flex-col md:flex-row min-h-screen pb-16">
+      {/* Left side - Image and Navigation (full width on mobile, 1/3 on desktop) */}
+      <div className="w-full md:w-1/3 p-8 flex flex-col items-center justify-start">
+        <div className="md:sticky md:top-8">
           <Image
             src={`https:${image.fields.file.url}`}
             alt={name}
@@ -59,7 +59,8 @@ export default function About() {
             className="rounded mb-6"
           />
 
-          <div className="flex space-x-4 mb-6 justify-center">
+          {/* Navigation - hidden on mobile, visible on desktop */}
+          <div className="hidden md:flex space-x-4 mb-6 justify-center">
             {Object.keys(sections).map((key) => (
               <button
                 key={key}
@@ -90,18 +91,37 @@ export default function About() {
         </div>
       </div>
 
-      {/* Right side - Content (2/3 width) */}
-      <div className="w-2/3 p-8">
+      {/* Right side - Content (full width on mobile, 2/3 on desktop) */}
+      <div className="w-full md:w-2/3 p-8">
         <h1 className="text-4xl font-bold mb-8 text-midGray">{name}</h1>
 
-        {/* Content area */}
-        <div
-          ref={contentRef}
-          className="prose prose-lg max-w-none text-justify text-secondaryGray prose-strong:text-primaryGray"
-        >
-          {Object.keys(sections).map(
-            (key) =>
-              activeSection === key && <div key={key}>{sections[key]}</div>
+        {/* Desktop content - with toggle */}
+        <div className="hidden md:block">
+          <div
+            ref={contentRef}
+            className="prose prose-lg max-w-none text-justify text-secondaryGray prose-strong:text-primaryGray"
+          >
+            {Object.keys(sections).map(
+              (key) =>
+                activeSection === key && <div key={key}>{sections[key]}</div>
+            )}
+          </div>
+        </div>
+
+        {/* Mobile content - show about and references in sequence */}
+        <div className="md:hidden space-y-8">
+          <div className="prose prose-lg max-w-none text-justify text-secondaryGray prose-strong:text-primaryGray">
+            {sections.about}
+          </div>
+          <div className="prose prose-lg max-w-none text-justify text-secondaryGray prose-strong:text-primaryGray">
+            <h2 className="text-2xl font-bold mb-4 text-midGray">References</h2>
+            {sections.references}
+          </div>
+          {cv && (
+            <div className="prose prose-lg max-w-none text-justify text-secondaryGray prose-strong:text-primaryGray">
+              <h2 className="text-2xl font-bold mb-4 text-midGray">CV</h2>
+              {sections.cv}
+            </div>
           )}
         </div>
       </div>
