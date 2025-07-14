@@ -47,10 +47,11 @@ export default function About({ info }) {
     return key.charAt(0).toUpperCase() + key.slice(1);
   };
 
+  // filepath: /Users/yoavhainebach/projects/portfolio-website-A/src/pages/about.js
   return (
     <div className="page-content flex flex-col md:flex-row min-h-screen pb-16">
-      {/* Left side - Image and Navigation (full width on mobile, 1/3 on desktop) */}
-      <div className="w-full md:w-1/3 p-8 flex flex-col items-center justify-start">
+      {/* Left side - Image and Navigation */}
+      <div className="w-full md:w-1/3 p-8 bg-backgroundColor flex flex-col items-center justify-start">
         <div className="md:sticky md:top-8">
           <Image
             src={`https:${image.fields.file.url}`}
@@ -68,8 +69,8 @@ export default function About({ info }) {
                 onClick={() => toggleSection(key)}
                 className={`text-lg font-medium transition-colors ${
                   activeSection === key
-                    ? "text-gray-900 font-semibold"
-                    : "text-gray-500 hover:text-gray-700"
+                    ? "text-primaryGray font-semibold"
+                    : "text-secondaryGray hover:text-midGray"
                 }`}
               >
                 {getTitle(key)}
@@ -83,7 +84,7 @@ export default function About({ info }) {
                 href={instagramLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-500 hover:text-gray-900"
+                className="text-secondaryGray hover:text-primaryGray"
               >
                 <FaInstagram size={30} />
               </a>
@@ -92,7 +93,7 @@ export default function About({ info }) {
         </div>
       </div>
 
-      {/* Right side - Content (full width on mobile, 2/3 on desktop) */}
+      {/* Right side - Content */}
       <div className="w-full md:w-2/3 p-8">
         <h1 className="text-4xl font-bold mb-8 text-midGray">{name}</h1>
 
