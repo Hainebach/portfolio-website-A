@@ -17,6 +17,7 @@ export async function getStaticProps() {
         phone: aboutData.phoneNumber,
       },
     },
+    revalidate: 60, // Revalidate every 60 seconds
   };
 }
 
