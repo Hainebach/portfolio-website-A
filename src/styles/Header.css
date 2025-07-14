@@ -6,9 +6,19 @@
   margin-bottom: 1rem;
   padding-left: 3rem;
   padding-right: 3rem;
-  margin-bottom: 2rem;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  z-index: 1000;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+.modal-open .header {
+  display: none;
+}
 /* .dark header {
   color: antiquewhite;
 } */

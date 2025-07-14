@@ -96,7 +96,7 @@ export default function Header() {
         <div
           ref={menuRef}
           id="mobile-menu"
-          className="absolute top-16 right-4 bg-backgroundColor shadow-md rounded-lg p-4 z-50 text-right md:hidden"
+          className="absolute top-20 left-0 right-0 w-full bg-[rgb(var(--background-rgb))] shadow-md p-4 z-50 text-left md:hidden"
         >
           <nav className="flex flex-col space-y-4">
             {navigationLinks.map(({ fields: { label, url } }) => (

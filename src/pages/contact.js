@@ -24,7 +24,7 @@ export default function Contact({ contactData }) {
   const { name, email, phone, contactText, contactImage } = contactData;
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen pb-20">
+    <div className="page-content flex flex-col md:flex-row min-h-screen pb-20">
       {/* Left side - Image only (full width on mobile, 1/3 on desktop) */}
       <div className="w-full md:w-1/3 p-8 flex flex-col items-center justify-start">
         <div className="md:sticky md:top-8">

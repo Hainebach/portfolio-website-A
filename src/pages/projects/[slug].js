@@ -40,10 +40,12 @@ export default function ProjectPage({ project, projects }) {
 
   const handleClick = (index) => {
     setSelectedImage(index);
+    document.body.classList.add("modal-open");
   };
 
   const handleClose = () => {
     setSelectedImage(null);
+    document.body.classList.remove("modal-open");
   };
 
   const handleNext = useCallback(() => {
@@ -94,7 +96,7 @@ export default function ProjectPage({ project, projects }) {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row min-h-screen pb-16">
+      <div className="page-content flex flex-col md:flex-row min-h-screen pb-16">
         {/* Text section - Full width on mobile, 1/3 on desktop */}
         <div className="w-full md:w-1/3 p-8 bg-[rgb(var(--background-rgb))] md:sticky md:top-0 md:h-screen md:overflow-y-auto">
           <h1 className="text-3xl font-bold mb-4 text-midGray">{title}</h1>
@@ -171,14 +173,14 @@ export default function ProjectPage({ project, projects }) {
               className="object-contain"
             />
           </div>
-          <div className="absolute bottom-7 text-center z-50 bg-transparent p-4">
+          {/* <div className="absolute bottom-7 text-center z-50 bg-transparent p-4">
             <h2 className="text-lg font-bold pt-4 text-white">
               {image[selectedImage].fields.title}
             </h2>
             <p className="text-sm text-gray-300">
               {image[selectedImage].fields.description}
             </p>
-          </div>
+          </div> */}
           <button
             onClick={handleNext}
             className="absolute right-4 text-white text-2xl z-50"

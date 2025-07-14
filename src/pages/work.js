@@ -8,7 +8,7 @@ export default function Work({ projects }) {
   ); // for the client to be able to sort through sortOrder field on contentful (option instead of the next line)
   // const sortedProjects = [...projects].sort(() => Math.random() - 0.5);
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-8">
+    <div className="page-content grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-8">
       {sortedProjects.map((project) => (
         <Link
           key={project.sys.id}

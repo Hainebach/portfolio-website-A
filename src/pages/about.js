@@ -47,7 +47,7 @@ export default function About() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen pb-16">
+    <div className="page-content flex flex-col md:flex-row min-h-screen pb-16">
       {/* Left side - Image and Navigation (full width on mobile, 1/3 on desktop) */}
       <div className="w-full md:w-1/3 p-8 flex flex-col items-center justify-start">
         <div className="md:sticky md:top-8">

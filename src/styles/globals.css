@@ -25,6 +25,10 @@ body {
   }
 }
 
+.page-content {
+  padding-top: 6rem; /* Adjust based on your header height */
+}
+
 .modal {
   display: flex;
   align-items: center;
