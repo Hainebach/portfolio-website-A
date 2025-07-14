@@ -52,7 +52,12 @@ export default function Contact({ contactData }) {
         {/* Contact Information */}
         <div className="space-y-2">
           <p className="text-lg font-medium text-gray-900">{name}</p>
-          <p className="text-lg text-gray-600">{email}</p>
+          <a
+            href={`mailto:${email}`}
+            className="text-lg text-gray-600 hover:text-blue-600 underline block"
+          >
+            {email}
+          </a>
           <p className="text-lg text-gray-600">{phone}</p>
         </div>
       </div>

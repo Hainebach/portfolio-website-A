@@ -35,7 +35,8 @@ export async function getStaticProps({ params }) {
 }
 
 export default function ProjectPage({ project, projects }) {
-  const { title, image, year, technique, description } = project.fields;
+  const { title, image, year, technique, description, link, linkTitle } =
+    project.fields;
   const [selectedImage, setSelectedImage] = useState(null);
 
   const handleClick = (index) => {
@@ -114,6 +115,18 @@ export default function ProjectPage({ project, projects }) {
                 </div>
               </div>
             )}
+            {link && (
+              <div className="mt-6">
+                <a
+                  href={link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-800 underline text-lg font-medium"
+                >
+                  {linkTitle || "Link to project"}
+                </a>
+              </div>
+            )}
           </div>
         </div>
 
@@ -132,11 +145,11 @@ export default function ProjectPage({ project, projects }) {
               {/* {img.fields.title && (
                 <h3 className="text-lg mt-4 text-center">{img.fields.title}</h3>
               )} */}
-              {img.fields.description && (
+              {/* {img.fields.description && (
                 <p className="text-secondaryGray mt-2 text-center">
                   {img.fields.description}
                 </p>
-              )}
+              )} */}
             </div>
           ))}
         </div>
