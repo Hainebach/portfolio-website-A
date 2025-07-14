@@ -1,11 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: "class",
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: "media", // Automatically follows system preference
   theme: {
     extend: {
       colors: {
@@ -21,11 +21,6 @@ module.exports = {
       },
       fontFamily: {
         mono: ["var(--font-space_mono)", "monospace"],
-      },
-      colors: {
-        "primary-color": "rgb(var(--foreground-rgb))",
-        "background-color": "rgb(var(--background-rgb))",
-        "background-color-opacity": "rgba(var(--background-rgb), 1)",
       },
     },
   },

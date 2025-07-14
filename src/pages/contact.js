@@ -17,7 +17,7 @@ export async function getStaticProps() {
         phone: aboutData.phoneNumber,
       },
     },
-    revalidate: 30, // Revalidate every 60 seconds
+    revalidate: 30, // Revalidate every 30 seconds
   };
 }
 
@@ -27,7 +27,7 @@ export default function Contact({ contactData }) {
   return (
     <div className="page-content flex flex-col md:flex-row min-h-screen pb-20">
       {/* Left side - Image only (full width on mobile, 1/3 on desktop) */}
-      <div className="w-full md:w-1/3 p-8 flex flex-col items-center justify-start">
+      <div className="w-full md:w-1/3 p-8 bg-backgroundColor flex flex-col items-center justify-start">
         <div className="md:sticky md:top-8">
           {contactImage && (
             <Image
@@ -52,14 +52,14 @@ export default function Contact({ contactData }) {
 
         {/* Contact Information */}
         <div className="space-y-2">
-          <p className="text-lg font-medium text-gray-900">{name}</p>
+          <p className="text-lg font-medium text-primaryGray">{name}</p>
           <a
             href={`mailto:${email}`}
-            className="text-lg text-gray-600 hover:text-blue-600 underline block"
+            className="text-lg text-secondaryGray hover:text-primaryGray underline block transition-colors"
           >
             {email}
           </a>
-          <p className="text-lg text-gray-600">{phone}</p>
+          <p className="text-lg text-secondaryGray">{phone}</p>
         </div>
       </div>
     </div>

@@ -31,6 +31,7 @@ export async function getStaticProps({ params }) {
 
   return {
     props: { project },
+    revalidate: 30, // Add revalidation for consistency
   };
 }
 
@@ -99,18 +100,19 @@ export default function ProjectPage({ project, projects }) {
     <>
       <div className="page-content flex flex-col md:flex-row min-h-screen pb-16">
         {/* Text section - Full width on mobile, 1/3 on desktop */}
-        <div className="w-full md:w-1/3 p-8 bg-[rgb(var(--background-rgb))] md:sticky md:top-0 md:h-screen md:overflow-y-auto">
+        <div className="w-full md:w-1/3 p-8 bg-backgroundColor md:sticky md:top-0 md:h-screen md:overflow-y-auto">
           <h1 className="text-3xl font-bold mb-4 text-midGray">{title}</h1>
           <div className="text-sm mb-4 text-secondaryGray space-y-2">
             {technique && (
               <p>
-                <strong>Technique:</strong> {technique}
+                <strong className="text-primaryGray">Technique:</strong>{" "}
+                {technique}
               </p>
             )}
             {year && <p>{year}</p>}
             {description && (
               <div className="mt-6">
-                <div className="text-xl text-gray-700">
+                <div className="text-xl text-secondaryGray prose prose-lg max-w-none prose-strong:text-primaryGray">
                   {documentToReactComponents(description)}
                 </div>
               </div>
@@ -121,7 +123,7 @@ export default function ProjectPage({ project, projects }) {
                   href={link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-600 hover:text-blue-800 underline text-lg font-medium"
+                  className="text-secondaryGray hover:text-primaryGray underline text-lg font-medium transition-colors"
                 >
                   {linkTitle || "Link to project"}
                 </a>
@@ -142,8 +144,9 @@ export default function ProjectPage({ project, projects }) {
                 className="w-full h-auto cursor-pointer"
                 onClick={() => handleClick(index)}
               />
+              {/* Uncomment and style if you want to show image titles/descriptions */}
               {/* {img.fields.title && (
-                <h3 className="text-lg mt-4 text-center">{img.fields.title}</h3>
+                <h3 className="text-lg mt-4 text-center text-primaryGray">{img.fields.title}</h3>
               )} */}
               {/* {img.fields.description && (
                 <p className="text-secondaryGray mt-2 text-center">
@@ -164,13 +167,13 @@ export default function ProjectPage({ project, projects }) {
           ></div>
           <button
             onClick={handleClose}
-            className="absolute top-4 right-4 text-white text-2xl z-50"
+            className="absolute top-4 right-4 text-white text-2xl z-50 hover:text-gray-300 transition-colors"
           >
             ×
           </button>
           <button
             onClick={handlePrev}
-            className="absolute left-4 text-white text-2xl z-50"
+            className="absolute left-4 text-white text-2xl z-50 hover:text-gray-300 transition-colors"
           >
             ‹
           </button>
@@ -186,7 +189,8 @@ export default function ProjectPage({ project, projects }) {
               className="object-contain"
             />
           </div>
-          {/* <div className="absolute bottom-7 text-center z-50 bg-transparent p-4">
+          {/* Uncomment and style if you want to show image info in modal */}
+          {/* <div className="absolute bottom-7 text-center z-50 bg-black bg-opacity-50 p-4 rounded">
             <h2 className="text-lg font-bold pt-4 text-white">
               {image[selectedImage].fields.title}
             </h2>
@@ -196,7 +200,7 @@ export default function ProjectPage({ project, projects }) {
           </div> */}
           <button
             onClick={handleNext}
-            className="absolute right-4 text-white text-2xl z-50"
+            className="absolute right-4 text-white text-2xl z-50 hover:text-gray-300 transition-colors"
           >
             ›
           </button>

@@ -6,14 +6,19 @@
   margin-bottom: 1rem;
   padding-left: 3rem;
   padding-right: 3rem;
-
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  background-color: white;
+  background-color: rgb(var(--background-rgb));
   z-index: 1000;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .header {
+    box-shadow: 0 1px 3px rgba(255, 255, 255, 0.1);
+  }
 }
 
 .modal-open .header {
