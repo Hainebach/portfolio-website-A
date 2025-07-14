@@ -1,26 +1,27 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
 import { fetchEntries } from "../../lib/contentful";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import ReactMarkdown from "react-markdown";
 import { FaInstagram } from "react-icons/fa";
 
-export default function About() {
-  const [info, setInfo] = useState(null);
+export async function getStaticProps() {
+  const entries = await fetchEntries("about");
+  const aboutData = entries[0]?.fields;
+
+  return {
+    props: {
+      info: {
+        fields: aboutData,
+      },
+    },
+    revalidate: 30, // Revalidate every 30 seconds
+  };
+}
+
+export default function About({ info }) {
   const [activeSection, setActiveSection] = useState("about");
   const contentRef = useRef(null);
-
-  useEffect(() => {
-    const getInfo = async () => {
-      const entries = await fetchEntries("about");
-      setInfo(entries[0]);
-    };
-    getInfo();
-  }, []);
-
-  if (!info) {
-    return <div>Loading...</div>;
-  }
 
   const { name, about, references, email, image, cv, instagramLink } =
     info.fields;
