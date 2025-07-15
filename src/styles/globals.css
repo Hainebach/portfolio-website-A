@@ -22,6 +22,20 @@
   --foreground-rgb: 80, 90, 100;
   --background-rgb: 18, 18, 18;
 }
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+#__next {
+  height: 100%;
+  width: 100%;
+}
+
 body {
   font-family: "PT Serif", serif;
   color: rgb(var(--foreground-rgb));

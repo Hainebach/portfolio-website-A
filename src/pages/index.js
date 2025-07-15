@@ -21,13 +21,10 @@ export default function Home({ landingPage }) {
         src={`https:${backgroundImage.fields.file.url}`}
         fill
         quality={100}
-        alt="background Image, backgammon drawing"
-        className="absolute top-0 left-0 w-full h-full 
-               object-cover 
-               sm:object-center 
-               md:object-cover
-               lg:object-cover"
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+        alt="background Image"
+        className="object-cover"
+        sizes="100vw"
+        priority
       />
 
       <div className="relative z-10 flex items-center justify-center h-full">
