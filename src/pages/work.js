@@ -15,7 +15,7 @@ export default function Work({ projects }) {
           href={`/projects/${project.fields.slug}`}
           className="block"
         >
-          <div className="relative w-full overflow-hidden aspect-w-1 aspect-h-1 border">
+          <div className="relative w-full overflow-hidden aspect-w-1 aspect-h-1 border-2">
             <Image
               src={`https:${project.fields.thumbnail.fields.file.url}`}
               alt={project.fields.title}

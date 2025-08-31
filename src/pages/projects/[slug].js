@@ -135,7 +135,7 @@ export default function ProjectPage({ project, projects }) {
         {/* Images section - Full width on mobile, 2/3 on desktop */}
         <div className="w-full md:w-2/3 p-4 md:p-8 space-y-8">
           {image.map((img, index) => (
-            <div key={img.sys.id || index} className="mb-8">
+            <div key={img.sys.id || index} className="mb-8 border-2">
               <Image
                 src={`https:${img.fields.file.url}`}
                 alt={img.fields.title || title}

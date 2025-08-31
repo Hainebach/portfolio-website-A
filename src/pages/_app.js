@@ -32,7 +32,7 @@ export default function App({ Component, pageProps }) {
           <Component {...pageProps} projects={projects} />
         </Container>
       )}
-      <Footer />
+      {!isIndexPage && <Footer />}
       {/* </motion.main> */}
     </AnimatePresence>
   );

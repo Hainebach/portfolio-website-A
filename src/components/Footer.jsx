@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { fetchEntries } from "@/../lib/contentful";
+import Container from "./Container";
 
 export default function Footer() {
   const [showBackToTop, setShowBackToTop] = useState(false);
@@ -48,29 +49,35 @@ export default function Footer() {
   };
 
   return (
-    <footer className="fixed bottom-4 left-4 right-4 flex justify-between items-center p-4 bg-opacity-100">
-      {/* Back to Top Button (visible only on scroll) */}
-      {showBackToTop ? (
-        <button
-          onClick={backToTop}
-          className="text-sm text-gray-500 hover:text-black focus:outline-none"
-        >
-          ^ Back to top
-        </button>
-      ) : (
-        <div></div>
-      )}
+    <footer className="fixed bottom-0 left-4 right-4 flex justify-between items-center p-4 bg-white">
+      <Container>
+        <div className="flex justify-between items-center p-4">
+          {showBackToTop ? (
+            <button
+              onClick={backToTop}
+              className="text-gray-500 hover:text-black focus:outline-none"
+              aria-label="Back to top"
+            >
+              <span className="material-symbols-outlined text-3xl">
+                arrow_circle_up
+              </span>
+            </button>
+          ) : (
+            <div></div>
+          )}
 
-      {/* Footer Links */}
-      <div className="text-sm text-gray-400">
-        <Link href="/imprint" className="hover:text-black">
-          {imprintTitle}
-        </Link>
-        {" | "}
-        <Link href="/datenschutz" className="hover:text-black">
-          {datenschutzTitle}
-        </Link>
-      </div>
+          {/* Footer Links */}
+          <div className="text-sm text-gray-400">
+            <Link href="/imprint" className="hover:text-black">
+              {imprintTitle}
+            </Link>
+            {" | "}
+            <Link href="/datenschutz" className="hover:text-black">
+              {datenschutzTitle}
+            </Link>
+          </div>
+        </div>
+      </Container>
     </footer>
   );
 }

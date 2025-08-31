@@ -49,39 +49,40 @@ export default function Header() {
   };
 
   return (
-    <header className="header relative w-full bg-white dark:bg-black">
+    <header className="header fixed top-0 w-full bg-white dark:bg-black">
       <Container>
-        <div className="flex items-center justify-between">
-          <div className="md:hidden z-20">
-            <button
-              onClick={toggleMenu}
-              className="text-secondaryGray outline-none p-2"
-              aria-expanded={isOpen}
-              aria-controls="mobile-menu"
-              aria-label="Toggle menu"
-            >
-              <MenuIcon className="w-6 h-6 text-black" />
-            </button>
-          </div>
-          <Link
-            className="header-title hover:scale-75 duration-200 mx-auto"
-            href="/"
-          >
-            {logo && logo.fields?.file?.url ? (
-              <div className="image-container">
-                <Image
-                  src={`https:${logo.fields.file.url}`}
-                  alt={title}
-                  fill
-                  className="h-20 object-contain"
-                />
-              </div>
-            ) : (
-              title
+        {/* Desktop layout */}
+        <div className="hidden md:flex items-center justify-between w-full">
+          <div className="flex items-center space-x-4">
+            {blackText && (
+              <span className="font-bold text-black dark:text-white text-2xl">
+                {blackText}
+              </span>
             )}
-          </Link>
-
-          <nav className="hidden md:flex items-center space-x-4">
+            {grayText && (
+              <span className="text-gray-400 dark:text-gray-400 text-2xl">
+                {grayText}
+              </span>
+            )}
+            <Link
+              className="header-title hover:scale-75 duration-200 mx-auto"
+              href="/"
+            >
+              {logo && logo.fields?.file?.url ? (
+                <div className="image-container">
+                  <Image
+                    src={`https:${logo.fields.file.url}`}
+                    alt={title}
+                    fill
+                    className="h-20 object-contain"
+                  />
+                </div>
+              ) : (
+                title
+              )}
+            </Link>
+          </div>
+          <nav className="flex items-center space-x-4">
             {navigationLinks.map(({ fields: { label, url } }, index) => (
               <React.Fragment key={url}>
                 <Link
@@ -102,12 +103,55 @@ export default function Header() {
             {/* <DarkModeToggleButton /> */}
           </nav>
         </div>
+        {/* Mobile layout */}
+        <div className="md:hidden w-full flex flex-col items-center pt-2 pb-2">
+          <div className="flex items-center justify-between w-full px-2">
+            <button
+              onClick={toggleMenu}
+              className="text-secondaryGray outline-none p-2"
+              aria-expanded={isOpen}
+              aria-controls="mobile-menu"
+              aria-label="Toggle menu"
+            >
+              <MenuIcon className="w-6 h-6 text-black" />
+            </button>
+            <Link
+              className="header-title hover:scale-75 duration-200 mx-auto"
+              href="/"
+            >
+              {logo && logo.fields?.file?.url ? (
+                <div className="image-container">
+                  <Image
+                    src={`https:${logo.fields.file.url}`}
+                    alt={title}
+                    fill
+                    className="h-16 object-contain"
+                  />
+                </div>
+              ) : (
+                title
+              )}
+            </Link>
+          </div>
+          <div className="flex flex-col items-center mt-2 w-full px-4">
+            {blackText && (
+              <span className="font-bold text-black dark:text-white text-lg text-center w-full break-words">
+                {blackText}
+              </span>
+            )}
+            {grayText && (
+              <span className="text-gray-400 dark:text-gray-400 text-base text-center w-full break-words">
+                {grayText}
+              </span>
+            )}
+          </div>
+        </div>
       </Container>
       {isOpen && (
         <div
           ref={menuRef}
           id="mobile-menu"
-          className="absolute top-20 left-0 right-0 w-full bg-[rgb(var(--background-rgb))] shadow-md p-4 z-50 text-left md:hidden"
+          className="absolute top-20 left-0 right-0 w-full bg-[rgb(var(--background-rgb))] p-4 z-50 text-left md:hidden"
         >
           <Container>
             <nav className="flex flex-col space-y-4">
