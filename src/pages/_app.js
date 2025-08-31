@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { fetchEntries } from "@../../../lib/contentful";
 import { AnimatePresence, motion } from "framer-motion";
+import Container from "@/components/Container";
 
 export default function App({ Component, pageProps }) {
   const [projects, setProjects] = useState([]);
@@ -23,15 +24,14 @@ export default function App({ Component, pageProps }) {
   return (
     <AnimatePresence mode="wait">
       <Header />
-      {/* <motion.main
-        key={router.route}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.2 }}
-        className={`${isIndexPage ? "" : "py-6 px-12 mt-10"}`}
-      > */}
-      <Component {...pageProps} projects={projects} />
+      {/* <motion.main ...> */}
+      {isIndexPage ? (
+        <Component {...pageProps} projects={projects} />
+      ) : (
+        <Container>
+          <Component {...pageProps} projects={projects} />
+        </Container>
+      )}
       <Footer />
       {/* </motion.main> */}
     </AnimatePresence>

@@ -27,14 +27,14 @@ export default function Home({ landingPage }) {
         priority
       />
 
-      <div className="relative z-10 flex items-center justify-center h-full">
+      {/* <div className="relative z-10 flex items-center justify-center h-full">
         <Link
           className="text-[rgb(var(--background-rgb))] hover:scale-150 duration-300 text-lg"
           href={"/work"}
         >
           {title.toLowerCase()}
         </Link>
-      </div>
+      </div> */}
     </main>
   );
 }
