@@ -22,7 +22,7 @@ export default function App({ Component, pageProps }) {
 
   return (
     <AnimatePresence mode="wait">
-      {!isIndexPage && <Header />}
+      <Header />
       {/* <motion.main
         key={router.route}
         initial={{ opacity: 0 }}
