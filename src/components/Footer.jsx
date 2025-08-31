@@ -49,9 +49,9 @@ export default function Footer() {
   };
 
   return (
-    <footer className="fixed bottom-0 left-4 right-4 flex justify-between items-center p-4 bg-white">
+    <footer className="fixed bottom-0 left-0 right-0 w-full md:bg-white bg-transparent">
       <Container>
-        <div className="flex justify-between items-center p-4">
+        <div className="flex justify-between items-center py-4">
           {showBackToTop ? (
             <button
               onClick={backToTop}

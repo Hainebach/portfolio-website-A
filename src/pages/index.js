@@ -23,20 +23,18 @@ export async function getStaticProps() {
 
 export default function Home({ image }) {
   return (
-    <main className="w-full h-screen pt-20 md:pt-24 overflow-hidden">
-      <div className="relative w-full h-full">
-        {image && image.fields?.file?.url && (
-          <Image
-            src={`https:${image.fields.file.url}`}
-            fill
-            quality={100}
-            alt="Random landing image"
-            className="object-cover"
-            sizes="100vw"
-            priority
-          />
-        )}
-      </div>
+    <main className="relative w-full h-[calc(100vh-90px)] mt-[90px] md:h-[calc(100vh-80px)] md:mt-[80px] overflow-hidden">
+      {image && image.fields?.file?.url && (
+        <Image
+          src={`https:${image.fields.file.url}`}
+          fill
+          quality={100}
+          alt="Random landing image"
+          className="object-cover"
+          sizes="100vw"
+          priority
+        />
+      )}
     </main>
   );
 }

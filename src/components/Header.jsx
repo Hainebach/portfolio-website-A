@@ -55,19 +55,16 @@ export default function Header() {
         <div className="hidden md:flex items-center justify-between w-full">
           <div className="flex items-center space-x-4">
             {blackText && (
-              <span className="font-bold text-black dark:text-white text-2xl">
+              <span className="font-bold text-black dark:text-white text-xl md:text-2xl">
                 {blackText}
               </span>
             )}
             {grayText && (
-              <span className="text-gray-400 dark:text-gray-400 text-2xl">
+              <span className="text-gray-400 dark:text-gray-400 text-xl md:text-2xl">
                 {grayText}
               </span>
             )}
-            <Link
-              className="header-title hover:scale-75 duration-200 mx-auto"
-              href="/"
-            >
+            <Link className="header-title  mx-auto" href="/">
               {logo && logo.fields?.file?.url ? (
                 <div className="image-container">
                   <Image
@@ -86,7 +83,7 @@ export default function Header() {
             {navigationLinks.map(({ fields: { label, url } }, index) => (
               <React.Fragment key={url}>
                 <Link
-                  className={`nav-link hover:font-semibold text-2xl ${
+                  className={`nav-link text-2xl ${
                     router.pathname === url
                       ? "text-gray-400 pointer-events-none cursor-default"
                       : ""
@@ -105,15 +102,15 @@ export default function Header() {
         </div>
         {/* Mobile layout */}
         <div className="md:hidden w-full flex flex-col items-center pt-2 pb-2">
-          <div className="flex items-center justify-between w-full px-2">
+          <div className="flex items-center justify-between w-full">
             <button
               onClick={toggleMenu}
-              className="text-secondaryGray outline-none p-2"
+              className="text-secondaryGray outline-none p-1"
               aria-expanded={isOpen}
               aria-controls="mobile-menu"
               aria-label="Toggle menu"
             >
-              <MenuIcon className="w-6 h-6 text-black" />
+              <MenuIcon className="w-5 h-5 text-black" />
             </button>
             <Link
               className="header-title hover:scale-75 duration-200 mx-auto"
@@ -125,7 +122,7 @@ export default function Header() {
                     src={`https:${logo.fields.file.url}`}
                     alt={title}
                     fill
-                    className="h-16 object-contain"
+                    className="h-14 object-contain"
                   />
                 </div>
               ) : (
@@ -133,14 +130,14 @@ export default function Header() {
               )}
             </Link>
           </div>
-          <div className="flex flex-col items-center mt-2 w-full px-4">
+          <div className="flex flex-col items-center mt-1 w-full">
             {blackText && (
-              <span className="font-bold text-black dark:text-white text-lg text-center w-full break-words">
+              <span className="font-bold text-black dark:text-white text-base text-center w-full break-words truncate">
                 {blackText}
               </span>
             )}
             {grayText && (
-              <span className="text-gray-400 dark:text-gray-400 text-base text-center w-full break-words">
+              <span className="text-gray-400 dark:text-gray-400 text-sm text-center w-full break-words truncate">
                 {grayText}
               </span>
             )}

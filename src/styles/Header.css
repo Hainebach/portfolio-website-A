@@ -4,22 +4,18 @@
   align-items: center;
   padding-top: 1rem;
   margin-bottom: 1rem;
-  padding-left: 3rem;
-  padding-right: 3rem;
+  padding-left: 0; /* Removed fixed padding to use Container instead */
+  padding-right: 0; /* Removed fixed padding to use Container instead */
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   background-color: rgb(var(--background-rgb));
   z-index: 1000;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  /* Removed box-shadow */
 }
 
-@media (prefers-color-scheme: dark) {
-  .header {
-    box-shadow: 0 1px 3px rgba(255, 255, 255, 0.1);
-  }
-}
+/* Removed dark mode box-shadow */
 
 .modal-open .header {
   display: none;
