@@ -102,30 +102,38 @@ export default function Header() {
         </div>
         {/* Mobile layout */}
         <div className="md:hidden w-full flex flex-col items-center pt-2 pb-2">
-          <div className="flex items-center justify-between w-full">
-            <button
-              onClick={toggleMenu}
-              className="text-text-secondary outline-none p-1"
-              aria-expanded={isOpen}
-              aria-controls="mobile-menu"
-              aria-label="Toggle menu"
-            >
-              <MenuIcon className="w-5 h-5 text-black" />
-            </button>
-            <Link className="header-title hover:scale-75 duration-200" href="/">
-              {logo && logo.fields?.file?.url ? (
-                <div className="image-container">
-                  <Image
-                    src={`https:${logo.fields.file.url}`}
-                    alt={title}
-                    fill
-                    className="h-14 object-contain"
-                  />
-                </div>
-              ) : (
-                title
-              )}
-            </Link>
+          <div className="grid grid-cols-3 items-center w-full">
+            <div className="col-span-1">
+              <button
+                onClick={toggleMenu}
+                className="text-text-secondary outline-none p-1"
+                aria-expanded={isOpen}
+                aria-controls="mobile-menu"
+                aria-label="Toggle menu"
+              >
+                <MenuIcon className="w-5 h-5 text-black" />
+              </button>
+            </div>
+            <div className="col-span-1 text-center">
+              <Link
+                className="header-title hover:scale-75 duration-200"
+                href="/"
+              >
+                {logo && logo.fields?.file?.url ? (
+                  <div className="image-container">
+                    <Image
+                      src={`https:${logo.fields.file.url}`}
+                      alt={title}
+                      fill
+                      className="h-14 object-contain"
+                    />
+                  </div>
+                ) : (
+                  title
+                )}
+              </Link>
+              <div className="col-span-1"></div>
+            </div>
           </div>
           <div className="flex flex-col items-center mt-1 w-full">
             {blackText && (

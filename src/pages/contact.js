@@ -27,7 +27,7 @@ export default function Contact({ contactData }) {
   return (
     <div className="page-content flex flex-col md:flex-row min-h-screen pb-20">
       {/* Left side - Image only (full width on mobile, 1/3 on desktop) */}
-      <div className="w-full md:w-1/3 p-8 pl-0 bg-backgroundColor flex flex-col items-center justify-start">
+      <div className="w-full md:w-1/3 p-8 md:pl-0 bg-backgroundColor flex flex-col items-center justify-start">
         <div className="md:sticky md:top-8">
           {contactImage && (
             <Image
@@ -42,7 +42,7 @@ export default function Contact({ contactData }) {
       </div>
 
       {/* Right side - Contact Text and Contact Info (full width on mobile, 2/3 on desktop) */}
-      <div className="w-full md:w-2/3 p-8 pr-0">
+      <div className="w-full md:w-2/3 p-8 md:pr-0">
         <h1 className="text-4xl font-bold mb-8 text-text-primary">Contact</h1>
 
         {/* Contact Text */}

@@ -51,8 +51,8 @@ export default function About({ info }) {
   return (
     <div className="page-content flex flex-col md:flex-row min-h-screen pb-16">
       {/* Left side - Image and Navigation */}
-      <div className="w-full md:w-1/3 p-8 pl-0 bg-backgroundColor flex flex-col items-center justify-start">
-        <div className="md:sticky md:top-8">
+      <div className="w-full md:w-1/3 p-8 md:pl-0 bg-backgroundColor flex flex-col items-center justify-start">
+        <div className="md:sticky md:top-40">
           <Image
             src={`https:${image.fields.file.url}`}
             alt={name}
@@ -94,7 +94,7 @@ export default function About({ info }) {
       </div>
 
       {/* Right side - Content */}
-      <div className="w-full md:w-2/3 p-8 pr-0">
+      <div className="w-full md:w-2/3 md:p-8 md:pr-0">
         <h1 className="text-4xl font-bold mb-8 text-text-primary">{name}</h1>
 
         {/* Desktop content - with toggle */}
