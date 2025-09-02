@@ -4,7 +4,7 @@ import { fetchEntries } from "@/../lib/contentful";
 import Container from "./Container";
 
 export default function Footer() {
-  const [showBackToTop, setShowBackToTop] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(true); // Force visible for testing
   const [imprintTitle, setImprintTitle] = useState("Imprint");
   const [datenschutzTitle, setDatenschutzTitle] = useState("Privacy Policy");
 
@@ -45,34 +45,33 @@ export default function Footer() {
   }, []);
 
   const backToTop = () => {
+    console.log("Back to top button clicked");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
-    <footer className="fixed bottom-0 left-0 right-0 w-full md:bg-white bg-transparent">
+    <footer className="fixed bottom-0 left-0 right-0 w-full md:bg-backgroundColor bg-transparent z-10">
       <Container>
         <div className="flex justify-between items-center py-4">
           {showBackToTop ? (
             <button
               onClick={backToTop}
-              className="text-text-secondary hover:text-text-primary focus:outline-none z-50"
+              className=" hover:text-red-700 font-bold focus:outline-none p-1"
               aria-label="Back to top"
             >
-              <span className="material-symbols-outlined text-3xl">
-                arrow_circle_up
-              </span>
+              ^ Back to top
             </button>
           ) : (
             <div></div>
           )}
 
           {/* Footer Links */}
-          <div className="text-sm text-text-secondary">
-            <Link href="/imprint" className="hover:text-text-primary">
+          <div className="text-sm text-secondaryGray">
+            <Link href="/imprint" className="hover:text-primaryGray">
               {imprintTitle}
             </Link>
             {" | "}
-            <Link href="/datenschutz" className="hover:text-text-primary">
+            <Link href="/datenschutz" className="hover:text-primaryGray">
               {datenschutzTitle}
             </Link>
           </div>
