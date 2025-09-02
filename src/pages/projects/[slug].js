@@ -100,19 +100,19 @@ export default function ProjectPage({ project, projects }) {
     <>
       <div className="page-content flex flex-col md:flex-row min-h-screen pb-16">
         {/* Text section - Full width on mobile, 1/3 on desktop */}
-        <div className="w-full md:w-1/3 p-8 bg-backgroundColor md:sticky md:top-0 md:h-screen md:overflow-y-auto">
-          <h1 className="text-3xl font-bold mb-4 text-midGray">{title}</h1>
-          <div className="text-sm mb-4 text-secondaryGray space-y-2">
+        <div className="w-full md:w-1/3 p-8 pl-0 bg-backgroundColor md:sticky md:top-0 md:h-screen md:overflow-y-auto">
+          <h1 className="text-3xl font-bold mb-4 text-text-primary">{title}</h1>
+          <div className="text-sm mb-4 text-text-secondary space-y-2">
             {technique && (
               <p>
-                <strong className="text-primaryGray">Technique:</strong>{" "}
+                <strong className="text-text-primary">Technique:</strong>{" "}
                 {technique}
               </p>
             )}
             {year && <p>{year}</p>}
             {description && (
               <div className="mt-6">
-                <div className="text-xl text-secondaryGray prose prose-lg max-w-none prose-strong:text-primaryGray">
+                <div className="text-xl prose prose-lg max-w-none">
                   {documentToReactComponents(description)}
                 </div>
               </div>
@@ -123,7 +123,7 @@ export default function ProjectPage({ project, projects }) {
                   href={link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-secondaryGray hover:text-primaryGray underline text-lg font-medium transition-colors"
+                  className="text-text-secondary hover:text-text-primary underline text-lg font-medium transition-colors"
                 >
                   {linkTitle || "Link to project"}
                 </a>
@@ -133,7 +133,7 @@ export default function ProjectPage({ project, projects }) {
         </div>
 
         {/* Images section - Full width on mobile, 2/3 on desktop */}
-        <div className="w-full md:w-2/3 p-4 md:p-8 space-y-8">
+        <div className="w-full md:w-2/3 p-4 md:p-8 md:pr-0 space-y-8">
           {image.map((img, index) => (
             <div key={img.sys.id || index} className="mb-8 border-2">
               <Image
@@ -146,10 +146,10 @@ export default function ProjectPage({ project, projects }) {
               />
               {/* Uncomment and style if you want to show image titles/descriptions */}
               {/* {img.fields.title && (
-                <h3 className="text-lg mt-4 text-center text-primaryGray">{img.fields.title}</h3>
+                <h3 className="text-lg mt-4 text-center text-text-primary">{img.fields.title}</h3>
               )} */}
               {/* {img.fields.description && (
-                <p className="text-secondaryGray mt-2 text-center">
+                <p className="text-text-secondary mt-2 text-center">
                   {img.fields.description}
                 </p>
               )} */}

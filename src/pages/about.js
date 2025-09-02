@@ -51,7 +51,7 @@ export default function About({ info }) {
   return (
     <div className="page-content flex flex-col md:flex-row min-h-screen pb-16">
       {/* Left side - Image and Navigation */}
-      <div className="w-full md:w-1/3 p-8 bg-backgroundColor flex flex-col items-center justify-start">
+      <div className="w-full md:w-1/3 p-8 pl-0 bg-backgroundColor flex flex-col items-center justify-start">
         <div className="md:sticky md:top-8">
           <Image
             src={`https:${image.fields.file.url}`}
@@ -69,8 +69,8 @@ export default function About({ info }) {
                 onClick={() => toggleSection(key)}
                 className={`text-lg font-medium transition-colors ${
                   activeSection === key
-                    ? "text-primaryGray font-semibold"
-                    : "text-secondaryGray hover:text-midGray"
+                    ? "text-text-primary font-semibold"
+                    : "text-text-secondary hover:text-text-primary"
                 }`}
               >
                 {getTitle(key)}
@@ -84,7 +84,7 @@ export default function About({ info }) {
                 href={instagramLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-secondaryGray hover:text-primaryGray"
+                className="text-text-secondary hover:text-text-primary"
               >
                 <FaInstagram size={30} />
               </a>
@@ -94,14 +94,14 @@ export default function About({ info }) {
       </div>
 
       {/* Right side - Content */}
-      <div className="w-full md:w-2/3 p-8">
-        <h1 className="text-4xl font-bold mb-8 text-midGray">{name}</h1>
+      <div className="w-full md:w-2/3 p-8 pr-0">
+        <h1 className="text-4xl font-bold mb-8 text-text-primary">{name}</h1>
 
         {/* Desktop content - with toggle */}
         <div className="hidden md:block">
           <div
             ref={contentRef}
-            className="prose prose-lg max-w-none text-justify text-secondaryGray prose-strong:text-primaryGray"
+            className="prose prose-lg max-w-none text-justify"
           >
             {Object.keys(sections).map(
               (key) =>
@@ -112,16 +112,18 @@ export default function About({ info }) {
 
         {/* Mobile content - show about and references in sequence */}
         <div className="md:hidden space-y-8">
-          <div className="prose prose-lg max-w-none text-justify text-secondaryGray prose-strong:text-primaryGray">
+          <div className="prose prose-lg max-w-none text-justify">
             {sections.about}
           </div>
-          <div className="prose prose-lg max-w-none text-justify text-secondaryGray prose-strong:text-primaryGray">
-            <h2 className="text-2xl font-bold mb-4 text-midGray">References</h2>
+          <div className="prose prose-lg max-w-none text-justify">
+            <h2 className="text-2xl font-bold mb-4 text-text-primary">
+              References
+            </h2>
             {sections.references}
           </div>
           {cv && (
-            <div className="prose prose-lg max-w-none text-justify text-secondaryGray prose-strong:text-primaryGray">
-              <h2 className="text-2xl font-bold mb-4 text-midGray">CV</h2>
+            <div className="prose prose-lg max-w-none text-justify">
+              <h2 className="text-2xl font-bold mb-4 text-text-primary">CV</h2>
               {sections.cv}
             </div>
           )}

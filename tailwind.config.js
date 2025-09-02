@@ -9,9 +9,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primaryGray: "rgb(var(--foreground-rgb))",
-        secondaryGray: "rgb(var(--secondary-gray))",
-        midGray: "rgb(var(--mid-gray))",
+        "text-primary": "rgb(var(--foreground-rgb))",
+        "text-secondary": "rgb(var(--secondary-gray))",
         backgroundColor: "rgb(var(--background-rgb))",
       },
       backgroundImage: {
@@ -22,10 +21,42 @@ module.exports = {
       fontFamily: {
         mono: ["var(--font-space_mono)", "monospace"],
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            color: "rgb(var(--secondary-gray))",
+            h1: {
+              color: "rgb(var(--foreground-rgb))",
+            },
+            h2: {
+              color: "rgb(var(--foreground-rgb))",
+            },
+            h3: {
+              color: "rgb(var(--foreground-rgb))",
+            },
+            h4: {
+              color: "rgb(var(--foreground-rgb))",
+            },
+            strong: {
+              color: "rgb(var(--foreground-rgb))",
+            },
+            a: {
+              color: "rgb(var(--secondary-gray))",
+              "&:hover": {
+                color: "rgb(var(--foreground-rgb))",
+              },
+            },
+          },
+        },
+      },
     },
   },
   plugins: [
-    require("@tailwindcss/typography"),
+    require("@tailwindcss/typography")({
+      className: "prose",
+      target: "modern",
+      defaultExtractor: (content) => content.match(/[\w-/:]+(?<!:)/g) || [],
+    }),
     require("@tailwindcss/aspect-ratio"),
   ],
 };

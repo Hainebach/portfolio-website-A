@@ -3,10 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 63, 73, 73;
+  --foreground-rgb: 0, 0, 0;
   --background-rgb: 254, 254, 254;
-  --secondary-gray: 113, 123, 123;
-  --mid-gray: 93, 103, 103;
+  --secondary-gray: 99, 100, 102;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -14,7 +13,6 @@
     --foreground-rgb: 220, 220, 220;
     --background-rgb: 18, 18, 18;
     --secondary-gray: 163, 173, 173;
-    --mid-gray: 180, 180, 180;
   }
 }
 
@@ -53,7 +51,7 @@ body {
 }
 
 .page-content {
-  padding-top: 10rem; /* Increased padding for mobile to account for header height */
+  padding-top: 18rem; /* Increased padding for mobile to account for header height */
   padding-bottom: 4rem; /* Space for footer */
   @media (min-width: 768px) {
     padding-top: 6rem; /* Original padding for desktop */
@@ -92,4 +90,8 @@ body {
 }
 
 @supports (grid-area: auto) {
+}
+
+header + * {
+  margin-top: 8rem;
 }

@@ -55,7 +55,7 @@ export default function Footer() {
           {showBackToTop ? (
             <button
               onClick={backToTop}
-              className="text-gray-500 hover:text-black focus:outline-none"
+              className="text-text-secondary hover:text-text-primary focus:outline-none z-50"
               aria-label="Back to top"
             >
               <span className="material-symbols-outlined text-3xl">
@@ -67,12 +67,12 @@ export default function Footer() {
           )}
 
           {/* Footer Links */}
-          <div className="text-sm text-gray-400">
-            <Link href="/imprint" className="hover:text-black">
+          <div className="text-sm text-text-secondary">
+            <Link href="/imprint" className="hover:text-text-primary">
               {imprintTitle}
             </Link>
             {" | "}
-            <Link href="/datenschutz" className="hover:text-black">
+            <Link href="/datenschutz" className="hover:text-text-primary">
               {datenschutzTitle}
             </Link>
           </div>

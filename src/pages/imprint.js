@@ -26,19 +26,23 @@ export default function Imprint({ imprintData }) {
     <div className="container mx-auto p-8">
       {englishText && (
         <section className="mb-12">
-          <h1 className="text-3xl font-bold mb-4">
+          <h1 className="text-3xl font-bold mb-4 text-text-primary">
             {englishTitle ? englishTitle : "Imprint"}
           </h1>
-          <div className="prose">{documentToReactComponents(englishText)}</div>
+          <div className="prose prose-lg">
+            {documentToReactComponents(englishText)}
+          </div>
         </section>
       )}
 
       {germanText && (
         <section className="mb-12">
-          <h1 className="text-3xl font-bold mb-4">
+          <h1 className="text-3xl font-bold mb-4 text-text-primary">
             {germanTitle ? germanTitle : "Impressum"}
           </h1>
-          <div className="prose">{documentToReactComponents(germanText)}</div>
+          <div className="prose prose-lg">
+            {documentToReactComponents(germanText)}
+          </div>
         </section>
       )}
     </div>
