@@ -4,7 +4,7 @@ import { fetchEntries } from "@/../lib/contentful";
 import Container from "./Container";
 
 export default function Footer() {
-  const [showBackToTop, setShowBackToTop] = useState(true); // Force visible for testing
+  const [showBackToTop, setShowBackToTop] = useState(false); // Force visible for testing
   const [imprintTitle, setImprintTitle] = useState("Imprint");
   const [datenschutzTitle, setDatenschutzTitle] = useState("Privacy Policy");
 
@@ -56,7 +56,7 @@ export default function Footer() {
           {showBackToTop ? (
             <button
               onClick={backToTop}
-              className=" hover:text-red-700 font-bold focus:outline-none p-1"
+              className=" text-text-secondary hover:text-text-primary font-bold focus:outline-none p-1"
               aria-label="Back to top"
             >
               ^ Back to top
@@ -66,12 +66,12 @@ export default function Footer() {
           )}
 
           {/* Footer Links */}
-          <div className="text-sm text-secondaryGray">
-            <Link href="/imprint" className="hover:text-primaryGray">
+          <div className="text-sm text-text-secondary">
+            <Link href="/imprint" className="hover:text-text-primary">
               {imprintTitle}
             </Link>
             {" | "}
-            <Link href="/datenschutz" className="hover:text-primaryGray">
+            <Link href="/datenschutz" className="hover:text-text-primary">
               {datenschutzTitle}
             </Link>
           </div>
