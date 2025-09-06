@@ -53,14 +53,14 @@ export default function Header() {
       <Container>
         {/* Desktop layout */}
         <div className="hidden md:flex items-center justify-between w-full">
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 whitespace-nowrap">
             {blackText && (
-              <span className="font-bold text-text-primary dark:text-white text-xl md:text-2xl">
+              <span className="font-bold text-text-primary dark:text-white text-lg lg:text-xl xl2:text-2xl whitespace-nowrap">
                 {blackText}
               </span>
             )}
             {grayText && (
-              <span className="text-text-secondary dark:text-gray-400 text-xl md:text-2xl">
+              <span className="text-text-secondary dark:text-gray-400 text-lg lg:text-xl xl2:text-2xl whitespace-nowrap">
                 {grayText}
               </span>
             )}
@@ -71,7 +71,7 @@ export default function Header() {
                     src={`https:${logo.fields.file.url}`}
                     alt={title}
                     fill
-                    className="h-24 object-contain"
+                    className="h-16 md:h-18 lg:h-20 xl:h-22 xl2:h-24 object-contain"
                   />
                 </div>
               ) : (
@@ -79,11 +79,11 @@ export default function Header() {
               )}
             </Link>
           </div>
-          <nav className="flex items-center space-x-4">
+          <nav className="flex items-center space-x-3 lg:space-x-4 whitespace-nowrap">
             {navigationLinks.map(({ fields: { label, url } }, index) => (
               <React.Fragment key={url}>
                 <Link
-                  className={`nav-link text-2xl ${
+                  className={`nav-link text-lg lg:text-xl xl2:text-2xl whitespace-nowrap ${
                     router.pathname === url
                       ? "text-text-secondary pointer-events-none cursor-default"
                       : ""
@@ -93,7 +93,9 @@ export default function Header() {
                   {label}
                 </Link>
                 {index < navigationLinks.length - 1 && (
-                  <span className="text-2xl text-text-secondary">|</span>
+                  <span className="text-lg lg:text-xl xl2:text-2xl text-text-secondary">
+                    |
+                  </span>
                 )}
               </React.Fragment>
             ))}
@@ -102,7 +104,7 @@ export default function Header() {
         </div>
         {/* Mobile layout */}
         <div className="md:hidden w-full flex flex-col items-center pt-2 pb-2">
-          <div className="grid grid-cols-3 items-center w-full">
+          <div className="grid grid-cols-3 items-center w-full mb-2">
             <div className="col-span-1">
               <button
                 onClick={toggleMenu}
@@ -125,24 +127,26 @@ export default function Header() {
                       src={`https:${logo.fields.file.url}`}
                       alt={title}
                       fill
-                      className="h-14 object-contain"
+                      className="h-12 sm:h-14 object-contain"
                     />
                   </div>
                 ) : (
                   title
                 )}
               </Link>
-              <div className="col-span-1"></div>
             </div>
+            <div className="col-span-1"></div>
           </div>
-          <div className="flex flex-col items-center mt-1 w-full">
+
+          {/* Stacked text layout for mobile */}
+          <div className="flex flex-col items-center space-y-1 w-full">
             {blackText && (
-              <span className="font-bold text-black dark:text-white text-base text-center w-full break-words truncate">
+              <span className="font-bold text-text-primary dark:text-white text-sm sm:text-base text-center whitespace-nowrap overflow-hidden text-ellipsis max-w-full">
                 {blackText}
               </span>
             )}
             {grayText && (
-              <span className="text-gray-400 dark:text-gray-400 text-base text-center w-full break-words truncate">
+              <span className="text-text-secondary dark:text-gray-400 text-sm sm:text-base text-center whitespace-nowrap overflow-hidden text-ellipsis max-w-full">
                 {grayText}
               </span>
             )}

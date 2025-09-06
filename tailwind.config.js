@@ -13,6 +13,9 @@ module.exports = {
         "text-secondary": "rgb(var(--secondary-gray))",
         backgroundColor: "rgb(var(--background-rgb))",
       },
+      screens: {
+        xl2: "1430px", // custom breakpoint for title
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
