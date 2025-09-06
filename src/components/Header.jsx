@@ -142,7 +142,7 @@ export default function Header() {
               </span>
             )}
             {grayText && (
-              <span className="text-gray-400 dark:text-gray-400 text-sm text-center w-full break-words truncate">
+              <span className="text-gray-400 dark:text-gray-400 text-base text-center w-full break-words truncate">
                 {grayText}
               </span>
             )}
