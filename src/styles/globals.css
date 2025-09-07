@@ -51,8 +51,8 @@ body {
 }
 
 .page-content {
-  padding-top: 8rem; /* Reduced padding for mobile to be more reasonable */
-  padding-bottom: 4rem; /* Space for footer */
+  padding-top: 6rem; /* Reduced padding for mobile to be more reasonable */
+  padding-bottom: 6rem; /* Space for footer */
   @media (min-width: 768px) {
     padding-top: 14; /* Original padding for desktop */
   }
