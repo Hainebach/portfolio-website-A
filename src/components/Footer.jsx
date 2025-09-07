@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { fetchEntries } from "@/../lib/contentful";
 import Container from "./Container";
 
@@ -56,10 +57,16 @@ export default function Footer() {
           {showBackToTop ? (
             <button
               onClick={backToTop}
-              className=" text-text-secondary hover:text-text-primary font-bold focus:outline-none p-1"
+              className="hover:opacity-75 transition-opacity duration-200 focus:outline-none p-1"
               aria-label="Back to top"
             >
-              ^ Back to top
+              <Image
+                src="/images/Back_to_top.png"
+                alt="Back to top"
+                width={40}
+                height={40}
+                className="w-8 h-8 md:w-10 md:h-10"
+              />
             </button>
           ) : (
             <div></div>
