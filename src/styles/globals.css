@@ -8,6 +8,7 @@
   --secondary-gray: 99, 100, 102;
 }
 
+/* DARK MODE - DISABLED FOR NOW - Uncomment to re-enable
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 220, 220, 220;
@@ -20,6 +21,7 @@
   --foreground-rgb: 80, 90, 100;
   --background-rgb: 18, 18, 18;
 }
+END DARK MODE */
 
 html,
 body {
