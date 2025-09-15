@@ -29,9 +29,7 @@ export default function Imprint({ imprintData }) {
           <h1 className="font-bold mb-4 text-text-primary">
             {englishTitle ? englishTitle : "Imprint"}
           </h1>
-          <div className="prose prose-lg">
-            {documentToReactComponents(englishText)}
-          </div>
+          <div className="prose">{documentToReactComponents(englishText)}</div>
         </section>
       )}
 
@@ -40,9 +38,7 @@ export default function Imprint({ imprintData }) {
           <h1 className="font-bold mb-4 text-text-primary">
             {germanTitle ? germanTitle : "Impressum"}
           </h1>
-          <div className="prose prose-lg">
-            {documentToReactComponents(germanText)}
-          </div>
+          <div className="prose">{documentToReactComponents(germanText)}</div>
         </section>
       )}
     </div>

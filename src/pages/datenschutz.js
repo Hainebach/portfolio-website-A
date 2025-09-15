@@ -25,9 +25,7 @@ export default function Datenschutz({ datenschutzData }) {
       {english && (
         <>
           <h1 className="font-bold mb-4 text-text-primary">Privacy Policy</h1>
-          <div className="prose prose-lg mb-8">
-            {documentToReactComponents(english)}
-          </div>
+          <div className="prose mb-8">{documentToReactComponents(english)}</div>
         </>
       )}
       {german && (

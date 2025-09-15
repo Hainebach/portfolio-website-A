@@ -112,7 +112,7 @@ export default function ProjectPage({ project, projects }) {
             {year && <p>{year}</p>}
             {description && (
               <div className="mt-6">
-                <div className="text-xl prose prose-lg max-w-none">
+                <div className="text-xl prose max-w-none">
                   {documentToReactComponents(description)}
                 </div>
               </div>

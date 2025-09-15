@@ -27,8 +27,8 @@ export default function Contact({ contactData }) {
   return (
     <div className="page-content flex flex-col md:flex-row min-h-screen pb-20">
       {/* Left side - Image only (full width on mobile, 1/3 on desktop) */}
-      <div className="w-full md:w-1/3 p-8 md:pl-0 bg-backgroundColor flex flex-col items-center justify-start">
-        <div className="md:sticky md:top-8">
+      <div className="w-full md:w-1/3 py-8 pr-8 md:pr-0 md:pt-8 md:pb-0 bg-backgroundColor flex flex-col items-start justify-start">
+        <div className="md:sticky md:top-40">
           {contactImage && (
             <Image
               src={`https:${contactImage.fields.file.url}`}
@@ -46,7 +46,7 @@ export default function Contact({ contactData }) {
         <h1 className="font-bold mb-8 text-text-primary">Contact</h1>
 
         {/* Contact Text */}
-        <div className="prose prose-lg max-w-none mb-8">
+        <div className="prose max-w-none mb-8">
           {documentToReactComponents(contactText)}
         </div>
 

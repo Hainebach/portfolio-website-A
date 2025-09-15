@@ -47,11 +47,10 @@ export default function About({ info }) {
     return key.charAt(0).toUpperCase() + key.slice(1);
   };
 
-  // filepath: /Users/yoavhainebach/projects/portfolio-website-A/src/pages/about.js
   return (
     <div className="page-content flex flex-col md:flex-row min-h-screen pb-16">
       {/* Left side - Image and Navigation */}
-      <div className="w-full md:w-1/3 p-8 md:pl-0 bg-backgroundColor flex flex-col items-center justify-start">
+      <div className="w-full md:w-1/3 p-8 md:pl-0 bg-backgroundColor flex flex-col items-start justify-start">
         <div className="md:sticky md:top-40">
           <Image
             src={`https:${image.fields.file.url}`}
@@ -99,10 +98,7 @@ export default function About({ info }) {
 
         {/* Desktop content - with toggle */}
         <div className="hidden md:block">
-          <div
-            ref={contentRef}
-            className="prose prose-lg max-w-none text-justify"
-          >
+          <div ref={contentRef} className="prose max-w-none">
             {Object.keys(sections).map(
               (key) =>
                 activeSection === key && <div key={key}>{sections[key]}</div>
@@ -112,17 +108,15 @@ export default function About({ info }) {
 
         {/* Mobile content - show about and references in sequence */}
         <div className="md:hidden space-y-8">
-          <div className="prose prose-lg max-w-none text-justify">
-            {sections.about}
-          </div>
-          <div className="prose prose-lg max-w-none text-justify">
+          <div className="prose max-w-none">{sections.about}</div>
+          <div className="prose max-w-none">
             <h2 className="text-2xl font-bold mb-4 text-text-primary">
               References
             </h2>
             {sections.references}
           </div>
           {cv && (
-            <div className="prose prose-lg max-w-none text-justify">
+            <div className="prose max-w-none">
               <h2 className="text-2xl font-bold mb-4 text-text-primary">CV</h2>
               {sections.cv}
             </div>

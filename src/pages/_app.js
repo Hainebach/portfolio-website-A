@@ -23,17 +23,17 @@ export default function App({ Component, pageProps }) {
 
   return (
     <AnimatePresence mode="wait">
-      <Header />
-      {/* <motion.main ...> */}
-      {isIndexPage ? (
-        <Component {...pageProps} projects={projects} />
-      ) : (
-        <Container>
+      <div key={router.route}>
+        <Header />
+        {isIndexPage ? (
           <Component {...pageProps} projects={projects} />
-        </Container>
-      )}
-      {!isIndexPage && <Footer />}
-      {/* </motion.main> */}
+        ) : (
+          <Container>
+            <Component {...pageProps} projects={projects} />
+          </Container>
+        )}
+        {!isIndexPage && <Footer />}
+      </div>
     </AnimatePresence>
   );
 }

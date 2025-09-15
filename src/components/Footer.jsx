@@ -73,7 +73,7 @@ export default function Footer() {
           )}
 
           {/* Footer Links */}
-          <div className="text-sm text-text-secondary">
+          <div className="prose text-text-secondary">
             <Link href="/imprint" className="hover:text-text-primary">
               {imprintTitle}
             </Link>
