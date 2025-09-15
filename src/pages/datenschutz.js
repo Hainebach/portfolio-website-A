@@ -24,9 +24,7 @@ export default function Datenschutz({ datenschutzData }) {
     <div className="container mx-auto p-8">
       {english && (
         <>
-          <h1 className="text-3xl font-bold mb-4 text-text-primary">
-            Privacy Policy
-          </h1>
+          <h1 className="font-bold mb-4 text-text-primary">Privacy Policy</h1>
           <div className="prose prose-lg mb-8">
             {documentToReactComponents(english)}
           </div>
@@ -34,9 +32,7 @@ export default function Datenschutz({ datenschutzData }) {
       )}
       {german && (
         <>
-          <h1 className="text-3xl font-bold mb-4 text-text-primary">
-            Datenschutz
-          </h1>
+          <h1 className="font-bold mb-4 text-text-primary">Datenschutz</h1>
           <div className="prose mb-8">{documentToReactComponents(german)}</div>
         </>
       )}

@@ -101,7 +101,7 @@ export default function ProjectPage({ project, projects }) {
       <div className="page-content flex flex-col md:flex-row min-h-screen pb-16">
         {/* Text section - Full width on mobile, 1/3 on desktop */}
         <div className="w-full md:w-1/3 p-8 pl-0 bg-backgroundColor md:sticky md:top-0 md:h-screen md:overflow-y-auto">
-          <h1 className="text-3xl font-bold mb-4 text-text-primary">{title}</h1>
+          <h1 className="font-bold mb-4 text-text-primary">{title}</h1>
           <div className="text-sm mb-4 text-text-secondary space-y-2">
             {technique && (
               <p>

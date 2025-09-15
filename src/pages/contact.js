@@ -43,7 +43,7 @@ export default function Contact({ contactData }) {
 
       {/* Right side - Contact Text and Contact Info (full width on mobile, 2/3 on desktop) */}
       <div className="w-full md:w-2/3 p-8 md:pr-0">
-        <h1 className="text-4xl font-bold mb-8 text-text-primary">Contact</h1>
+        <h1 className="font-bold mb-8 text-text-primary">Contact</h1>
 
         {/* Contact Text */}
         <div className="prose prose-lg max-w-none mb-8">

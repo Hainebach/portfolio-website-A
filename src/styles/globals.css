@@ -100,3 +100,31 @@ header + * {
     margin-top: 8rem; /* Original margin for desktop */
   }
 }
+
+/* H1 styling to match navbar links exactly */
+h1 {
+  font-size: 1.5rem; /* Mobile: 24px - matches mobile navbar */
+  line-height: 2rem;
+  font-weight: 700; /* font-bold */
+}
+
+@media (min-width: 768px) {
+  h1 {
+    font-size: 1.125rem; /* Desktop: 18px - text-lg */
+    line-height: 1.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  h1 {
+    font-size: 1.25rem; /* Large: 20px - text-xl */
+    line-height: 1.75rem;
+  }
+}
+
+@media (min-width: 1430px) {
+  h1 {
+    font-size: 1.5rem; /* XL2: 24px - text-2xl - matches custom breakpoint */
+    line-height: 2rem;
+  }
+}

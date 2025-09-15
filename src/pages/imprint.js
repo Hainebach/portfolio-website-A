@@ -26,7 +26,7 @@ export default function Imprint({ imprintData }) {
     <div className="container mx-auto p-8">
       {englishText && (
         <section className="mb-12">
-          <h1 className="text-3xl font-bold mb-4 text-text-primary">
+          <h1 className="font-bold mb-4 text-text-primary">
             {englishTitle ? englishTitle : "Imprint"}
           </h1>
           <div className="prose prose-lg">
@@ -37,7 +37,7 @@ export default function Imprint({ imprintData }) {
 
       {germanText && (
         <section className="mb-12">
-          <h1 className="text-3xl font-bold mb-4 text-text-primary">
+          <h1 className="font-bold mb-4 text-text-primary">
             {germanTitle ? germanTitle : "Impressum"}
           </h1>
           <div className="prose prose-lg">

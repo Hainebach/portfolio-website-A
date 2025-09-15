@@ -95,7 +95,7 @@ export default function About({ info }) {
 
       {/* Right side - Content */}
       <div className="w-full md:w-2/3 md:p-8 md:pr-0">
-        <h1 className="text-4xl font-bold mb-8 text-text-primary">{name}</h1>
+        <h1 className="font-bold mb-8 text-text-primary">{name}</h1>
 
         {/* Desktop content - with toggle */}
         <div className="hidden md:block">
