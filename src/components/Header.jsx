@@ -86,11 +86,15 @@ export default function Header() {
           </div>
 
           {/* Right side navigation - positioned at the end */}
-          <nav className="flex items-center space-x-3 lg:space-x-4 whitespace-nowrap ml-auto">
+          <nav className="flex items-center whitespace-nowrap ml-auto">
             {navigationLinks.map(({ fields: { label, url } }, index) => (
               <React.Fragment key={url}>
                 <Link
                   className={`nav-link text-lg lg:text-xl xl2:text-2xl whitespace-nowrap ${
+                    index === navigationLinks.length - 1
+                      ? "pl-3 lg:pl-4"
+                      : "px-3 lg:px-4"
+                  } ${
                     router.pathname === url
                       ? "text-text-primary font-bold pointer-events-none cursor-default"
                       : "text-text-secondary"
