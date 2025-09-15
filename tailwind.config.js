@@ -22,6 +22,7 @@ module.exports = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       fontFamily: {
+        serif: ["var(--font-pt-serif)", "PT Serif", "serif"],
         mono: ["var(--font-space_mono)", "monospace"],
       },
       typography: {

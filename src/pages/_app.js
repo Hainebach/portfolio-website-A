@@ -4,9 +4,10 @@ import "@/styles/Header.css";
 import "@/styles/globals.css";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import { fetchEntries } from "@../../../lib/contentful";
+import { fetchEntries } from "../../lib/contentful";
 import { AnimatePresence, motion } from "framer-motion";
 import Container from "@/components/Container";
+import { ptSerif } from "../../lib/fonts";
 
 export default function App({ Component, pageProps }) {
   const [projects, setProjects] = useState([]);
@@ -22,18 +23,20 @@ export default function App({ Component, pageProps }) {
   }, []);
 
   return (
-    <AnimatePresence mode="wait">
-      <div key={router.route}>
-        <Header />
-        {isIndexPage ? (
-          <Component {...pageProps} projects={projects} />
-        ) : (
-          <Container>
+    <div>
+      <AnimatePresence mode="wait">
+        <div key={router.route}>
+          <Header />
+          {isIndexPage ? (
             <Component {...pageProps} projects={projects} />
-          </Container>
-        )}
-        {!isIndexPage && <Footer />}
-      </div>
-    </AnimatePresence>
+          ) : (
+            <Container>
+              <Component {...pageProps} projects={projects} />
+            </Container>
+          )}
+          {!isIndexPage && <Footer />}
+        </div>
+      </AnimatePresence>
+    </div>
   );
 }
