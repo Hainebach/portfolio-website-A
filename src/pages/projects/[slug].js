@@ -135,24 +135,28 @@ export default function ProjectPage({ project, projects }) {
         {/* Images section - Full width on mobile, 2/3 on desktop */}
         <div className="w-full md:w-2/3 p-4 md:p-8 md:pr-0 space-y-8">
           {image.map((img, index) => (
-            <div key={img.sys.id || index} className="mb-8 border-2">
-              <Image
-                src={`https:${img.fields.file.url}`}
-                alt={img.fields.title || title}
-                width={img.fields.file.details.image.width}
-                height={img.fields.file.details.image.height}
-                className="w-full h-auto cursor-pointer"
-                onClick={() => handleClick(index)}
-              />
-              {/* Uncomment and style if you want to show image titles/descriptions */}
-              {/* {img.fields.title && (
-                <h3 className="text-lg mt-4 text-center text-text-primary">{img.fields.title}</h3>
-              )} */}
-              {/* {img.fields.description && (
+            <div key={img.sys.id || index} className="mb-8">
+              <div className="border-2">
+                <Image
+                  src={`https:${img.fields.file.url}`}
+                  alt={img.fields.title || title}
+                  width={img.fields.file.details.image.width}
+                  height={img.fields.file.details.image.height}
+                  className="w-full h-auto cursor-pointer"
+                  onClick={() => handleClick(index)}
+                />
+              </div>
+              {/* Title centered under the image */}
+              {img.fields.title && (
+                <h3 className="text-lg mt-2 text-center text-text-primary">
+                  {img.fields.title}
+                </h3>
+              )}
+              {img.fields.description && (
                 <p className="text-text-secondary mt-2 text-center">
                   {img.fields.description}
                 </p>
-              )} */}
+              )}
             </div>
           ))}
         </div>
@@ -190,14 +194,14 @@ export default function ProjectPage({ project, projects }) {
             />
           </div>
           {/* Uncomment and style if you want to show image info in modal */}
-          {/* <div className="absolute bottom-7 text-center z-50 bg-black bg-opacity-50 p-4 rounded">
-            <h2 className="text-lg font-bold pt-4 text-white">
+          <div className="absolute bottom-7 text-center z-50  p-4 rounded">
+            <h2 className="prose prose-lg pt-4 text-white">
               {image[selectedImage].fields.title}
             </h2>
-            <p className="text-sm text-gray-300">
+            <p className="prose prose-sm text-gray-300">
               {image[selectedImage].fields.description}
             </p>
-          </div> */}
+          </div>
           <button
             onClick={handleNext}
             className="absolute right-4 text-white text-2xl z-50 hover:text-gray-300 transition-colors"
