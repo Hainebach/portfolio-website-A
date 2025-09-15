@@ -52,7 +52,8 @@ export default function Header() {
     <header className="header fixed top-0 w-full bg-white">
       <Container>
         {/* Desktop layout */}
-        <div className="hidden md:flex items-center justify-between w-full">
+        <div className="hidden md:flex items-center w-full relative py-16">
+          {/* Left side text - positioned normally */}
           <div className="flex items-center space-x-4 whitespace-nowrap">
             {blackText && (
               <span className="font-bold text-text-primary  text-lg lg:text-xl xl2:text-2xl whitespace-nowrap">
@@ -64,6 +65,10 @@ export default function Header() {
                 {grayText}
               </span>
             )}
+          </div>
+
+          {/* Logo - absolutely centered horizontally only */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center">
             <Link className="header-title" href="/">
               {logo && logo.fields?.file?.url ? (
                 <div className="image-container">
@@ -79,7 +84,9 @@ export default function Header() {
               )}
             </Link>
           </div>
-          <nav className="flex items-center space-x-3 lg:space-x-4 whitespace-nowrap">
+
+          {/* Right side navigation - positioned at the end */}
+          <nav className="flex items-center space-x-3 lg:space-x-4 whitespace-nowrap ml-auto">
             {navigationLinks.map(({ fields: { label, url } }, index) => (
               <React.Fragment key={url}>
                 <Link
