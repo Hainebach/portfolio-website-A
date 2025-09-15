@@ -41,7 +41,7 @@ body {
 }
 
 body {
-  font-family: "PT Serif", serif;
+  font-family: var(--font-pt-serif), "PT Serif", serif;
   color: rgb(var(--foreground-rgb));
   background-color: rgb(var(--background-rgb));
 }

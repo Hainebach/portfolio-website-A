@@ -51,7 +51,7 @@ export default function About({ info }) {
     <div className="page-content flex flex-col md:flex-row min-h-screen pb-16">
       {/* Left side - Image and Navigation */}
       <div className="w-full md:w-1/3 p-8 md:pl-0 bg-backgroundColor flex flex-col items-start justify-start">
-        <div className="md:sticky md:top-40">
+        <div className="md:sticky md:top-44">
           <Image
             src={`https:${image.fields.file.url}`}
             alt={name}
