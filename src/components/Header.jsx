@@ -85,8 +85,8 @@ export default function Header() {
                 <Link
                   className={`nav-link text-lg lg:text-xl xl2:text-2xl whitespace-nowrap ${
                     router.pathname === url
-                      ? "text-text-secondary pointer-events-none cursor-default"
-                      : ""
+                      ? "text-text-primary font-bold pointer-events-none cursor-default"
+                      : "text-text-secondary"
                   }`}
                   href={url}
                 >
@@ -164,10 +164,10 @@ export default function Header() {
               {navigationLinks.map(({ fields: { label, url } }) => (
                 <Link
                   key={url}
-                  className={`nav-link hover:font-semibold text-2xl ${
+                  className={`nav-link text-2xl ${
                     router.pathname === url
-                      ? "text-text-secondary pointer-events-none cursor-default"
-                      : ""
+                      ? "text-text-primary font-bold pointer-events-none cursor-default"
+                      : "text-text-secondary hover:font-semibold"
                   }`}
                   href={url}
                   onClick={() => setIsOpen(false)}
