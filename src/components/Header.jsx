@@ -71,7 +71,7 @@ export default function Header() {
                     src={`https:${logo.fields.file.url}`}
                     alt={title}
                     fill
-                    className="h-16 md:h-18 lg:h-20 xl:h-22 xl2:h-24 object-contain"
+                    className="h-14 md:h-15 lg:h-17 xl:h-19 xl2:h-20 object-contain"
                   />
                 </div>
               ) : (
@@ -127,7 +127,7 @@ export default function Header() {
                       src={`https:${logo.fields.file.url}`}
                       alt={title}
                       fill
-                      className="h-12 sm:h-14 object-contain"
+                      className="h-10 sm:h-12 object-contain"
                     />
                   </div>
                 ) : (
