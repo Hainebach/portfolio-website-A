@@ -113,7 +113,7 @@ export default function Header() {
                 aria-controls="mobile-menu"
                 aria-label="Toggle menu"
               >
-                <MenuIcon className="w-5 h-5 text-black" />
+                <MenuIcon className="w-6 h-6 text-black" />
               </button>
             </div>
             <div className="col-span-1 text-center">
