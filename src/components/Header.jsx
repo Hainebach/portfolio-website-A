@@ -49,18 +49,18 @@ export default function Header() {
   };
 
   return (
-    <header className="header fixed top-0 w-full bg-white dark:bg-black">
+    <header className="header fixed top-0 w-full bg-white">
       <Container>
         {/* Desktop layout */}
         <div className="hidden md:flex items-center justify-between w-full">
           <div className="flex items-center space-x-4 whitespace-nowrap">
             {blackText && (
-              <span className="font-bold text-text-primary dark:text-white text-lg lg:text-xl xl2:text-2xl whitespace-nowrap">
+              <span className="font-bold text-text-primary  text-lg lg:text-xl xl2:text-2xl whitespace-nowrap">
                 {blackText}
               </span>
             )}
             {grayText && (
-              <span className="text-text-secondary dark:text-gray-400 text-lg lg:text-xl xl2:text-2xl whitespace-nowrap">
+              <span className="text-text-secondary  text-lg lg:text-xl xl2:text-2xl whitespace-nowrap">
                 {grayText}
               </span>
             )}
@@ -141,12 +141,12 @@ export default function Header() {
           {/* Stacked text layout for mobile */}
           <div className="flex flex-col items-center space-y-1 w-full">
             {blackText && (
-              <span className="font-bold text-text-primary dark:text-white text-sm sm:text-base text-center whitespace-nowrap overflow-hidden text-ellipsis max-w-full">
+              <span className="font-bold text-text-primary  text-sm sm:text-base text-center whitespace-nowrap overflow-hidden text-ellipsis max-w-full">
                 {blackText}
               </span>
             )}
             {grayText && (
-              <span className="text-text-secondary dark:text-gray-400 text-sm sm:text-base text-center whitespace-nowrap overflow-hidden text-ellipsis max-w-full">
+              <span className="text-text-secondary  text-sm sm:text-base text-center whitespace-nowrap overflow-hidden text-ellipsis max-w-full">
                 {grayText}
               </span>
             )}
