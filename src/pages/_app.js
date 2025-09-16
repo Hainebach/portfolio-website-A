@@ -6,7 +6,11 @@ import "@/styles/globals.css";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 import { fetchEntries } from "../../lib/contentful";
-import { fetchSiteSettings, fetchSEOMetadata, generatePageMetadata } from "../../lib/contentful-seo";
+import {
+  fetchSiteSettings,
+  fetchSEOMetadata,
+  generatePageMetadata,
+} from "../../lib/contentful-seo";
 import { AnimatePresence, motion } from "framer-motion";
 import Container from "@/components/Container";
 import { ptSerif } from "../lib/fonts";
@@ -29,20 +33,20 @@ export default function App({ Component, pageProps }) {
       try {
         const siteSettings = await fetchSiteSettings();
         const defaultSEO = await fetchSEOMetadata();
-        
+
         const metadata = generatePageMetadata(
           siteSettings,
           defaultSEO,
-          siteSettings?.siteName || 'Green Graphik',
-          siteSettings?.siteDescription || 'Amichai Green Graphic designer'
+          siteSettings?.siteName || "Green Graphik",
+          siteSettings?.siteDescription || "Amichai Green Graphic designer"
         );
-        
+
         setGlobalMetadata(metadata);
       } catch (error) {
-        console.error('Error loading global metadata:', error);
+        console.error("Error loading global metadata:", error);
       }
     };
-    
+
     loadGlobalMetadata();
   }, []);
 
@@ -53,7 +57,7 @@ export default function App({ Component, pageProps }) {
     <div>
       {/* Global SEO - will be overridden by page-specific SEO if present */}
       {metadata && !pageProps.metadata && <SEOHead metadata={metadata} />}
-      
+
       <AnimatePresence mode="wait">
         <div key={router.route}>
           <Header />

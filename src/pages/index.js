@@ -1,7 +1,11 @@
 import Image from "next/image";
 import SEOHead from "@/components/SEOHead";
 import { fetchEntries } from "../../lib/contentful";
-import { fetchSiteSettings, fetchSEOMetadata, generatePageMetadata } from "../../lib/contentful-seo";
+import {
+  fetchSiteSettings,
+  fetchSEOMetadata,
+  generatePageMetadata,
+} from "../../lib/contentful-seo";
 
 export async function getStaticProps() {
   const entries = await fetchEntries("landingPage");
@@ -18,12 +22,12 @@ export async function getStaticProps() {
   // Fetch SEO data
   const siteSettings = await fetchSiteSettings();
   const seoMetadata = await fetchSEOMetadata(); // Get default SEO metadata
-  
+
   const metadata = generatePageMetadata(
     siteSettings,
     seoMetadata,
-    'Home', // Default title for home page
-    'Freelance designer specializing in visual identity, publications, and digital experiences.' // Default description
+    "Home", // Default title for home page
+    "Freelance designer specializing in visual identity, publications, and digital experiences." // Default description
   );
 
   return {
