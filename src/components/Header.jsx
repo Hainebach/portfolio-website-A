@@ -3,7 +3,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { fetchHeader } from "../../lib/contentful";
-import MenuIcon from "./MenuIcon";
 import Container from "./Container";
 import DarkModeToggleButton from "./DarkModeToggleButton"; // Uncomment to enable dark mode toggle
 
@@ -114,54 +113,42 @@ export default function Header() {
           </nav>
         </div>
         {/* Mobile layout */}
-        <div className="md:hidden w-full flex flex-col items-center pt-2 pb-2">
-          <div className="grid grid-cols-3 items-center w-full mb-2">
-            <div className="col-span-1">
-              <button
-                onClick={toggleMenu}
-                className="text-text-secondary outline-none p-1"
-                aria-expanded={isOpen}
-                aria-controls="mobile-menu"
-                aria-label="Toggle menu"
-              >
-                <MenuIcon className="w-6 h-6 text-black" />
-              </button>
-            </div>
-            <div className="col-span-1 text-center">
-              <Link
-                className="header-title hover:scale-75 duration-200"
-                href="/"
-              >
-                {logo && logo.fields?.file?.url ? (
-                  <div className="image-container">
-                    <Image
-                      src={`https:${logo.fields.file.url}`}
-                      alt={title}
-                      fill
-                      className="h-10 sm:h-12 object-contain"
-                    />
-                  </div>
-                ) : (
-                  title
-                )}
-              </Link>
-            </div>
-            <div className="col-span-1"></div>
+        <div className="md:hidden w-full flex items-center py-4">
+          {/* Burger menu on the left */}
+          <div className="flex-shrink-0 flex items-center">
+            <button
+              onClick={toggleMenu}
+              className="text-text-secondary outline-none"
+              aria-expanded={isOpen}
+              aria-controls="mobile-menu"
+              aria-label="Toggle menu"
+            >
+              <Image
+                src="/images/Hamburger_icon.svg.png"
+                alt="Menu"
+                width={48}
+                height={48}
+                className="w-10 h-10 sm:w-12 sm:h-12"
+              />
+            </button>
           </div>
 
-          {/* Stacked text layout for mobile */}
-          <div className="flex flex-col items-center space-y-1 w-full">
+          {/* Centered text content */}
+          <div className="flex-1 flex flex-col items-center justify-center space-y-1 px-4">
             {blackText && (
-              <span className="font-bold text-text-primary  text-sm sm:text-base text-center whitespace-nowrap overflow-hidden text-ellipsis max-w-full">
+              <span className="font-bold text-text-primary text-sm sm:text-base text-center whitespace-nowrap overflow-hidden text-ellipsis max-w-full">
                 {blackText}
               </span>
             )}
             {grayText && (
-              <span className="text-text-secondary  text-sm sm:text-base text-center whitespace-nowrap overflow-hidden text-ellipsis max-w-full">
+              <span className="text-text-secondary text-sm sm:text-base text-center whitespace-nowrap overflow-hidden text-ellipsis max-w-full">
                 {grayText}
               </span>
             )}
           </div>
+
+          {/* Empty space on the right to balance the layout */}
+          <div className="flex-shrink-0 w-8"></div>
         </div>
       </Container>
       {isOpen && (
