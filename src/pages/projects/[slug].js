@@ -4,6 +4,81 @@ import { useDrag } from "@use-gesture/react";
 import Image from "next/image";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 
+// Component for collapsible description text
+function CollapsibleDescription({ description }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  // Convert rich text to plain text for character counting
+  const getPlainText = (richText) => {
+    if (!richText || !richText.content) return "";
+
+    const extractText = (node) => {
+      if (node.nodeType === "text") {
+        return node.value;
+      }
+      if (node.content) {
+        return node.content.map(extractText).join("");
+      }
+      return "";
+    };
+
+    return richText.content.map(extractText).join("");
+  };
+
+  const plainText = getPlainText(description);
+  const shouldTruncate = plainText.length > 70;
+  const truncatedText = plainText.substring(0, 70);
+
+  const toggleExpanded = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  return (
+    <div className="mt-6">
+      <div className="text-xl prose max-w-none">
+        {/* Mobile view with collapsible text */}
+        <div className="md:hidden">
+          {shouldTruncate && !isExpanded ? (
+            <div>
+              <p>
+                {truncatedText}...{" "}
+                <button
+                  onClick={toggleExpanded}
+                  className="text-text-secondary hover:text-text-primary underline text-sm mt-2 transition-colors"
+                >
+                  Show more
+                </button>
+              </p>
+            </div>
+          ) : (
+            <div>
+              <div
+                onClick={shouldTruncate ? toggleExpanded : undefined}
+                className={shouldTruncate ? "cursor-pointer" : ""}
+              >
+                {documentToReactComponents(description)}
+              </div>
+              {shouldTruncate && isExpanded && (
+                <button
+                  onClick={toggleExpanded}
+                  className="text-text-secondary hover:text-text-primary underline text-sm mt-2 transition-colors"
+                >
+                  Show less
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Desktop view - always show full text */}
+        <div className="hidden md:block">
+          {documentToReactComponents(description)}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export async function getStaticPaths() {
   const entries = await fetchEntries("project");
   console.log("fetched entries: ", entries);
@@ -109,11 +184,7 @@ export default function ProjectPage({ project, projects }) {
             )}
             {year && <p>{year}</p>}
             {description && (
-              <div className="mt-6">
-                <div className="text-xl prose max-w-none">
-                  {documentToReactComponents(description)}
-                </div>
-              </div>
+              <CollapsibleDescription description={description} />
             )}
             {link && (
               <div className="mt-6">
