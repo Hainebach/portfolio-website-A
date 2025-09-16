@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { fetchEntries } from "../../../lib/contentful";
-import { useGesture } from "react-use-gesture";
+import { useDrag } from "@use-gesture/react";
 import Image from "next/image";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 
@@ -84,16 +84,14 @@ export default function ProjectPage({ project, projects }) {
     };
   }, [selectedImage, handleNext, handlePrev]);
 
-  const bind = useGesture({
-    onDrag: ({ direction: [xDir], distance, velocity }) => {
-      if (velocity > 0.2) {
-        if (xDir > 0) {
-          handlePrev();
-        } else if (xDir < 0) {
-          handleNext();
-        }
+  const bind = useDrag(({ direction: [xDir], distance, velocity }) => {
+    if (velocity > 0.2) {
+      if (xDir > 0) {
+        handlePrev();
+      } else if (xDir < 0) {
+        handleNext();
       }
-    },
+    }
   });
 
   return (
