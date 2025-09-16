@@ -1,6 +1,6 @@
 import { Html, Head, Main, NextScript } from "next/document";
 import Link from "next/link";
-import { ptSerif } from "../../lib/fonts";
+import { ptSerif } from "../../public/fonts";
 
 export default function Document() {
   return (

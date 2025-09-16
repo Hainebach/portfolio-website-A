@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import { fetchEntries } from "../../lib/contentful";
 import { AnimatePresence, motion } from "framer-motion";
 import Container from "@/components/Container";
-import { ptSerif } from "../../lib/fonts";
+import { ptSerif } from "../../public/fonts";
 
 export default function App({ Component, pageProps }) {
   const [projects, setProjects] = useState([]);
