@@ -2,17 +2,25 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { fetchEntries } from "@/../lib/contentful";
+import { fetchSiteSettings } from "@/../lib/contentful-seo";
 import Container from "./Container";
 
 export default function Footer() {
   const [showBackToTop, setShowBackToTop] = useState(false); // Force visible for testing
   const [imprintTitle, setImprintTitle] = useState("Imprint");
   const [datenschutzTitle, setDatenschutzTitle] = useState("Privacy Policy");
+  const [siteName, setSiteName] = useState("");
 
   useEffect(() => {
     // Fetch footer data from Contentful
     async function fetchFooterData() {
       try {
+        // Fetch site settings
+        const siteSettings = await fetchSiteSettings();
+        if (siteSettings?.siteName) {
+          setSiteName(siteSettings.siteName);
+        }
+
         // Fetch imprint title (using englishTitle field)
         const imprintEntries = await fetchEntries("imprint");
         const imprintData = imprintEntries[0]?.fields;
