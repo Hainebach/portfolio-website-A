@@ -10,6 +10,7 @@ export async function getStaticProps() {
   return {
     props: {
       contactData: {
+        contactPageTitle: aboutData.contactPageTitle,
         contactText: aboutData.contact,
         contactImage: aboutData.contactImage,
         name: aboutData.name,
@@ -22,7 +23,8 @@ export async function getStaticProps() {
 }
 
 export default function Contact({ contactData }) {
-  const { name, email, phone, contactText, contactImage } = contactData;
+  const { name, email, phone, contactText, contactImage, contactPageTitle } =
+    contactData;
 
   return (
     <div className="page-content flex flex-col md:flex-row min-h-screen pb-20">
@@ -43,7 +45,9 @@ export default function Contact({ contactData }) {
 
       {/* Right side - Contact Text and Contact Info (full width on mobile, 2/3 on desktop) */}
       <div className="w-full md:w-2/3 py-8 px-0 md:p-8 md:pr-0">
-        <h1 className="font-bold mb-8 text-text-primary">Contact</h1>
+        <h1 className="font-bold mb-8 text-text-primary">
+          {contactPageTitle || "Contact"}
+        </h1>
 
         {/* Contact Text */}
         <div className="prose max-w-none mb-8">
