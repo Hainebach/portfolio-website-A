@@ -51,16 +51,16 @@ export default function Header() {
     <header className="header fixed top-0 w-full bg-white">
       <Container>
         {/* Desktop layout */}
-        <div className="hidden md:flex items-center w-full relative py-16">
+        <div className="hidden md:flex items-center w-full relative pt-16 pb-10">
           {/* Left side text - positioned normally */}
           <div className="flex items-center space-x-4 whitespace-nowrap">
             {blackText && (
-              <span className="font-bold text-text-primary  text-lg lg:text-xl xl2:text-2xl whitespace-nowrap">
+              <span className="font-bold text-text-primary  text-base md-lg:text-lg lg:text-xl xl2:text-2xl whitespace-nowrap">
                 {blackText}
               </span>
             )}
             {grayText && (
-              <span className="text-text-secondary  text-lg lg:text-xl xl2:text-2xl whitespace-nowrap">
+              <span className="text-text-secondary  text-base md-lg:text-lg lg:text-xl xl2:text-2xl whitespace-nowrap">
                 {grayText}
               </span>
             )}
@@ -70,12 +70,12 @@ export default function Header() {
           <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center">
             <Link className="header-title" href="/">
               {logo && logo.fields?.file?.url ? (
-                <div className="image-container">
+                <div className="logo-container">
                   <Image
                     src={`https:${logo.fields.file.url}`}
                     alt={title}
                     fill
-                    className="h-14 md:h-15 lg:h-17 xl:h-19 xl2:h-20 object-contain"
+                    className="object-contain"
                   />
                 </div>
               ) : (

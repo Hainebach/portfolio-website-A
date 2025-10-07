@@ -67,3 +67,38 @@
     width: 4rem;
   }
 }
+
+.logo-container {
+  @apply relative;
+  /* Square aspect ratio with responsive heights starting from h-12 */
+  height: 3rem; /* h-12 = 48px */
+  width: 3rem; /* Keep it square */
+}
+
+@media (min-width: 768px) {
+  .logo-container {
+    height: 3.5rem; /* h-14 = 56px */
+    width: 3.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .logo-container {
+    height: 4rem; /* h-16 = 64px */
+    width: 4rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .logo-container {
+    height: 4.5rem; /* h-18 = 72px */
+    width: 4.5rem;
+  }
+}
+
+@media (min-width: 1536px) {
+  .logo-container {
+    height: 5rem; /* h-20 = 80px */
+    width: 5rem;
+  }
+}

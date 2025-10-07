@@ -15,6 +15,7 @@ module.exports = {
       },
       screens: {
         xl2: "1430px", // custom breakpoint for title
+        "md-lg": "920px", // Custom breakpoint for the header problematic range
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
