@@ -54,16 +54,18 @@ export default function Header() {
         <div className="hidden md:flex items-center w-full relative pt-16 pb-10">
           {/* Left side text - positioned normally */}
           <div className="flex items-center space-x-4 whitespace-nowrap">
-            {blackText && (
-              <span className="font-bold text-text-primary  text-base md-lg:text-lg lg:text-xl xl2:text-2xl whitespace-nowrap">
-                {blackText}
-              </span>
-            )}
-            {grayText && (
-              <span className="text-text-secondary  text-base md-lg:text-lg lg:text-xl xl2:text-2xl whitespace-nowrap">
-                {grayText}
-              </span>
-            )}
+            <Link href="/" className="flex items-center space-x-4">
+              {blackText && (
+                <span className="font-bold text-text-primary text-base md-lg:text-lg lg:text-xl xl2:text-2xl whitespace-nowrap hover:opacity-75 transition-opacity cursor-pointer">
+                  {blackText}
+                </span>
+              )}
+              {grayText && (
+                <span className="text-text-secondary text-base md-lg:text-lg lg:text-xl xl2:text-2xl whitespace-nowrap hover:opacity-75 transition-opacity cursor-pointer">
+                  {grayText}
+                </span>
+              )}
+            </Link>
           </div>
 
           {/* Logo - absolutely centered horizontally only */}
