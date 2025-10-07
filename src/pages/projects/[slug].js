@@ -240,13 +240,13 @@ export default function ProjectPage({ project, projects }) {
           ></div>
           <button
             onClick={handleClose}
-            className="absolute top-4 right-4 text-white text-2xl z-50 hover:text-gray-300 transition-colors"
+            className="absolute top-4 right-4 text-white text-4xl z-50 hover:text-gray-300 transition-colors"
           >
             ×
           </button>
           <button
             onClick={handlePrev}
-            className="absolute left-4 text-white text-2xl z-50 hover:text-gray-300 transition-colors"
+            className="absolute left-4 text-white text-8xl z-50 hover:text-gray-300 transition-colors"
           >
             ‹
           </button>
@@ -262,7 +262,7 @@ export default function ProjectPage({ project, projects }) {
               className="object-contain"
             />
           </div>
-          {/* Uncomment and style if you want to show image info in modal */}
+
           <div className="absolute bottom-7 text-center z-50  p-4 rounded">
             <h2 className="prose prose-lg pt-4 text-white">
               {image[selectedImage].fields.title}
@@ -273,7 +273,7 @@ export default function ProjectPage({ project, projects }) {
           </div>
           <button
             onClick={handleNext}
-            className="absolute right-4 text-white text-2xl z-50 hover:text-gray-300 transition-colors"
+            className="absolute right-4 text-white text-8xl z-50 hover:text-gray-300 transition-colors"
           >
             ›
           </button>
