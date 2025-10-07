@@ -217,7 +217,7 @@ export default function ProjectPage({ project, projects }) {
               </div>
               {/* Title centered under the image */}
               {img.fields.title && (
-                <h3 className="text-lg mt-2 text-center text-text-primary">
+                <h3 className="text-lg mt-2 text-center text-text-secondary font-medium">
                   {img.fields.title}
                 </h3>
               )}
