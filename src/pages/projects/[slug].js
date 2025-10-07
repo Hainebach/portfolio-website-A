@@ -3,6 +3,7 @@ import { fetchEntries } from "../../../lib/contentful";
 import { useDrag } from "@use-gesture/react";
 import Image from "next/image";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
+import Link from "next/link";
 
 // Component for collapsible description text
 function CollapsibleDescription({ description }) {
@@ -174,6 +175,17 @@ export default function ProjectPage({ project, projects }) {
       <div className="page-content flex flex-col md:flex-row min-h-screen pb-16">
         {/* Text section - Full width on mobile, 1/3 on desktop */}
         <div className="w-full md:w-1/3 p-8 pl-0 bg-backgroundColor md:sticky md:top-0 md:h-screen md:overflow-y-auto">
+          <div className="mb-6">
+            <Link
+              href="/work"
+              className="inline-flex items-center text-text-secondary hover:text-text-primary transition-colors group"
+            >
+              <span className="text-lg mr-2 pl-1 group-hover:-translate-x-1 transition-transform">
+                ←
+              </span>
+              <span className="text-sm font-medium">Back to Projects</span>
+            </Link>
+          </div>
           <h1 className="font-bold mb-4 text-text-primary">{title}</h1>
           <div className="text-sm mb-4 text-text-secondary space-y-2">
             {technique && (
