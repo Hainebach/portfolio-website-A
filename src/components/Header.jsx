@@ -136,8 +136,8 @@ export default function Header() {
           </div>
 
           {/* Centered text content */}
-          <div className="flex-1 flex flex-col items-center justify-center space-y-1 px-4">
-            <Link href="/" className="flex flex-col items-center space-y-1">
+          <div className="flex-1 flex flex-col items-center justify-center space-y-0 px-4">
+            <Link href="/" className="flex flex-col items-center space-y-0">
               {blackText && (
                 <span className="font-bold text-text-primary text-sm sm:text-base text-center whitespace-nowrap overflow-hidden text-ellipsis max-w-full hover:opacity-75 transition-opacity cursor-pointer">
                   {blackText}
