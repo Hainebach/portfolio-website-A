@@ -137,16 +137,18 @@ export default function Header() {
 
           {/* Centered text content */}
           <div className="flex-1 flex flex-col items-center justify-center space-y-1 px-4">
-            {blackText && (
-              <span className="font-bold text-text-primary text-sm sm:text-base text-center whitespace-nowrap overflow-hidden text-ellipsis max-w-full">
-                {blackText}
-              </span>
-            )}
-            {grayText && (
-              <span className="text-text-secondary text-sm sm:text-base text-center whitespace-nowrap overflow-hidden text-ellipsis max-w-full">
-                {grayText}
-              </span>
-            )}
+            <Link href="/" className="flex flex-col items-center space-y-1">
+              {blackText && (
+                <span className="font-bold text-text-primary text-sm sm:text-base text-center whitespace-nowrap overflow-hidden text-ellipsis max-w-full hover:opacity-75 transition-opacity cursor-pointer">
+                  {blackText}
+                </span>
+              )}
+              {grayText && (
+                <span className="text-text-secondary text-sm sm:text-base text-center whitespace-nowrap overflow-hidden text-ellipsis max-w-full hover:opacity-75 transition-opacity cursor-pointer">
+                  {grayText}
+                </span>
+              )}
+            </Link>
           </div>
 
           {/* Empty space on the right to balance the layout */}
