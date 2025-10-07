@@ -21,7 +21,7 @@ export default function Datenschutz({ datenschutzData }) {
   const { english, german } = datenschutzData;
 
   return (
-    <div className="container mx-auto p-8">
+    <div className="mx-auto pt-20 pb-12">
       {english && (
         <>
           <h1 className="font-bold mb-4 text-text-primary">Privacy Policy</h1>

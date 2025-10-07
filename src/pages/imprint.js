@@ -23,7 +23,7 @@ export default function Imprint({ imprintData }) {
   const { englishTitle, englishText, germanTitle, germanText } = imprintData;
 
   return (
-    <div className="container mx-auto p-8">
+    <div className="mx-auto pt-20 pb-12">
       {englishText && (
         <section className="mb-12">
           <h1 className="font-bold mb-4 text-text-primary">
