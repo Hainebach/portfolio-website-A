@@ -315,11 +315,21 @@ export default function ProjectPage({ project, projects }) {
                 // Check if the click is outside the image
                 const target = e.target;
                 if (!target) return; // Safety check
-                
-                const isImage = (target.tagName && target.tagName === 'IMG') || (target.closest && target.closest('img'));
-                const isPrevButton = (target.classList && target.classList.contains('swiper-button-prev-custom')) || (target.closest && target.closest('.swiper-button-prev-custom'));
-                const isNextButton = (target.classList && target.classList.contains('swiper-button-next-custom')) || (target.closest && target.closest('.swiper-button-next-custom'));
-                
+
+                const isImage =
+                  (target.tagName && target.tagName === "IMG") ||
+                  (target.closest && target.closest("img"));
+                const isPrevButton =
+                  (target.classList &&
+                    target.classList.contains("swiper-button-prev-custom")) ||
+                  (target.closest &&
+                    target.closest(".swiper-button-prev-custom"));
+                const isNextButton =
+                  (target.classList &&
+                    target.classList.contains("swiper-button-next-custom")) ||
+                  (target.closest &&
+                    target.closest(".swiper-button-next-custom"));
+
                 if (!isImage && !isPrevButton && !isNextButton) {
                   console.log("Clicked outside image, closing modal"); // Debug log
                   handleClose();
@@ -339,11 +349,25 @@ export default function ProjectPage({ project, projects }) {
                     // Close if clicking on the slide but not on the image or navigation
                     const target = e.target;
                     if (!target) return; // Safety check
-                    
-                    const isImage = (target.tagName && target.tagName === 'IMG') || (target.closest && target.closest('img'));
-                    const isPrevButton = (target.classList && target.classList.contains('swiper-button-prev-custom')) || (target.closest && target.closest('.swiper-button-prev-custom'));
-                    const isNextButton = (target.classList && target.classList.contains('swiper-button-next-custom')) || (target.closest && target.closest('.swiper-button-next-custom'));
-                    
+
+                    const isImage =
+                      (target.tagName && target.tagName === "IMG") ||
+                      (target.closest && target.closest("img"));
+                    const isPrevButton =
+                      (target.classList &&
+                        target.classList.contains(
+                          "swiper-button-prev-custom"
+                        )) ||
+                      (target.closest &&
+                        target.closest(".swiper-button-prev-custom"));
+                    const isNextButton =
+                      (target.classList &&
+                        target.classList.contains(
+                          "swiper-button-next-custom"
+                        )) ||
+                      (target.closest &&
+                        target.closest(".swiper-button-next-custom"));
+
                     if (!isImage && !isPrevButton && !isNextButton) {
                       console.log("Clicked on slide background, closing modal"); // Debug log
                       handleClose();
@@ -361,13 +385,29 @@ export default function ProjectPage({ project, projects }) {
                       // Close if clicking on the zoom container but not on the image or navigation
                       const target = e.target;
                       if (!target) return; // Safety check
-                      
-                      const isImage = (target.tagName && target.tagName === 'IMG') || (target.closest && target.closest('img'));
-                      const isPrevButton = (target.classList && target.classList.contains('swiper-button-prev-custom')) || (target.closest && target.closest('.swiper-button-prev-custom'));
-                      const isNextButton = (target.classList && target.classList.contains('swiper-button-next-custom')) || (target.closest && target.closest('.swiper-button-next-custom'));
-                      
+
+                      const isImage =
+                        (target.tagName && target.tagName === "IMG") ||
+                        (target.closest && target.closest("img"));
+                      const isPrevButton =
+                        (target.classList &&
+                          target.classList.contains(
+                            "swiper-button-prev-custom"
+                          )) ||
+                        (target.closest &&
+                          target.closest(".swiper-button-prev-custom"));
+                      const isNextButton =
+                        (target.classList &&
+                          target.classList.contains(
+                            "swiper-button-next-custom"
+                          )) ||
+                        (target.closest &&
+                          target.closest(".swiper-button-next-custom"));
+
                       if (!isImage && !isPrevButton && !isNextButton) {
-                        console.log("Clicked on zoom container background, closing modal"); // Debug log
+                        console.log(
+                          "Clicked on zoom container background, closing modal"
+                        ); // Debug log
                         handleClose();
                       }
                     }}
@@ -410,7 +450,7 @@ export default function ProjectPage({ project, projects }) {
             </div>
 
             {/* Custom navigation buttons - hidden on mobile, extra large for visibility */}
-            <button 
+            <button
               className="swiper-button-prev-custom hidden md:block absolute left-1 md:left-2 lg:left-4 xl:left-6 top-1/2 transform -translate-y-1/2 text-white text-6xl md:text-8xl lg:text-9xl xl:text-[10rem] z-50 hover:text-gray-300 transition-colors"
               onClick={(e) => {
                 console.log("Previous button clicked"); // Debug log
@@ -419,7 +459,7 @@ export default function ProjectPage({ project, projects }) {
             >
               ‹
             </button>
-            <button 
+            <button
               className="swiper-button-next-custom hidden md:block absolute right-1 md:right-2 lg:right-4 xl:right-6 top-1/2 transform -translate-y-1/2 text-white text-6xl md:text-8xl lg:text-9xl xl:text-[10rem] z-50 hover:text-gray-300 transition-colors"
               onClick={(e) => {
                 console.log("Next button clicked"); // Debug log
