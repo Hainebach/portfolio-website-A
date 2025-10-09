@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { fetchEntries } from "../../../lib/contentful";
-import { useDrag } from "@use-gesture/react";
+import { useDrag, usePinch, useGesture } from "@use-gesture/react";
 import Image from "next/image";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import Link from "next/link";
@@ -115,6 +115,8 @@ export default function ProjectPage({ project, projects }) {
   const { title, image, year, technique, description, link, linkTitle } =
     project.fields;
   const [selectedImage, setSelectedImage] = useState(null);
+  const [zoom, setZoom] = useState(1);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
 
   const handleClick = (index) => {
     setSelectedImage(index);
@@ -123,17 +125,23 @@ export default function ProjectPage({ project, projects }) {
 
   const handleClose = () => {
     setSelectedImage(null);
+    setZoom(1);
+    setOffset({ x: 0, y: 0 });
     document.body.classList.remove("modal-open");
   };
 
   const handleNext = useCallback(() => {
     setSelectedImage((prevIndex) => (prevIndex + 1) % image.length);
+    setZoom(1);
+    setOffset({ x: 0, y: 0 });
   }, [image.length]);
 
   const handlePrev = useCallback(() => {
     setSelectedImage(
       (prevIndex) => (prevIndex - 1 + image.length) % image.length
     );
+    setZoom(1);
+    setOffset({ x: 0, y: 0 });
   }, [image.length]);
 
   useEffect(() => {
@@ -160,24 +168,84 @@ export default function ProjectPage({ project, projects }) {
     };
   }, [selectedImage, handleNext, handlePrev]);
 
-  // Gesture binding for swipe functionality
-  const bind = useDrag(
-    ({ movement: [mx], direction: [xDir], distance, cancel }) => {
-      // Only trigger on significant horizontal movement
-      if (distance > 50) {
-        cancel();
-        if (xDir > 0) {
-          handlePrev(); // Swipe right = previous image
-        } else {
-          handleNext(); // Swipe left = next image
+  // Double tap to zoom
+  const handleDoubleClick = useCallback(() => {
+    if (zoom > 1) {
+      setZoom(1);
+      setOffset({ x: 0, y: 0 });
+    } else {
+      setZoom(2);
+    }
+  }, [zoom]);
+
+  // Comprehensive gesture binding for zoom, pan, and swipe
+  const bind = useGesture(
+    {
+      // Pinch to zoom
+      onPinch: ({ offset: [scale], origin: [ox, oy] }) => {
+        const newZoom = Math.max(1, Math.min(4, scale));
+        setZoom(newZoom);
+
+        // Adjust offset to zoom towards pinch center
+        if (newZoom === 1) {
+          setOffset({ x: 0, y: 0 });
         }
-      }
+      },
+
+      // Drag to pan when zoomed, or swipe when not zoomed
+      onDrag: ({
+        movement: [mx, my],
+        direction: [xDir],
+        distance,
+        tap,
+        cancel,
+      }) => {
+        if (tap && tap === 2) {
+          // Double tap detected
+          handleDoubleClick();
+          return;
+        }
+
+        if (zoom > 1) {
+          // Pan when zoomed in
+          setOffset((prev) => ({
+            x: prev.x + mx,
+            y: prev.y + my,
+          }));
+        } else if (distance > 50) {
+          // Swipe when not zoomed
+          cancel();
+          if (Math.abs(xDir) > 0.5) {
+            // Ensure it's a horizontal swipe
+            if (xDir > 0) {
+              handlePrev(); // Swipe right = previous image
+            } else {
+              handleNext(); // Swipe left = next image
+            }
+          }
+        }
+      },
+
+      // Wheel zoom for desktop
+      onWheel: ({ delta: [, dy], ctrlKey }) => {
+        if (ctrlKey) {
+          const newZoom = Math.max(1, Math.min(4, zoom - dy * 0.01));
+          setZoom(newZoom);
+          if (newZoom === 1) {
+            setOffset({ x: 0, y: 0 });
+          }
+        }
+      },
     },
     {
-      axis: "x", // Only horizontal swipes
-      filterTaps: true, // Ignore tap gestures
-      threshold: 10, // Minimum movement to start gesture
-      rubberband: true, // Smooth resistance at edges
+      drag: {
+        threshold: zoom > 1 ? 0 : 10, // Lower threshold when zoomed for better panning
+        filterTaps: zoom <= 1, // Only filter taps when not zoomed
+      },
+      pinch: {
+        scaleBounds: { min: 1, max: 4 },
+        rubberband: true,
+      },
     }
   );
 
@@ -267,6 +335,33 @@ export default function ProjectPage({ project, projects }) {
           >
             ×
           </button>
+
+          {/* Zoom controls and indicator */}
+          {zoom > 1 && (
+            <div className="absolute top-4 left-4 z-50 flex flex-col items-start space-y-2">
+              <div className="bg-black bg-opacity-50 text-white px-3 py-1 rounded text-sm">
+                {Math.round(zoom * 100)}%
+              </div>
+              <button
+                onClick={() => {
+                  setZoom(1);
+                  setOffset({ x: 0, y: 0 });
+                }}
+                className="bg-black bg-opacity-50 text-white px-3 py-1 rounded text-sm hover:bg-opacity-75 transition-colors"
+              >
+                Reset Zoom
+              </button>
+            </div>
+          )}
+
+          {/* Instructions overlay */}
+          {zoom === 1 && (
+            <div className="absolute bottom-16 md:bottom-20 left-1/2 transform -translate-x-1/2 z-40 text-center">
+              <div className="bg-black bg-opacity-50 text-white px-4 py-2 rounded text-xs md:text-sm">
+                Double tap or pinch to zoom • Swipe to navigate
+              </div>
+            </div>
+          )}
           <button
             onClick={handlePrev}
             className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 text-white text-6xl md:text-8xl z-50 hover:text-gray-300 transition-colors"
@@ -276,16 +371,28 @@ export default function ProjectPage({ project, projects }) {
 
           {/* Image container - full screen on mobile, 3/4 size on desktop */}
           <div
-            className="relative w-full h-full md:w-3/4 md:h-3/4 bg-transparent flex items-center justify-center touch-pan-x"
+            className="relative w-full h-full md:w-3/4 md:h-3/4 bg-transparent flex items-center justify-center overflow-hidden"
             {...bind()}
+            style={{ touchAction: zoom > 1 ? "none" : "pan-x" }}
           >
-            <Image
-              src={`https:${image[selectedImage].fields.file.url}`}
-              alt={title}
-              fill
-              style={{ objectFit: "contain" }}
-              className="object-contain select-none"
-            />
+            <div
+              className="relative w-full h-full"
+              style={{
+                transform: `scale(${zoom}) translate(${offset.x / zoom}px, ${
+                  offset.y / zoom
+                }px)`,
+                transition: zoom === 1 ? "transform 0.3s ease-out" : "none",
+              }}
+            >
+              <Image
+                src={`https:${image[selectedImage].fields.file.url}`}
+                alt={title}
+                fill
+                style={{ objectFit: "contain" }}
+                className="object-contain select-none"
+                onDoubleClick={handleDoubleClick}
+              />
+            </div>
           </div>
 
           {/* Image info - positioned at bottom with responsive sizing */}
