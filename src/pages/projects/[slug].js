@@ -258,12 +258,14 @@ export default function ProjectPage({ project, projects }) {
           </button>
           <button
             onClick={handlePrev}
-            className="absolute left-4 text-white text-8xl z-50 hover:text-gray-300 transition-colors"
+            className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 text-white text-6xl md:text-8xl z-50 hover:text-gray-300 transition-colors"
           >
             ‹
           </button>
+
+          {/* Image container - full screen on mobile, 3/4 size on desktop */}
           <div
-            className="relative w-3/4 h-3/4 pb-2 bg-transparent flex items-center justify-center"
+            className="relative w-full h-full md:w-3/4 md:h-3/4 bg-transparent flex items-center justify-center touch-pan-x"
             {...bind()}
           >
             <Image
@@ -271,21 +273,23 @@ export default function ProjectPage({ project, projects }) {
               alt={title}
               fill
               style={{ objectFit: "contain" }}
-              className="object-contain"
+              className="object-contain select-none"
             />
           </div>
 
-          <div className="absolute bottom-7 text-center z-50  p-4 rounded">
-            <h2 className="prose prose-lg pt-4 text-white">
+          {/* Image info - positioned at bottom with responsive sizing */}
+          <div className="absolute bottom-4 md:bottom-7 left-4 right-4 md:left-1/2 md:right-auto md:transform md:-translate-x-1/2 z-50 p-4 rounded max-w-md">
+            <h2 className="prose prose-base md:prose-lg pt-2 md:pt-4 text-white text-center">
               {image[selectedImage].fields.title}
             </h2>
-            <p className="prose prose-sm text-gray-300">
+            <p className="prose prose-xs md:prose-sm text-gray-300 text-center">
               {image[selectedImage].fields.description}
             </p>
           </div>
+
           <button
             onClick={handleNext}
-            className="absolute right-4 text-white text-8xl z-50 hover:text-gray-300 transition-colors"
+            className="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 text-white text-6xl md:text-8xl z-50 hover:text-gray-300 transition-colors"
           >
             ›
           </button>
