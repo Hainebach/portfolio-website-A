@@ -1,9 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
 import { fetchEntries } from "../../../lib/contentful";
-import { useDrag, usePinch, useGesture } from "@use-gesture/react";
 import Image from "next/image";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import Link from "next/link";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Zoom, Keyboard } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/zoom";
 
 // Component for collapsible description text
 function CollapsibleDescription({ description }) {
@@ -115,139 +119,25 @@ export default function ProjectPage({ project, projects }) {
   const { title, image, year, technique, description, link, linkTitle } =
     project.fields;
   const [selectedImage, setSelectedImage] = useState(null);
-  const [zoom, setZoom] = useState(1);
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [swiperRef, setSwiperRef] = useState(null);
 
   const handleClick = (index) => {
     setSelectedImage(index);
     document.body.classList.add("modal-open");
+    // Navigate to the selected slide when Swiper is available
+    setTimeout(() => {
+      if (swiperRef) {
+        swiperRef.slideTo(index);
+      }
+    }, 100);
   };
 
   const handleClose = () => {
     setSelectedImage(null);
-    setZoom(1);
-    setOffset({ x: 0, y: 0 });
     document.body.classList.remove("modal-open");
   };
 
-  const handleNext = useCallback(() => {
-    setSelectedImage((prevIndex) => (prevIndex + 1) % image.length);
-    setZoom(1);
-    setOffset({ x: 0, y: 0 });
-  }, [image.length]);
-
-  const handlePrev = useCallback(() => {
-    setSelectedImage(
-      (prevIndex) => (prevIndex - 1 + image.length) % image.length
-    );
-    setZoom(1);
-    setOffset({ x: 0, y: 0 });
-  }, [image.length]);
-
-  useEffect(() => {
-    const handleKeyDown = (event) => {
-      if (selectedImage !== null) {
-        switch (event.key) {
-          case "ArrowRight":
-            handleNext();
-            break;
-          case "ArrowLeft":
-            handlePrev();
-            break;
-          case "Escape":
-            handleClose();
-            break;
-          default:
-            break;
-        }
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [selectedImage, handleNext, handlePrev]);
-
-  // Double tap to zoom
-  const handleDoubleClick = useCallback(() => {
-    if (zoom > 1) {
-      setZoom(1);
-      setOffset({ x: 0, y: 0 });
-    } else {
-      setZoom(2);
-    }
-  }, [zoom]);
-
-  // Comprehensive gesture binding for zoom, pan, and swipe
-  const bind = useGesture(
-    {
-      // Pinch to zoom
-      onPinch: ({ offset: [scale], origin: [ox, oy] }) => {
-        const newZoom = Math.max(1, Math.min(4, scale));
-        setZoom(newZoom);
-
-        // Adjust offset to zoom towards pinch center
-        if (newZoom === 1) {
-          setOffset({ x: 0, y: 0 });
-        }
-      },
-
-      // Drag to pan when zoomed, or swipe when not zoomed
-      onDrag: ({
-        movement: [mx, my],
-        direction: [xDir],
-        distance,
-        tap,
-        cancel,
-      }) => {
-        if (tap && tap === 2) {
-          // Double tap detected
-          handleDoubleClick();
-          return;
-        }
-
-        if (zoom > 1) {
-          // Pan when zoomed in
-          setOffset((prev) => ({
-            x: prev.x + mx,
-            y: prev.y + my,
-          }));
-        } else if (distance > 50) {
-          // Swipe when not zoomed
-          cancel();
-          if (Math.abs(xDir) > 0.5) {
-            // Ensure it's a horizontal swipe
-            if (xDir > 0) {
-              handlePrev(); // Swipe right = previous image
-            } else {
-              handleNext(); // Swipe left = next image
-            }
-          }
-        }
-      },
-
-      // Wheel zoom for desktop
-      onWheel: ({ delta: [, dy], ctrlKey }) => {
-        if (ctrlKey) {
-          const newZoom = Math.max(1, Math.min(4, zoom - dy * 0.01));
-          setZoom(newZoom);
-          if (newZoom === 1) {
-            setOffset({ x: 0, y: 0 });
-          }
-        }
-      },
-    },
-    {
-      drag: {
-        threshold: zoom > 1 ? 0 : 10, // Lower threshold when zoomed for better panning
-        filterTaps: zoom <= 1, // Only filter taps when not zoomed
-      },
-      pinch: {
-        scaleBounds: { min: 1, max: 4 },
-        rubberband: true,
-      },
-    }
-  );
+  // Keyboard navigation handled by Swiper
 
   return (
     <>
@@ -322,13 +212,10 @@ export default function ProjectPage({ project, projects }) {
         </div>
       </div>
 
-      {/* Modal for enlarged image view */}
+      {/* Swiper Modal for enlarged image view */}
       {selectedImage !== null && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div
-            className="absolute inset-0 bg-black bg-opacity-75"
-            onClick={handleClose}
-          ></div>
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-80">
+          {/* Close button */}
           <button
             onClick={handleClose}
             className="absolute top-4 right-4 text-white text-4xl z-50 hover:text-gray-300 transition-colors"
@@ -336,79 +223,62 @@ export default function ProjectPage({ project, projects }) {
             ×
           </button>
 
-          {/* Zoom controls and indicator */}
-          {zoom > 1 && (
-            <div className="absolute top-4 left-4 z-50 flex flex-col items-start space-y-2">
-              <div className="bg-black bg-opacity-50 text-white px-3 py-1 rounded text-sm">
-                {Math.round(zoom * 100)}%
-              </div>
-              <button
-                onClick={() => {
-                  setZoom(1);
-                  setOffset({ x: 0, y: 0 });
-                }}
-                className="bg-black bg-opacity-50 text-white px-3 py-1 rounded text-sm hover:bg-opacity-75 transition-colors"
-              >
-                Reset Zoom
-              </button>
-            </div>
-          )}
-
-          {/* Instructions overlay */}
-          {zoom === 1 && (
-            <div className="absolute bottom-16 md:bottom-20 left-1/2 transform -translate-x-1/2 z-40 text-center">
-              <div className="bg-black bg-opacity-50 text-white px-4 py-2 rounded text-xs md:text-sm">
-                Double tap or pinch to zoom • Swipe to navigate
-              </div>
-            </div>
-          )}
-          <button
-            onClick={handlePrev}
-            className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 text-white text-6xl md:text-8xl z-50 hover:text-gray-300 transition-colors"
+          {/* Swiper carousel */}
+          <Swiper
+            modules={[Navigation, Zoom, Keyboard]}
+            initialSlide={selectedImage}
+            spaceBetween={0}
+            slidesPerView={1}
+            zoom={{
+              maxRatio: 4,
+              minRatio: 1,
+            }}
+            keyboard={{
+              enabled: true,
+              onlyInViewport: false,
+            }}
+            navigation={{
+              nextEl: ".swiper-button-next-custom",
+              prevEl: ".swiper-button-prev-custom",
+            }}
+            onSwiper={setSwiperRef}
+            className="w-full h-full"
           >
+            {image.map((img, index) => (
+              <SwiperSlide
+                key={index}
+                className="flex items-center justify-center"
+              >
+                <div className="swiper-zoom-container w-full h-full flex items-center justify-center">
+                  <Image
+                    src={`https:${img.fields.file.url}`}
+                    alt={img.fields.title || title}
+                    fill
+                    style={{ objectFit: "contain" }}
+                    className="object-contain"
+                  />
+                </div>
+
+                {/* Image info overlay */}
+                <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 text-center max-w-md px-4">
+                  <h2 className="text-white text-lg md:text-xl font-bold mb-2">
+                    {img.fields.title}
+                  </h2>
+                  {img.fields.description && (
+                    <p className="text-gray-300 text-sm md:text-base">
+                      {img.fields.description}
+                    </p>
+                  )}
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+
+          {/* Custom navigation buttons */}
+          <button className="swiper-button-prev-custom absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-6xl md:text-8xl z-50 hover:text-gray-300 transition-colors">
             ‹
           </button>
-
-          {/* Image container - full screen on mobile, 3/4 size on desktop */}
-          <div
-            className="relative w-full h-full md:w-3/4 md:h-3/4 bg-transparent flex items-center justify-center overflow-hidden"
-            {...bind()}
-            style={{ touchAction: zoom > 1 ? "none" : "pan-x" }}
-          >
-            <div
-              className="relative w-full h-full"
-              style={{
-                transform: `scale(${zoom}) translate(${offset.x / zoom}px, ${
-                  offset.y / zoom
-                }px)`,
-                transition: zoom === 1 ? "transform 0.3s ease-out" : "none",
-              }}
-            >
-              <Image
-                src={`https:${image[selectedImage].fields.file.url}`}
-                alt={title}
-                fill
-                style={{ objectFit: "contain" }}
-                className="object-contain select-none"
-                onDoubleClick={handleDoubleClick}
-              />
-            </div>
-          </div>
-
-          {/* Image info - positioned at bottom with responsive sizing */}
-          <div className="absolute bottom-4 md:bottom-7 left-4 right-4 md:left-1/2 md:right-auto md:transform md:-translate-x-1/2 z-50 p-4 rounded max-w-md">
-            <h2 className="prose prose-base md:prose-lg pt-2 md:pt-4 text-white text-center">
-              {image[selectedImage].fields.title}
-            </h2>
-            <p className="prose prose-xs md:prose-sm text-gray-300 text-center">
-              {image[selectedImage].fields.description}
-            </p>
-          </div>
-
-          <button
-            onClick={handleNext}
-            className="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 text-white text-6xl md:text-8xl z-50 hover:text-gray-300 transition-colors"
-          >
+          <button className="swiper-button-next-custom absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-6xl md:text-8xl z-50 hover:text-gray-300 transition-colors">
             ›
           </button>
         </div>
