@@ -160,15 +160,26 @@ export default function ProjectPage({ project, projects }) {
     };
   }, [selectedImage, handleNext, handlePrev]);
 
-  const bind = useDrag(({ direction: [xDir], distance, velocity }) => {
-    if (velocity > 0.2) {
-      if (xDir > 0) {
-        handlePrev();
-      } else if (xDir < 0) {
-        handleNext();
+  // Gesture binding for swipe functionality
+  const bind = useDrag(
+    ({ movement: [mx], direction: [xDir], distance, cancel }) => {
+      // Only trigger on significant horizontal movement
+      if (distance > 50) {
+        cancel();
+        if (xDir > 0) {
+          handlePrev(); // Swipe right = previous image
+        } else {
+          handleNext(); // Swipe left = next image
+        }
       }
+    },
+    {
+      axis: "x", // Only horizontal swipes
+      filterTaps: true, // Ignore tap gestures
+      threshold: 10, // Minimum movement to start gesture
+      rubberband: true, // Smooth resistance at edges
     }
-  });
+  );
 
   return (
     <>
