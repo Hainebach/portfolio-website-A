@@ -132,12 +132,39 @@ export default function ProjectPage({ project, projects }) {
     }, 100);
   };
 
-  const handleClose = () => {
-    setSelectedImage(null);
-    document.body.classList.remove("modal-open");
-  };
+  const handleClose = useCallback(() => {
+    console.log("handleClose called"); // Debug log
+    console.log("Current selectedImage:", selectedImage); // Debug log
 
-  // Keyboard navigation handled by Swiper
+    // Temporarily disable swiper events to prevent interference
+    if (swiperRef) {
+      console.log("Disabling swiper events"); // Debug log
+      swiperRef.off("slideChange");
+    }
+
+    setSelectedImage(null);
+    console.log("setSelectedImage(null) called"); // Debug log
+    document.body.classList.remove("modal-open");
+  }, [selectedImage, swiperRef]);
+
+  // Add Escape key support
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      console.log("Key pressed:", event.key, "selectedImage:", selectedImage); // Debug log
+      if (event.key === "Escape" && selectedImage !== null) {
+        console.log("Escape key handler firing"); // Debug log
+        handleClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [selectedImage, handleClose]);
+
+  // Debug log for selectedImage state
+  console.log("Component render - selectedImage:", selectedImage);
 
   return (
     <>
@@ -214,73 +241,126 @@ export default function ProjectPage({ project, projects }) {
 
       {/* Swiper Modal for enlarged image view */}
       {selectedImage !== null && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-80">
+        <div
+          className="fixed inset-0 z-50 bg-black bg-opacity-80 flex items-center justify-center"
+          onClick={(e) => {
+            console.log("Background clicked", e.target); // Debug log
+            console.log("Event currentTarget:", e.currentTarget); // Debug log
+            if (e.target === e.currentTarget) {
+              console.log("Target matches currentTarget, calling handleClose"); // Debug log
+              handleClose();
+            } else {
+              console.log("Target does not match currentTarget, not closing"); // Debug log
+            }
+          }}
+        >
           {/* Close button */}
           <button
-            onClick={handleClose}
+            onClick={(e) => {
+              console.log("Close button clicked"); // Debug log
+              e.preventDefault();
+              e.stopPropagation();
+              handleClose();
+            }}
             className="absolute top-4 right-4 text-white text-4xl z-50 hover:text-gray-300 transition-colors"
           >
             ×
           </button>
 
-          {/* Swiper carousel */}
-          <Swiper
-            modules={[Navigation, Zoom, Keyboard]}
-            initialSlide={selectedImage}
-            spaceBetween={0}
-            slidesPerView={1}
-            zoom={{
-              maxRatio: 4,
-              minRatio: 1,
-            }}
-            keyboard={{
-              enabled: true,
-              onlyInViewport: false,
-            }}
-            navigation={{
-              nextEl: ".swiper-button-next-custom",
-              prevEl: ".swiper-button-prev-custom",
-            }}
-            onSwiper={setSwiperRef}
-            className="w-full h-full"
+          {/* Modal content wrapper */}
+          <div
+            className="relative w-full h-full max-w-[95vw] max-h-[95vh] flex items-center justify-center"
+            onClick={(e) => e.stopPropagation()}
           >
-            {image.map((img, index) => (
-              <SwiperSlide
-                key={index}
-                className="flex items-center justify-center"
-              >
-                <div className="swiper-zoom-container w-full h-full flex items-center justify-center">
-                  <Image
-                    src={`https:${img.fields.file.url}`}
-                    alt={img.fields.title || title}
-                    fill
-                    style={{ objectFit: "contain" }}
-                    className="object-contain"
-                  />
-                </div>
+            {/* Swiper carousel */}
+            <Swiper
+              modules={[Navigation, Zoom, Keyboard]}
+              initialSlide={selectedImage}
+              spaceBetween={0}
+              slidesPerView={1}
+              loop={true}
+              zoom={{
+                maxRatio: 4,
+                minRatio: 1,
+              }}
+              keyboard={{
+                enabled: true,
+                onlyInViewport: false,
+                pageUpDown: false,
+              }}
+              navigation={{
+                nextEl: ".swiper-button-next-custom",
+                prevEl: ".swiper-button-prev-custom",
+              }}
+              onSwiper={setSwiperRef}
+              onSlideChange={(swiper) => {
+                console.log(
+                  "Swiper onSlideChange fired, realIndex:",
+                  swiper.realIndex,
+                  "selectedImage:",
+                  selectedImage
+                ); // Debug log
+                if (selectedImage !== null) {
+                  setSelectedImage(swiper.realIndex);
+                }
+              }}
+              className="w-full h-full
+                md:!w-[90vw] md:!h-[85vh] md:!max-w-[90vw] md:!max-h-[85vh]
+                lg:!w-[94vw] lg:!h-[90vh] lg:!max-w-[94vw] lg:!max-h-[90vh]  
+                xl:!w-[96vw] xl:!h-[92vh] xl:!max-w-[96vw] xl:!max-h-[92vh]"
+            >
+              {image.map((img, index) => (
+                <SwiperSlide
+                  key={index}
+                  className="flex items-center justify-center"
+                >
+                  <div
+                    className="swiper-zoom-container flex items-center justify-center 
+                    h-full w-full
+                    md:!h-[85vh] md:!w-[90vw]
+                    lg:!h-[90vh] lg:!w-[94vw]
+                    xl:!h-[92vh] xl:!w-[96vw]"
+                  >
+                    <Image
+                      src={`https:${img.fields.file.url}`}
+                      alt={img.fields.title || title}
+                      width={img.fields.file.details.image.width}
+                      height={img.fields.file.details.image.height}
+                      style={{
+                        objectFit: "contain",
+                        maxWidth: "100vw",
+                        maxHeight: "100vh",
+                      }}
+                      className="object-contain !max-w-full !max-h-full
+                        md:!max-w-[90%] md:!max-h-[85%]
+                        lg:!max-w-[94%] lg:!max-h-[90%]
+                        xl:!max-w-[96%] xl:!max-h-[92%]"
+                    />
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
 
-                {/* Image info overlay */}
-                <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 text-center max-w-md px-4">
-                  <h2 className="text-white text-lg md:text-xl font-bold mb-2">
-                    {img.fields.title}
-                  </h2>
-                  {img.fields.description && (
-                    <p className="text-gray-300 text-sm md:text-base">
-                      {img.fields.description}
-                    </p>
-                  )}
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+            {/* Title positioned with generous bottom margin */}
+            <div className="absolute bottom-6 md:bottom-12 lg:bottom-16 xl:bottom-20 left-1/2 transform -translate-x-1/2 text-center max-w-sm md:max-w-md lg:max-w-lg px-4 z-50">
+              <h2 className="text-white text-sm md:text-lg lg:text-xl xl:text-2xl font-normal mb-1">
+                {image[selectedImage]?.fields?.title}
+              </h2>
+              {image[selectedImage]?.fields?.description && (
+                <p className="text-gray-300 text-xs md:text-sm lg:text-base xl:text-lg">
+                  {image[selectedImage].fields.description}
+                </p>
+              )}
+            </div>
 
-          {/* Custom navigation buttons */}
-          <button className="swiper-button-prev-custom absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-6xl md:text-8xl z-50 hover:text-gray-300 transition-colors">
-            ‹
-          </button>
-          <button className="swiper-button-next-custom absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-6xl md:text-8xl z-50 hover:text-gray-300 transition-colors">
-            ›
-          </button>
+            {/* Custom navigation buttons - hidden on mobile, extra large for visibility */}
+            <button className="swiper-button-prev-custom hidden md:block absolute left-1 md:left-2 lg:left-4 xl:left-6 top-1/2 transform -translate-y-1/2 text-white text-6xl md:text-8xl lg:text-9xl xl:text-[10rem] z-50 hover:text-gray-300 transition-colors">
+              ‹
+            </button>
+            <button className="swiper-button-next-custom hidden md:block absolute right-1 md:right-2 lg:right-4 xl:right-6 top-1/2 transform -translate-y-1/2 text-white text-6xl md:text-8xl lg:text-9xl xl:text-[10rem] z-50 hover:text-gray-300 transition-colors">
+              ›
+            </button>
+          </div>
         </div>
       )}
     </>
