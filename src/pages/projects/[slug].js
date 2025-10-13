@@ -282,7 +282,7 @@ export default function ProjectPage({ project, projects }) {
               <div className="relative flex-1 flex items-center justify-center md:grid md:grid-cols-[minmax(2.5rem,8vw)_minmax(0,1fr)_minmax(2.5rem,8vw)] md:items-center md:gap-2">
                 {/* Custom navigation buttons - hidden on mobile, anchored in side gutters on desktop */}
                 <button
-                  className="swiper-button-prev-custom hidden md:flex absolute md:static left-2 top-1/2 -translate-y-1/2 text-white text-5xl sm:text-6xl md:col-start-1 md:col-end-2 md:justify-center md:items-center md:h-full md:text-6xl lg:text-7xl xl:text-[8rem] md:transform-none z-50 hover:text-gray-300 transition-colors"
+                  className="swiper-button-prev-custom hidden md:flex absolute md:static left-2 top-1/2 -translate-y-1/2 text-white text-5xl sm:text-6xl md:col-start-1 md:col-end-2 md:justify-center md:items-center md:h-full md:text-7xl lg:text-8xl xl:text-[9rem] 2xl:text-[10rem] md:transform-none z-50 hover:text-gray-300 transition-colors"
                   onClick={(e) => {
                     console.log("Previous button clicked"); // Debug log
                     e.stopPropagation();
@@ -454,7 +454,7 @@ export default function ProjectPage({ project, projects }) {
                 </Swiper>
 
                 <button
-                  className="swiper-button-next-custom hidden md:flex absolute md:static right-2 top-1/2 -translate-y-1/2 text-white text-5xl sm:text-6xl md:col-start-3 md:col-end-4 md:justify-center md:items-center md:h-full md:text-6xl lg:text-7xl xl:text-[8rem] md:transform-none z-50 hover:text-gray-300 transition-colors"
+                  className="swiper-button-next-custom hidden md:flex absolute md:static right-2 top-1/2 -translate-y-1/2 text-white text-5xl sm:text-6xl md:col-start-3 md:col-end-4 md:justify-center md:items-center md:h-full md:text-7xl lg:text-8xl xl:text-[9rem] 2xl:text-[10rem] md:transform-none z-50 hover:text-gray-300 transition-colors"
                   onClick={(e) => {
                     console.log("Next button clicked"); // Debug log
                     e.stopPropagation();
