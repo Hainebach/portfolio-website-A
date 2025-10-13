@@ -80,7 +80,7 @@ export default function App({ Component, pageProps }) {
           {isPreviewEnv && (
             <div
               aria-label="Preview environment"
-              className="fixed bottom-3 right-3 z-[1000] select-none rounded-md bg-black/60 px-2.5 py-1.5 text-xs font-medium text-white backdrop-blur-sm shadow-md"
+              className="fixed right-3 bottom-16 md:bottom-6 z-[9999] pointer-events-none select-none rounded-md bg-black/60 px-2.5 py-1.5 text-xs font-medium text-white backdrop-blur-sm shadow-md"
             >
               Preview
             </div>
