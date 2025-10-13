@@ -170,7 +170,10 @@ export default function ProjectPage({ project, projects }) {
     <>
       <div className="page-content flex flex-col md:flex-row min-h-screen pb-16">
         {/* Text section - Full width on mobile, 1/3 on desktop */}
-        <div className="w-full md:w-1/3 p-8 pl-0 bg-backgroundColor md:sticky md:top-0 md:h-screen md:overflow-y-auto">
+        <div
+          className="w-full md:w-1/3 p-8 pl-0 bg-backgroundColor md:sticky md:top-0 md:h-screen md:overflow-y-auto"
+          data-scroll-top-target="true"
+        >
           <div className="mb-6">
             <Link
               href="/work"

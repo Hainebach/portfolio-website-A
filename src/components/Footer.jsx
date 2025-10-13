@@ -55,7 +55,24 @@ export default function Footer() {
 
   const backToTop = () => {
     console.log("Back to top button clicked");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    if (typeof document !== "undefined") {
+      const scrollTargets = document.querySelectorAll(
+        "[data-scroll-top-target]"
+      );
+
+      scrollTargets.forEach((target) => {
+        if (typeof target.scrollTo === "function") {
+          target.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+          target.scrollTop = 0;
+        }
+      });
+    }
   };
 
   return (
