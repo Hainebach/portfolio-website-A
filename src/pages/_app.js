@@ -53,10 +53,18 @@ export default function App({ Component, pageProps }) {
   // Use page-specific metadata if available, otherwise use global metadata
   const metadata = pageProps.metadata || globalMetadata;
 
+  // If running on Vercel preview, ensure we don't get indexed
+  const isPreviewEnv = process.env.VERCEL_ENV === "preview";
+  const effectiveMetadata = metadata
+    ? { ...metadata, noIndex: Boolean(metadata.noIndex) || isPreviewEnv }
+    : null;
+
   return (
     <div>
       {/* Global SEO - will be overridden by page-specific SEO if present */}
-      {metadata && !pageProps.metadata && <SEOHead metadata={metadata} />}
+      {effectiveMetadata && !pageProps.metadata && (
+        <SEOHead metadata={effectiveMetadata} />
+      )}
 
       <AnimatePresence mode="wait">
         <div key={router.route}>
@@ -69,6 +77,14 @@ export default function App({ Component, pageProps }) {
             </Container>
           )}
           {!isIndexPage && <Footer />}
+          {isPreviewEnv && (
+            <div
+              aria-label="Preview environment"
+              className="fixed right-3 bottom-16 md:bottom-6 z-[9999] pointer-events-none select-none rounded-md bg-black/60 px-2.5 py-1.5 text-xs font-medium text-white backdrop-blur-sm shadow-md"
+            >
+              Preview
+            </div>
+          )}
         </div>
       </AnimatePresence>
     </div>
