@@ -53,10 +53,18 @@ export default function App({ Component, pageProps }) {
   // Use page-specific metadata if available, otherwise use global metadata
   const metadata = pageProps.metadata || globalMetadata;
 
+  // If running on Vercel preview, ensure we don't get indexed
+  const isPreviewEnv = process.env.VERCEL_ENV === "preview";
+  const effectiveMetadata = metadata
+    ? { ...metadata, noIndex: Boolean(metadata.noIndex) || isPreviewEnv }
+    : null;
+
   return (
     <div>
       {/* Global SEO - will be overridden by page-specific SEO if present */}
-      {metadata && !pageProps.metadata && <SEOHead metadata={metadata} />}
+      {effectiveMetadata && !pageProps.metadata && (
+        <SEOHead metadata={effectiveMetadata} />
+      )}
 
       <AnimatePresence mode="wait">
         <div key={router.route}>
