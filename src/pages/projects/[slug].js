@@ -269,7 +269,7 @@ export default function ProjectPage({ project, projects }) {
 
           {/* Modal content wrapper */}
           <div
-            className="relative w-full h-full max-w-[95vw] max-h-[95vh] flex items-center justify-center"
+            className="relative w-full h-full max-w-[98vw] max-h-[96vh] flex items-center justify-center"
             onClick={(e) => {
               console.log("Modal content wrapper clicked", e.target); // Debug log
               // Close if clicking on the wrapper itself (not its children)
@@ -278,75 +278,54 @@ export default function ProjectPage({ project, projects }) {
               }
             }}
           >
-            {/* Swiper carousel */}
-            <Swiper
-              modules={[Navigation, Zoom, Keyboard]}
-              initialSlide={selectedImage}
-              spaceBetween={0}
-              slidesPerView={1}
-              loop={true}
-              zoom={{
-                maxRatio: 4,
-                minRatio: 1,
-              }}
-              keyboard={{
-                enabled: true,
-                onlyInViewport: false,
-                pageUpDown: false,
-              }}
-              navigation={{
-                nextEl: ".swiper-button-next-custom",
-                prevEl: ".swiper-button-prev-custom",
-              }}
-              onSwiper={setSwiperRef}
-              onSlideChange={(swiper) => {
-                console.log(
-                  "Swiper onSlideChange fired, realIndex:",
-                  swiper.realIndex,
-                  "selectedImage:",
-                  selectedImage
-                ); // Debug log
-                if (selectedImage !== null) {
-                  setSelectedImage(swiper.realIndex);
-                }
-              }}
-              onClick={(e) => {
-                console.log("Swiper clicked", e.target); // Debug log
-                // Check if the click is outside the image
-                const target = e.target;
-                if (!target) return; // Safety check
-
-                const isImage =
-                  (target.tagName && target.tagName === "IMG") ||
-                  (target.closest && target.closest("img"));
-                const isPrevButton =
-                  (target.classList &&
-                    target.classList.contains("swiper-button-prev-custom")) ||
-                  (target.closest &&
-                    target.closest(".swiper-button-prev-custom"));
-                const isNextButton =
-                  (target.classList &&
-                    target.classList.contains("swiper-button-next-custom")) ||
-                  (target.closest &&
-                    target.closest(".swiper-button-next-custom"));
-
-                if (!isImage && !isPrevButton && !isNextButton) {
-                  console.log("Clicked outside image, closing modal"); // Debug log
-                  handleClose();
-                }
-              }}
-              className="w-full h-full
-                md:!w-[90vw] md:!h-[85vh] md:!max-w-[90vw] md:!max-h-[85vh]
-                lg:!w-[94vw] lg:!h-[90vh] lg:!max-w-[94vw] lg:!max-h-[90vh]  
-                xl:!w-[96vw] xl:!h-[92vh] xl:!max-w-[96vw] xl:!max-h-[92vh]"
-            >
-              {image.map((img, index) => (
-                <SwiperSlide
-                  key={index}
-                  className="flex items-center justify-center"
+            <div className="w-full h-full flex flex-col md:grid md:grid-rows-[minmax(0,1fr)_auto] md:gap-4">
+              <div className="relative flex-1 flex items-center justify-center md:grid md:grid-cols-[minmax(2.5rem,8vw)_minmax(0,1fr)_minmax(2.5rem,8vw)] md:items-center md:gap-2">
+                {/* Custom navigation buttons - hidden on mobile, anchored in side gutters on desktop */}
+                <button
+                  className="swiper-button-prev-custom hidden md:flex absolute md:static left-2 top-1/2 -translate-y-1/2 text-white text-5xl sm:text-6xl md:col-start-1 md:col-end-2 md:justify-center md:items-center md:h-full md:text-6xl lg:text-7xl xl:text-[8rem] md:transform-none z-50 hover:text-gray-300 transition-colors"
                   onClick={(e) => {
-                    console.log("SwiperSlide clicked", e.target); // Debug log
-                    // Close if clicking on the slide but not on the image or navigation
+                    console.log("Previous button clicked"); // Debug log
+                    e.stopPropagation();
+                  }}
+                >
+                  ‹
+                </button>
+
+                {/* Swiper carousel */}
+                <Swiper
+                  modules={[Navigation, Zoom, Keyboard]}
+                  initialSlide={selectedImage}
+                  spaceBetween={0}
+                  slidesPerView={1}
+                  loop={true}
+                  zoom={{
+                    maxRatio: 4,
+                    minRatio: 1,
+                  }}
+                  keyboard={{
+                    enabled: true,
+                    onlyInViewport: false,
+                    pageUpDown: false,
+                  }}
+                  navigation={{
+                    nextEl: ".swiper-button-next-custom",
+                    prevEl: ".swiper-button-prev-custom",
+                  }}
+                  onSwiper={setSwiperRef}
+                  onSlideChange={(swiper) => {
+                    console.log(
+                      "Swiper onSlideChange fired, realIndex:",
+                      swiper.realIndex,
+                      "selectedImage:",
+                      selectedImage
+                    ); // Debug log
+                    if (selectedImage !== null) {
+                      setSelectedImage(swiper.realIndex);
+                    }
+                  }}
+                  onClick={(e) => {
+                    console.log("Swiper clicked", e.target); // Debug log
+                    // Check if the click is outside the image
                     const target = e.target;
                     if (!target) return; // Safety check
 
@@ -369,105 +348,134 @@ export default function ProjectPage({ project, projects }) {
                         target.closest(".swiper-button-next-custom"));
 
                     if (!isImage && !isPrevButton && !isNextButton) {
-                      console.log("Clicked on slide background, closing modal"); // Debug log
+                      console.log("Clicked outside image, closing modal"); // Debug log
                       handleClose();
                     }
                   }}
+                  className="w-full h-full
+                    md:col-start-2 md:col-end-3
+                    md:!w-full md:!h-full md:!max-w-full md:!max-h-[88vh]
+                    lg:!max-h-[92vh]
+                    xl:!max-h-[94vh]"
                 >
-                  <div
-                    className="swiper-zoom-container flex items-center justify-center 
-                    h-full w-full
-                    md:!h-[85vh] md:!w-[90vw]
-                    lg:!h-[90vh] lg:!w-[94vw]
-                    xl:!h-[92vh] xl:!w-[96vw]"
-                    onClick={(e) => {
-                      console.log("Zoom container clicked", e.target); // Debug log
-                      // Close if clicking on the zoom container but not on the image or navigation
-                      const target = e.target;
-                      if (!target) return; // Safety check
-
-                      const isImage =
-                        (target.tagName && target.tagName === "IMG") ||
-                        (target.closest && target.closest("img"));
-                      const isPrevButton =
-                        (target.classList &&
-                          target.classList.contains(
-                            "swiper-button-prev-custom"
-                          )) ||
-                        (target.closest &&
-                          target.closest(".swiper-button-prev-custom"));
-                      const isNextButton =
-                        (target.classList &&
-                          target.classList.contains(
-                            "swiper-button-next-custom"
-                          )) ||
-                        (target.closest &&
-                          target.closest(".swiper-button-next-custom"));
-
-                      if (!isImage && !isPrevButton && !isNextButton) {
-                        console.log(
-                          "Clicked on zoom container background, closing modal"
-                        ); // Debug log
-                        handleClose();
-                      }
-                    }}
-                  >
-                    <Image
-                      src={`https:${img.fields.file.url}`}
-                      alt={img.fields.title || title}
-                      width={img.fields.file.details.image.width}
-                      height={img.fields.file.details.image.height}
-                      style={{
-                        objectFit: "contain",
-                        maxWidth: "100vw",
-                        maxHeight: "100vh",
-                      }}
-                      className="object-contain !max-w-full !max-h-full
-                        md:!max-w-[90%] md:!max-h-[85%]
-                        lg:!max-w-[94%] lg:!max-h-[90%]
-                        xl:!max-w-[96%] xl:!max-h-[92%]"
+                  {image.map((img, index) => (
+                    <SwiperSlide
+                      key={index}
+                      className="flex items-center justify-center"
                       onClick={(e) => {
-                        console.log("Image clicked", e.target); // Debug log
-                        // Prevent closing when clicking directly on the image
-                        e.stopPropagation();
+                        console.log("SwiperSlide clicked", e.target); // Debug log
+                        // Close if clicking on the slide but not on the image or navigation
+                        const target = e.target;
+                        if (!target) return; // Safety check
+
+                        const isImage =
+                          (target.tagName && target.tagName === "IMG") ||
+                          (target.closest && target.closest("img"));
+                        const isPrevButton =
+                          (target.classList &&
+                            target.classList.contains(
+                              "swiper-button-prev-custom"
+                            )) ||
+                          (target.closest &&
+                            target.closest(".swiper-button-prev-custom"));
+                        const isNextButton =
+                          (target.classList &&
+                            target.classList.contains(
+                              "swiper-button-next-custom"
+                            )) ||
+                          (target.closest &&
+                            target.closest(".swiper-button-next-custom"));
+
+                        if (!isImage && !isPrevButton && !isNextButton) {
+                          console.log(
+                            "Clicked on slide background, closing modal"
+                          ); // Debug log
+                          handleClose();
+                        }
                       }}
-                    />
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+                    >
+                      <div
+                        className="swiper-zoom-container flex items-center justify-center 
+          h-full w-full
+          md:h-full md:w-full"
+                        onClick={(e) => {
+                          console.log("Zoom container clicked", e.target); // Debug log
+                          // Close if clicking on the zoom container but not on the image or navigation
+                          const target = e.target;
+                          if (!target) return; // Safety check
 
-            {/* Title positioned with generous bottom margin */}
-            <div className="absolute bottom-6 md:bottom-12 lg:bottom-16 xl:bottom-20 left-1/2 transform -translate-x-1/2 text-center max-w-sm md:max-w-md lg:max-w-lg px-4 z-50">
-              <h2 className="text-white text-sm md:text-lg lg:text-xl xl:text-2xl font-normal mb-1">
-                {image[selectedImage]?.fields?.title}
-              </h2>
-              {image[selectedImage]?.fields?.description && (
-                <p className="text-gray-300 text-xs md:text-sm lg:text-base xl:text-lg">
-                  {image[selectedImage].fields.description}
-                </p>
-              )}
+                          const isImage =
+                            (target.tagName && target.tagName === "IMG") ||
+                            (target.closest && target.closest("img"));
+                          const isPrevButton =
+                            (target.classList &&
+                              target.classList.contains(
+                                "swiper-button-prev-custom"
+                              )) ||
+                            (target.closest &&
+                              target.closest(".swiper-button-prev-custom"));
+                          const isNextButton =
+                            (target.classList &&
+                              target.classList.contains(
+                                "swiper-button-next-custom"
+                              )) ||
+                            (target.closest &&
+                              target.closest(".swiper-button-next-custom"));
+
+                          if (!isImage && !isPrevButton && !isNextButton) {
+                            console.log(
+                              "Clicked on zoom container background, closing modal"
+                            ); // Debug log
+                            handleClose();
+                          }
+                        }}
+                      >
+                        <Image
+                          src={`https:${img.fields.file.url}`}
+                          alt={img.fields.title || title}
+                          width={img.fields.file.details.image.width}
+                          height={img.fields.file.details.image.height}
+                          style={{
+                            objectFit: "contain",
+                            maxWidth: "100vw",
+                            maxHeight: "100vh",
+                          }}
+                          className="object-contain !max-w-full !max-h-full
+                        md:!max-w-full md:!max-h-full"
+                          onClick={(e) => {
+                            console.log("Image clicked", e.target); // Debug log
+                            // Prevent closing when clicking directly on the image
+                            e.stopPropagation();
+                          }}
+                        />
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+
+                <button
+                  className="swiper-button-next-custom hidden md:flex absolute md:static right-2 top-1/2 -translate-y-1/2 text-white text-5xl sm:text-6xl md:col-start-3 md:col-end-4 md:justify-center md:items-center md:h-full md:text-6xl lg:text-7xl xl:text-[8rem] md:transform-none z-50 hover:text-gray-300 transition-colors"
+                  onClick={(e) => {
+                    console.log("Next button clicked"); // Debug log
+                    e.stopPropagation();
+                  }}
+                >
+                  ›
+                </button>
+              </div>
+
+              {/* Title positioned below the image on desktop */}
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-center max-w-sm px-4 z-50 md:static md:bottom-auto md:left-auto md:translate-x-0 md:col-span-3 md:w-full md:max-w-3xl md:px-8 md:text-center md:mx-auto md:py-4 md:transform-none">
+                <h2 className="text-white text-sm md:text-lg lg:text-xl xl:text-2xl font-normal mb-1">
+                  {image[selectedImage]?.fields?.title}
+                </h2>
+                {image[selectedImage]?.fields?.description && (
+                  <p className="text-gray-300 text-xs md:text-sm lg:text-base xl:text-lg">
+                    {image[selectedImage].fields.description}
+                  </p>
+                )}
+              </div>
             </div>
-
-            {/* Custom navigation buttons - hidden on mobile, extra large for visibility */}
-            <button
-              className="swiper-button-prev-custom hidden md:block absolute left-1 md:left-2 lg:left-4 xl:left-6 top-1/2 transform -translate-y-1/2 text-white text-6xl md:text-8xl lg:text-9xl xl:text-[10rem] z-50 hover:text-gray-300 transition-colors"
-              onClick={(e) => {
-                console.log("Previous button clicked"); // Debug log
-                e.stopPropagation();
-              }}
-            >
-              ‹
-            </button>
-            <button
-              className="swiper-button-next-custom hidden md:block absolute right-1 md:right-2 lg:right-4 xl:right-6 top-1/2 transform -translate-y-1/2 text-white text-6xl md:text-8xl lg:text-9xl xl:text-[10rem] z-50 hover:text-gray-300 transition-colors"
-              onClick={(e) => {
-                console.log("Next button clicked"); // Debug log
-                e.stopPropagation();
-              }}
-            >
-              ›
-            </button>
           </div>
         </div>
       )}
