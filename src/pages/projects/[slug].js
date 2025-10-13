@@ -120,6 +120,7 @@ export default function ProjectPage({ project, projects }) {
     project.fields;
   const [selectedImage, setSelectedImage] = useState(null);
   const [swiperRef, setSwiperRef] = useState(null);
+  const [isMobileLandscape, setIsMobileLandscape] = useState(false);
 
   const handleClick = (index) => {
     setSelectedImage(index);
@@ -165,6 +166,23 @@ export default function ProjectPage({ project, projects }) {
 
   // Debug log for selectedImage state
   console.log("Component render - selectedImage:", selectedImage);
+
+  // Detect mobile-landscape to switch to fullscreen image without text/arrows
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const check = () => {
+      const isMobileWidth = window.innerWidth <= 767;
+      const isLandscape = window.matchMedia("(orientation: landscape)").matches;
+      setIsMobileLandscape(isMobileWidth && isLandscape);
+    };
+    check();
+    window.addEventListener("resize", check);
+    window.addEventListener("orientationchange", check);
+    return () => {
+      window.removeEventListener("resize", check);
+      window.removeEventListener("orientationchange", check);
+    };
+  }, []);
 
   return (
     <>
@@ -272,7 +290,11 @@ export default function ProjectPage({ project, projects }) {
 
           {/* Modal content wrapper */}
           <div
-            className="relative w-full h-full max-w-[98vw] max-h-[96vh] flex items-center justify-center"
+            className={`relative w-full h-full ${
+              isMobileLandscape
+                ? "max-w-[100vw] max-h-[100vh]"
+                : "max-w-[98vw] max-h-[96vh]"
+            } flex items-center justify-center`}
             onClick={(e) => {
               console.log("Modal content wrapper clicked", e.target); // Debug log
               // Close if clicking on the wrapper itself (not its children)
@@ -355,11 +377,13 @@ export default function ProjectPage({ project, projects }) {
                       handleClose();
                     }
                   }}
-                  className="w-full h-full
+                  className={`${
+                    isMobileLandscape ? "w-screen h-screen" : "w-full h-full"
+                  }
                     md:col-start-2 md:col-end-3
                     md:!w-full md:!h-full md:!max-w-full md:!max-h-[88vh]
                     lg:!max-h-[92vh]
-                    xl:!max-h-[94vh]"
+                    xl:!max-h-[94vh]`}
                 >
                   {image.map((img, index) => (
                     <SwiperSlide
@@ -398,9 +422,9 @@ export default function ProjectPage({ project, projects }) {
                       }}
                     >
                       <div
-                        className="swiper-zoom-container flex items-center justify-center 
-          h-full w-full
-          md:h-full md:w-full"
+                        className={`swiper-zoom-container flex items-center justify-center 
+          ${isMobileLandscape ? "h-screen w-screen" : "h-full w-full"}
+          md:h-full md:w-full`}
                         onClick={(e) => {
                           console.log("Zoom container clicked", e.target); // Debug log
                           // Close if clicking on the zoom container but not on the image or navigation
@@ -467,17 +491,19 @@ export default function ProjectPage({ project, projects }) {
                 </button>
               </div>
 
-              {/* Title positioned below the image on desktop */}
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-center max-w-sm px-4 z-50 md:static md:bottom-auto md:left-auto md:translate-x-0 md:col-span-3 md:w-full md:max-w-3xl md:px-8 md:text-center md:mx-auto md:py-4 md:transform-none">
-                <h2 className="text-white text-sm md:text-lg lg:text-xl xl:text-2xl font-normal mb-1">
-                  {image[selectedImage]?.fields?.title}
-                </h2>
-                {image[selectedImage]?.fields?.description && (
-                  <p className="text-gray-300 text-xs md:text-sm lg:text-base xl:text-lg">
-                    {image[selectedImage].fields.description}
-                  </p>
-                )}
-              </div>
+              {/* Title below image on desktop; hidden on small-screen landscape for fullscreen experience */}
+              {!isMobileLandscape && (
+                <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-center max-w-sm px-4 z-50 md:static md:bottom-auto md:left-auto md:translate-x-0 md:col-span-3 md:w-full md:max-w-3xl md:px-8 md:text-center md:mx-auto md:py-4 md:transform-none">
+                  <h2 className="text-white text-sm md:text-lg lg:text-xl xl:text-2xl font-normal mb-1">
+                    {image[selectedImage]?.fields?.title}
+                  </h2>
+                  {image[selectedImage]?.fields?.description && (
+                    <p className="text-gray-300 text-xs md:text-sm lg:text-base xl:text-lg">
+                      {image[selectedImage].fields.description}
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
