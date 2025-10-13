@@ -77,6 +77,14 @@ export default function App({ Component, pageProps }) {
             </Container>
           )}
           {!isIndexPage && <Footer />}
+          {isPreviewEnv && (
+            <div
+              aria-label="Preview environment"
+              className="fixed bottom-3 right-3 z-[1000] select-none rounded-md bg-black/60 px-2.5 py-1.5 text-xs font-medium text-white backdrop-blur-sm shadow-md"
+            >
+              Preview
+            </div>
+          )}
         </div>
       </AnimatePresence>
     </div>
