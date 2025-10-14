@@ -121,32 +121,44 @@ export default function ProjectPage({ project, projects }) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [swiperRef, setSwiperRef] = useState(null);
   const [isMobileLandscape, setIsMobileLandscape] = useState(false);
+  const [shouldSyncSlide, setShouldSyncSlide] = useState(false);
+
+  const syncToSlideWithoutAnimation = useCallback((instance, index) => {
+    if (!instance || index === null || typeof index === "undefined") return;
+
+    const defaultSpeed =
+      typeof instance.originalParams?.speed === "number"
+        ? instance.originalParams.speed
+        : 300;
+    const previousSpeed =
+      typeof instance.params?.speed === "number"
+        ? instance.params.speed
+        : defaultSpeed;
+
+    try {
+      instance.params.speed = 0;
+      instance.slideTo(index, undefined, false);
+      instance.updateSlidesClasses();
+    } finally {
+      instance.params.speed = previousSpeed || defaultSpeed;
+    }
+  }, []);
 
   const handleClick = (index) => {
     setSelectedImage(index);
+    setShouldSyncSlide(true);
     document.body.classList.add("modal-open");
-    // Navigate to the selected slide when Swiper is available
-    setTimeout(() => {
-      if (swiperRef) {
-        swiperRef.slideTo(index);
-      }
-    }, 100);
   };
 
   const handleClose = useCallback(() => {
     console.log("handleClose called"); // Debug log
     console.log("Current selectedImage:", selectedImage); // Debug log
 
-    // Temporarily disable swiper events to prevent interference
-    if (swiperRef) {
-      console.log("Disabling swiper events"); // Debug log
-      swiperRef.off("slideChange");
-    }
-
     setSelectedImage(null);
     console.log("setSelectedImage(null) called"); // Debug log
     document.body.classList.remove("modal-open");
-  }, [selectedImage, swiperRef]);
+    setShouldSyncSlide(false);
+  }, [selectedImage]);
 
   // Add Escape key support
   useEffect(() => {
@@ -183,6 +195,19 @@ export default function ProjectPage({ project, projects }) {
       window.removeEventListener("orientationchange", check);
     };
   }, []);
+
+  useEffect(() => {
+    if (!shouldSyncSlide) return;
+    if (selectedImage === null || !swiperRef) return;
+
+    try {
+      syncToSlideWithoutAnimation(swiperRef, selectedImage);
+    } catch (error) {
+      console.warn("Failed to sync initial slide", error);
+    } finally {
+      setShouldSyncSlide(false);
+    }
+  }, [shouldSyncSlide, selectedImage, swiperRef, syncToSlideWithoutAnimation]);
 
   return (
     <>
@@ -319,10 +344,11 @@ export default function ProjectPage({ project, projects }) {
                 {/* Swiper carousel */}
                 <Swiper
                   modules={[Navigation, Zoom, Keyboard]}
-                  initialSlide={selectedImage}
+                  initialSlide={selectedImage ?? 0}
                   spaceBetween={0}
                   slidesPerView={1}
-                  loop={true}
+                  loop={false}
+                  rewind={true}
                   zoom={{
                     maxRatio: 4,
                     minRatio: 1,
@@ -336,7 +362,19 @@ export default function ProjectPage({ project, projects }) {
                     nextEl: ".swiper-button-next-custom",
                     prevEl: ".swiper-button-prev-custom",
                   }}
-                  onSwiper={setSwiperRef}
+                  onSwiper={(instance) => {
+                    setSwiperRef(instance);
+                    if (selectedImage !== null) {
+                      try {
+                        syncToSlideWithoutAnimation(instance, selectedImage);
+                      } catch (error) {
+                        console.warn(
+                          "Initial slide sync on mount failed",
+                          error
+                        );
+                      }
+                    }
+                  }}
                   onSlideChange={(swiper) => {
                     console.log(
                       "Swiper onSlideChange fired, realIndex:",
@@ -345,7 +383,7 @@ export default function ProjectPage({ project, projects }) {
                       selectedImage
                     ); // Debug log
                     if (selectedImage !== null) {
-                      setSelectedImage(swiper.realIndex);
+                      setSelectedImage(swiper.activeIndex);
                     }
                   }}
                   onClick={(e) => {
