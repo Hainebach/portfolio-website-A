@@ -137,7 +137,11 @@ export default function ProjectPage({ project, projects }) {
 
     try {
       instance.params.speed = 0;
-      instance.slideTo(index, undefined, false);
+      if (instance.params.loop) {
+        instance.slideToLoop(index, undefined, false);
+      } else {
+        instance.slideTo(index, undefined, false);
+      }
       instance.updateSlidesClasses();
     } finally {
       instance.params.speed = previousSpeed || defaultSpeed;
@@ -347,8 +351,7 @@ export default function ProjectPage({ project, projects }) {
                   initialSlide={selectedImage ?? 0}
                   spaceBetween={0}
                   slidesPerView={1}
-                  loop={false}
-                  rewind={true}
+                  loop={true}
                   zoom={{
                     maxRatio: 4,
                     minRatio: 1,
@@ -383,7 +386,7 @@ export default function ProjectPage({ project, projects }) {
                       selectedImage
                     ); // Debug log
                     if (selectedImage !== null) {
-                      setSelectedImage(swiper.activeIndex);
+                      setSelectedImage(swiper.realIndex);
                     }
                   }}
                   onClick={(e) => {
