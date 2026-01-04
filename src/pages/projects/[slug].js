@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { fetchEntries } from "../../../lib/contentful";
 import Image from "next/image";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
@@ -86,7 +86,6 @@ function CollapsibleDescription({ description }) {
 
 export async function getStaticPaths() {
   const entries = await fetchEntries("project");
-  console.log("fetched entries: ", entries);
 
   const paths = entries.map((entry) => ({
     params: { slug: entry.fields.slug },
@@ -122,9 +121,34 @@ export default function ProjectPage({ project, projects }) {
   const [swiperRef, setSwiperRef] = useState(null);
   const [isMobileLandscape, setIsMobileLandscape] = useState(false);
   const [shouldSyncSlide, setShouldSyncSlide] = useState(false);
+  const debounceTimeoutRef = useRef(null);
+  const isModalOpenRef = useRef(false);
+  const isClosingRef = useRef(false);
+
+  const clearDebounceTimeout = useCallback(() => {
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current);
+      debounceTimeoutRef.current = null;
+    }
+  }, []);
+
+  const debouncedSetSelectedImage = useCallback(
+    (index) => {
+      // Always cancel prior scheduled update.
+      clearDebounceTimeout();
+
+      debounceTimeoutRef.current = setTimeout(() => {
+        // Guard against modal having been closed while this timeout was pending.
+        if (!isModalOpenRef.current || isClosingRef.current) return;
+        setSelectedImage(index);
+      }, 100); // 100ms debounce
+    },
+    [clearDebounceTimeout]
+  );
 
   const syncToSlideWithoutAnimation = useCallback((instance, index) => {
     if (!instance || index === null || typeof index === "undefined") return;
+    if (!instance.params) return;
 
     const defaultSpeed =
       typeof instance.originalParams?.speed === "number"
@@ -143,33 +167,68 @@ export default function ProjectPage({ project, projects }) {
         instance.slideTo(index, undefined, false);
       }
       instance.updateSlidesClasses();
+    } catch (error) {
+      console.error("Error syncing slide without animation:", error);
     } finally {
       instance.params.speed = previousSpeed || defaultSpeed;
     }
   }, []);
 
+  const syncSlide = useCallback(
+    (instance, index) => {
+      if (!instance || index === null || typeof index === "undefined") return;
+      try {
+        syncToSlideWithoutAnimation(instance, index);
+      } catch (error) {
+        console.warn("Failed to sync slide", error);
+      }
+    },
+    [syncToSlideWithoutAnimation]
+  );
+
   const handleClick = (index) => {
+    isClosingRef.current = false;
+    isModalOpenRef.current = true;
     setSelectedImage(index);
     setShouldSyncSlide(true);
     document.body.classList.add("modal-open");
   };
 
   const handleClose = useCallback(() => {
-    console.log("handleClose called"); // Debug log
-    console.log("Current selectedImage:", selectedImage); // Debug log
-
+    // Mark as closing immediately to prevent `onSlideChange` from scheduling updates.
+    isClosingRef.current = true;
+    isModalOpenRef.current = false;
+    clearDebounceTimeout();
     setSelectedImage(null);
-    console.log("setSelectedImage(null) called"); // Debug log
     document.body.classList.remove("modal-open");
     setShouldSyncSlide(false);
-  }, [selectedImage]);
+  }, [clearDebounceTimeout]);
+
+  // Keep refs in sync with state + clear any pending debounce when modal closes.
+  useEffect(() => {
+    if (selectedImage === null) {
+      isModalOpenRef.current = false;
+      isClosingRef.current = false;
+      clearDebounceTimeout();
+      document.body.classList.remove("modal-open");
+      return;
+    }
+
+    isModalOpenRef.current = true;
+    isClosingRef.current = false;
+  }, [selectedImage, clearDebounceTimeout]);
+
+  // Unmount cleanup: never leave a pending timeout behind.
+  useEffect(() => {
+    return () => {
+      clearDebounceTimeout();
+    };
+  }, [clearDebounceTimeout]);
 
   // Add Escape key support
   useEffect(() => {
     const handleKeyDown = (event) => {
-      console.log("Key pressed:", event.key, "selectedImage:", selectedImage); // Debug log
       if (event.key === "Escape" && selectedImage !== null) {
-        console.log("Escape key handler firing"); // Debug log
         handleClose();
       }
     };
@@ -179,9 +238,6 @@ export default function ProjectPage({ project, projects }) {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [selectedImage, handleClose]);
-
-  // Debug log for selectedImage state
-  console.log("Component render - selectedImage:", selectedImage);
 
   // Detect mobile-landscape to switch to fullscreen image without text/arrows
   useEffect(() => {
@@ -204,14 +260,9 @@ export default function ProjectPage({ project, projects }) {
     if (!shouldSyncSlide) return;
     if (selectedImage === null || !swiperRef) return;
 
-    try {
-      syncToSlideWithoutAnimation(swiperRef, selectedImage);
-    } catch (error) {
-      console.warn("Failed to sync initial slide", error);
-    } finally {
-      setShouldSyncSlide(false);
-    }
-  }, [shouldSyncSlide, selectedImage, swiperRef, syncToSlideWithoutAnimation]);
+    syncSlide(swiperRef, selectedImage);
+    setShouldSyncSlide(false);
+  }, [shouldSyncSlide, selectedImage, swiperRef, syncSlide]);
 
   return (
     <>
@@ -294,20 +345,14 @@ export default function ProjectPage({ project, projects }) {
         <div
           className="fixed inset-0 z-50 bg-black bg-opacity-80 flex items-center justify-center"
           onClick={(e) => {
-            console.log("Background clicked", e.target); // Debug log
-            console.log("Event currentTarget:", e.currentTarget); // Debug log
             if (e.target === e.currentTarget) {
-              console.log("Target matches currentTarget, calling handleClose"); // Debug log
               handleClose();
-            } else {
-              console.log("Target does not match currentTarget, not closing"); // Debug log
             }
           }}
         >
           {/* Close button */}
           <button
             onClick={(e) => {
-              console.log("Close button clicked"); // Debug log
               e.preventDefault();
               e.stopPropagation();
               handleClose();
@@ -325,7 +370,6 @@ export default function ProjectPage({ project, projects }) {
                 : "max-w-[98vw] max-h-[96vh]"
             } flex items-center justify-center`}
             onClick={(e) => {
-              console.log("Modal content wrapper clicked", e.target); // Debug log
               // Close if clicking on the wrapper itself (not its children)
               if (e.target === e.currentTarget) {
                 handleClose();
@@ -338,7 +382,6 @@ export default function ProjectPage({ project, projects }) {
                 <button
                   className="swiper-button-prev-custom hidden md:flex absolute md:static left-2 top-1/2 -translate-y-1/2 text-white text-5xl sm:text-6xl md:col-start-1 md:col-end-2 md:justify-center md:items-center md:h-full md:text-7xl lg:text-8xl xl:text-[9rem] 2xl:text-[10rem] md:transform-none z-50 hover:text-gray-300 transition-colors"
                   onClick={(e) => {
-                    console.log("Previous button clicked"); // Debug log
                     e.stopPropagation();
                   }}
                 >
@@ -368,29 +411,16 @@ export default function ProjectPage({ project, projects }) {
                   onSwiper={(instance) => {
                     setSwiperRef(instance);
                     if (selectedImage !== null) {
-                      try {
-                        syncToSlideWithoutAnimation(instance, selectedImage);
-                      } catch (error) {
-                        console.warn(
-                          "Initial slide sync on mount failed",
-                          error
-                        );
-                      }
+                      syncSlide(instance, selectedImage);
                     }
                   }}
                   onSlideChange={(swiper) => {
-                    console.log(
-                      "Swiper onSlideChange fired, realIndex:",
-                      swiper.realIndex,
-                      "selectedImage:",
-                      selectedImage
-                    ); // Debug log
-                    if (selectedImage !== null) {
-                      setSelectedImage(swiper.realIndex);
-                    }
+                    // Swiper can emit slide-change around the time the modal is closing.
+                    // Use refs (not state) to ensure we don't schedule updates that reopen it.
+                    if (!isModalOpenRef.current || isClosingRef.current) return;
+                    debouncedSetSelectedImage(swiper.realIndex);
                   }}
                   onClick={(e) => {
-                    console.log("Swiper clicked", e.target); // Debug log
                     // Check if the click is outside the image
                     const target = e.target;
                     if (!target) return; // Safety check
@@ -414,7 +444,6 @@ export default function ProjectPage({ project, projects }) {
                         target.closest(".swiper-button-next-custom"));
 
                     if (!isImage && !isPrevButton && !isNextButton) {
-                      console.log("Clicked outside image, closing modal"); // Debug log
                       handleClose();
                     }
                   }}
@@ -431,7 +460,6 @@ export default function ProjectPage({ project, projects }) {
                       key={index}
                       className="flex items-center justify-center"
                       onClick={(e) => {
-                        console.log("SwiperSlide clicked", e.target); // Debug log
                         // Close if clicking on the slide but not on the image or navigation
                         const target = e.target;
                         if (!target) return; // Safety check
@@ -455,9 +483,6 @@ export default function ProjectPage({ project, projects }) {
                             target.closest(".swiper-button-next-custom"));
 
                         if (!isImage && !isPrevButton && !isNextButton) {
-                          console.log(
-                            "Clicked on slide background, closing modal"
-                          ); // Debug log
                           handleClose();
                         }
                       }}
@@ -465,9 +490,8 @@ export default function ProjectPage({ project, projects }) {
                       <div
                         className={`swiper-zoom-container flex items-center justify-center 
           ${isMobileLandscape ? "h-screen w-screen" : "h-full w-full"}
-          md:h-full md:w-full`}
+                          md:h-full md:w-full`}
                         onClick={(e) => {
-                          console.log("Zoom container clicked", e.target); // Debug log
                           // Close if clicking on the zoom container but not on the image or navigation
                           const target = e.target;
                           if (!target) return; // Safety check
@@ -491,9 +515,6 @@ export default function ProjectPage({ project, projects }) {
                               target.closest(".swiper-button-next-custom"));
 
                           if (!isImage && !isPrevButton && !isNextButton) {
-                            console.log(
-                              "Clicked on zoom container background, closing modal"
-                            ); // Debug log
                             handleClose();
                           }
                         }}
@@ -511,7 +532,6 @@ export default function ProjectPage({ project, projects }) {
                           className="object-contain !max-w-full !max-h-full
                         md:!max-w-full md:!max-h-full"
                           onClick={(e) => {
-                            console.log("Image clicked", e.target); // Debug log
                             // Prevent closing when clicking directly on the image
                             e.stopPropagation();
                           }}
@@ -524,7 +544,6 @@ export default function ProjectPage({ project, projects }) {
                 <button
                   className="swiper-button-next-custom hidden md:flex absolute md:static right-2 top-1/2 -translate-y-1/2 text-white text-5xl sm:text-6xl md:col-start-3 md:col-end-4 md:justify-center md:items-center md:h-full md:text-7xl lg:text-8xl xl:text-[9rem] 2xl:text-[10rem] md:transform-none z-50 hover:text-gray-300 transition-colors"
                   onClick={(e) => {
-                    console.log("Next button clicked"); // Debug log
                     e.stopPropagation();
                   }}
                 >
