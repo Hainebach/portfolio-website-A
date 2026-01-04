@@ -14,6 +14,9 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 import Container from "@/components/Container";
 import { ptSerif } from "../lib/fonts";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/zoom";
 
 export default function App({ Component, pageProps }) {
   const [projects, setProjects] = useState([]);
