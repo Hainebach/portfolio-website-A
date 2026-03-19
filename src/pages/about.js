@@ -40,9 +40,9 @@ export default function About({ info }) {
   };
 
   const ClientLogosGrid = ({ logos }) => (
-    <div className="grid grid-cols-3 gap-8 mt-16">
+    <div className="grid grid-cols-3 w-full justify-items-center gap-8 mt-16">
       {logos?.map((logo, index) => (
-        <div key={index} className="relative h-16 md:h-12">
+        <div key={index} className="relative h-20 w-20">
           <Image
             src={`https:${logo.fields.file.url}`}
             alt={`Client logo ${index + 1}`}
