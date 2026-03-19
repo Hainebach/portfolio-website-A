@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { fetchEntries } from "../../lib/contentful";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
@@ -21,10 +21,17 @@ export async function getStaticProps() {
 
 export default function About({ info }) {
   const [activeSection, setActiveSection] = useState("about");
-  const contentRef = useRef(null);
 
-  const { name, about, references, email, image, cv, instagramLink } =
-    info.fields;
+  const {
+    name,
+    about,
+    references,
+    email,
+    image,
+    cv,
+    instagramLink,
+    clientLogos,
+  } = info.fields;
 
   const sections = {
     about: documentToReactComponents(about),
@@ -32,12 +39,25 @@ export default function About({ info }) {
     ...(cv && { cv: <ReactMarkdown>{cv}</ReactMarkdown> }),
   };
 
+  const ClientLogosGrid = ({ logos }) => (
+    <div className="grid grid-cols-3 gap-8 mt-16">
+      {logos?.map((logo, index) => (
+        <div key={index} className="relative h-16 md:h-12">
+          <Image
+            src={`https:${logo.fields.file.url}`}
+            alt={`Client logo ${index + 1}`}
+            fill
+            className="object-contain"
+            sizes="33vw"
+          />
+        </div>
+      ))}
+    </div>
+  );
+
   const toggleSection = (section) => {
     setActiveSection(section);
-
-    if (contentRef.current) {
-      contentRef.current.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const getTitle = (key) => {
@@ -98,10 +118,19 @@ export default function About({ info }) {
 
         {/* Desktop content - with toggle */}
         <div className="hidden md:block">
-          <div ref={contentRef} className="prose max-w-none">
+          <div className="prose max-w-none">
             {Object.keys(sections).map(
               (key) =>
-                activeSection === key && <div key={key}>{sections[key]}</div>
+                activeSection === key && (
+                  <div key={key}>
+                    {sections[key]}
+                    {key === "references" &&
+                      clientLogos &&
+                      clientLogos.length > 0 && (
+                        <ClientLogosGrid logos={clientLogos} />
+                      )}
+                  </div>
+                ),
             )}
           </div>
         </div>
@@ -114,6 +143,10 @@ export default function About({ info }) {
               References
             </h2>
             {sections.references}
+            {/* Client Logos Grid - Mobile */}
+            {clientLogos && clientLogos.length > 0 && (
+              <ClientLogosGrid logos={clientLogos} />
+            )}
           </div>
           {cv && (
             <div className="prose max-w-none">

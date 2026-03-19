@@ -48,8 +48,8 @@ export default function Home({
   return (
     <>
       <SEOHead metadata={metadata} />
-      <main className="relative w-full h-[calc(100vh-90px)] mt-[90px] md:h-[calc(100vh-80px)] md:mt-[80px] bg-black overflow-hidden">
-        <div className="flex flex-col items-center pt-20 md:pt-32">
+      <main className="fixed inset-0 w-full h-screen bg-black overflow-hidden">
+        <div className="flex flex-col items-center pt-[90px] md:pt-[80px]">
           {/* Homepage Text */}
           {homepageText && (
             <div className="text-white text-center mb-8 w-auto md:w-auto px-2 md:px-4 text-4xl md:text-6xl md:leading-relaxed whitespace-pre-line">

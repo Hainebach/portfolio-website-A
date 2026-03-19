@@ -40,7 +40,7 @@ export default function Header() {
     return null; // Render nothing until data is loaded
   }
 
-  const { title, logo, navigationLinks, blackText, grayText } = headerData;
+  const { title, logo, navigationLinks, textLogo } = headerData;
 
   const toggleMenu = (e) => {
     e.stopPropagation();
@@ -52,19 +52,22 @@ export default function Header() {
       <Container>
         {/* Desktop layout */}
         <div className="hidden md:flex items-center w-full relative pt-16 pb-10">
-          {/* Left side text - positioned normally */}
-          <div className="flex items-center space-x-4 whitespace-nowrap">
-            <Link href="/" className="flex items-center space-x-4">
-              {blackText && (
-                <span className="font-bold text-text-primary text-base md-lg:text-lg lg:text-xl xl2:text-2xl whitespace-nowrap hover:opacity-75 transition-opacity cursor-pointer">
-                  {blackText}
-                </span>
-              )}
-              {grayText && (
-                <span className="text-text-secondary text-base md-lg:text-lg lg:text-xl xl2:text-2xl whitespace-nowrap hover:opacity-75 transition-opacity cursor-pointer">
-                  {grayText}
-                </span>
-              )}
+          {/* Left side textLogo - positioned normally */}
+          <div className="flex items-center whitespace-nowrap">
+            <Link
+              href="/"
+              className="flex items-center hover:opacity-75 transition-opacity cursor-pointer"
+            >
+              {textLogo && textLogo.fields?.file?.url ? (
+                <Image
+                  src={`https:${textLogo.fields.file.url}`}
+                  alt={title || "Header Logo"}
+                  width={200}
+                  height={50}
+                  className="object-contain"
+                  priority
+                />
+              ) : null}
             </Link>
           </div>
 
@@ -135,19 +138,22 @@ export default function Header() {
             </button>
           </div>
 
-          {/* Centered text content */}
-          <div className="flex-1 flex flex-col items-center justify-center space-y-0 px-4">
-            <Link href="/" className="flex flex-col items-center space-y-0">
-              {blackText && (
-                <span className="font-bold text-text-primary text-sm sm:text-base text-center whitespace-nowrap overflow-hidden text-ellipsis max-w-full hover:opacity-75 transition-opacity cursor-pointer">
-                  {blackText}
-                </span>
-              )}
-              {grayText && (
-                <span className="text-text-secondary text-sm sm:text-base text-center whitespace-nowrap overflow-hidden text-ellipsis max-w-full hover:opacity-75 transition-opacity cursor-pointer">
-                  {grayText}
-                </span>
-              )}
+          {/* Centered textLogo content */}
+          <div className="flex-1 flex items-center justify-center px-4">
+            <Link
+              href="/"
+              className="flex items-center justify-center hover:opacity-75 transition-opacity cursor-pointer"
+            >
+              {textLogo && textLogo.fields?.file?.url ? (
+                <Image
+                  src={`https:${textLogo.fields.file.url}`}
+                  alt={title || "Header Logo"}
+                  width={240}
+                  height={60}
+                  className="object-contain"
+                  priority
+                />
+              ) : null}
             </Link>
           </div>
 
