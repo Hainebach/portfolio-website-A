@@ -40,7 +40,7 @@ export default function About({ info }) {
   };
 
   const ClientLogosGrid = ({ logos }) => (
-    <div className="grid grid-cols-3 w-full justify-items-center gap-8 mt-16">
+    <div className="grid grid-cols-3 md:grid-cols-4 w-full gap-8 mt-16">
       {logos?.map((logo, index) => (
         <div key={index} className="relative h-20 w-20">
           <Image
@@ -61,9 +61,6 @@ export default function About({ info }) {
   };
 
   const getTitle = (key) => {
-    if (key === "cv") {
-      return "CV";
-    }
     return key.charAt(0).toUpperCase() + key.slice(1);
   };
 
@@ -124,7 +121,7 @@ export default function About({ info }) {
                 activeSection === key && (
                   <div key={key}>
                     {sections[key]}
-                    {key === "references" &&
+                    {key === "about" &&
                       clientLogos &&
                       clientLogos.length > 0 && (
                         <ClientLogosGrid logos={clientLogos} />
@@ -148,12 +145,6 @@ export default function About({ info }) {
               <ClientLogosGrid logos={clientLogos} />
             )}
           </div>
-          {cv && (
-            <div className="prose max-w-none">
-              <h2 className="text-2xl font-bold mb-4 text-text-primary">CV</h2>
-              {sections.cv}
-            </div>
-          )}
         </div>
       </div>
     </div>

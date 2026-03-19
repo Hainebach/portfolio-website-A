@@ -51,7 +51,7 @@ export default function Header() {
     <header className="header fixed top-0 w-full bg-white">
       <Container>
         {/* Desktop layout */}
-        <div className="hidden md:flex items-center w-full relative pt-16 pb-10">
+        <div className="hidden md:flex items-center w-full relative pt-8 pb-6">
           {/* Left side textLogo - positioned normally */}
           <div className="flex items-center whitespace-nowrap">
             <Link
@@ -62,8 +62,8 @@ export default function Header() {
                 <Image
                   src={`https:${textLogo.fields.file.url}`}
                   alt={title || "Header Logo"}
-                  width={200}
-                  height={50}
+                  width={300}
+                  height={75}
                   className="object-contain"
                   priority
                 />
