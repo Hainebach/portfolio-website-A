@@ -57,7 +57,9 @@ export default function About({ info }) {
 
   const toggleSection = (section) => {
     setActiveSection(section);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 50);
   };
 
   const getTitle = (key) => {
