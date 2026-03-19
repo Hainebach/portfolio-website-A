@@ -52,7 +52,7 @@ export default function Home({
         <div className="flex flex-col items-center pt-[90px] md:pt-[80px]">
           {/* Homepage Text */}
           {homepageText && (
-            <div className="text-white text-center mb-8 w-auto md:w-auto px-2 md:px-4 text-3xl md:text-4xl md:leading-relaxed whitespace-pre-line">
+            <div className="text-white text-center mb-8 w-auto md:w-auto px-5 md:px-4 text-2xl md:text-4xl md:leading-relaxed whitespace-pre-line">
               {documentToReactComponents(homepageText)}
             </div>
           )}
@@ -70,7 +70,7 @@ export default function Home({
           {/* Homepage Logo */}
           {homepageLogo && homepageLogo.fields?.file?.url && (
             <Link href="/work" className="logo-hover cursor-pointer">
-              <div className="relative w-48 h-48 md:w-72 md:h-72">
+              <div className="relative w-32 h-32 md:w-72 md:h-72">
                 <Image
                   src={`https:${homepageLogo.fields.file.url}`}
                   alt="Homepage Logo"
