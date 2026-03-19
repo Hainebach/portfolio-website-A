@@ -52,7 +52,7 @@ export default function Home({
         <div className="flex flex-col items-center pt-[90px] md:pt-[80px]">
           {/* Homepage Text */}
           {homepageText && (
-            <div className="text-white text-center mb-8 w-auto md:w-auto px-2 md:px-4 text-4xl md:text-6xl md:leading-relaxed whitespace-pre-line">
+            <div className="text-white text-center mb-8 w-auto md:w-auto px-2 md:px-4 text-3xl md:text-4xl md:leading-relaxed whitespace-pre-line">
               {documentToReactComponents(homepageText)}
             </div>
           )}
@@ -61,7 +61,7 @@ export default function Home({
           {buttonText && (
             <Link
               href="/work"
-              className="text-white mb-12 text-3xl md:text-4xl hover:underline"
+              className="text-white mb-12 text-2xl md:text-4xl underline"
             >
               {buttonText}
             </Link>
