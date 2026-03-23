@@ -59,7 +59,7 @@ export default function Header() {
               className="flex items-center hover:opacity-75 transition-opacity cursor-pointer"
             >
               {textLogo && textLogo.fields?.file?.url ? (
-                <div className="max-w-[250px]">
+                <div className="max-w-[275px]">
                   <Image
                     src={`https:${textLogo.fields.file.url}`}
                     alt={title || "Header Logo"}
