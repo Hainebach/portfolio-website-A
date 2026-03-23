@@ -51,7 +51,7 @@ export default function Contact({ contactData }) {
         </h1>
 
         {/* Contact Text */}
-        <div className="prose text-xl max-w-none mb-8">
+        <div className="prose text-xl leading-relaxed max-w-none mb-8">
           {documentToReactComponents(contactText)}
         </div>
 
