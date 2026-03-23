@@ -66,6 +66,7 @@ export default function Header() {
                   height={75}
                   className="object-contain"
                   priority
+                  loading="eager"
                 />
               ) : null}
             </Link>

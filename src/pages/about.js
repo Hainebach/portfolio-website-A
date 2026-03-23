@@ -117,7 +117,7 @@ export default function About({ info }) {
 
         {/* Desktop content - with toggle */}
         <div className="hidden md:block">
-          <div className="prose text-lg max-w-none">
+          <div className="prose text-xl max-w-none">
             {Object.keys(sections).map(
               (key) =>
                 activeSection === key && (
@@ -136,8 +136,8 @@ export default function About({ info }) {
 
         {/* Mobile content - show about and references in sequence */}
         <div className="md:hidden space-y-8">
-          <div className="prose text-lg max-w-none">{sections.about}</div>
-          <div className="prose text-lg max-w-none">
+          <div className="prose text-xl max-w-none">{sections.about}</div>
+          <div className="prose text-xl max-w-none">
             <h2 className="text-2xl font-bold mb-4 text-text-primary">
               References
             </h2>
