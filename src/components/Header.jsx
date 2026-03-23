@@ -59,16 +59,18 @@ export default function Header() {
               className="flex items-center hover:opacity-75 transition-opacity cursor-pointer"
             >
               {textLogo && textLogo.fields?.file?.url ? (
-                <Image
-                  src={`https:${textLogo.fields.file.url}`}
-                  alt={title || "Header Logo"}
-                  width={300}
-                  height={75}
-                  className="object-contain"
-                  priority
-                  loading="eager"
-                  style={{ width: "auto", height: "auto" }}
-                />
+                <div className="max-w-[250px]">
+                  <Image
+                    src={`https:${textLogo.fields.file.url}`}
+                    alt={title || "Header Logo"}
+                    width={300}
+                    height={75}
+                    className="object-contain"
+                    priority
+                    loading="eager"
+                    style={{ width: "auto", height: "auto" }}
+                  />
+                </div>
               ) : null}
             </Link>
           </div>
