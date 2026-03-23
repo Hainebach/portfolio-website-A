@@ -77,6 +77,7 @@ export default function About({ info }) {
             width={300}
             height={300}
             className="rounded mb-6"
+            loading="eager"
           />
 
           {/* Navigation - hidden on mobile, visible on desktop */}

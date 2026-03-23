@@ -37,6 +37,7 @@ export default function Contact({ contactData }) {
               alt="Contact Image"
               width={300}
               height={300}
+              style={{ width: "auto", height: "auto" }}
               className="rounded mb-6"
             />
           )}

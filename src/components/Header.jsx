@@ -67,6 +67,7 @@ export default function Header() {
                   className="object-contain"
                   priority
                   loading="eager"
+                  style={{ width: "auto", height: "auto" }}
                 />
               ) : null}
             </Link>
@@ -82,6 +83,7 @@ export default function Header() {
                     alt={title}
                     fill
                     className="object-contain"
+                    sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>
               ) : (
