@@ -40,7 +40,7 @@ export default function About({ info }) {
   };
 
   const ClientLogosGrid = ({ logos }) => (
-    <div className="grid grid-cols-3 lg:grid-cols-4 w-full gap-8 mt-8">
+    <div className="grid grid-cols-3 lg:grid-cols-4 w-full gap-8 mt-0">
       {logos?.map((logo, index) => (
         <div key={index} className="relative h-20 md:h-28 w-20 md:w-28">
           <Image
