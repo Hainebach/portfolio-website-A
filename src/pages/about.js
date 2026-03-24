@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { fetchEntries } from "../../lib/contentful";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
@@ -21,10 +21,17 @@ export async function getStaticProps() {
 
 export default function About({ info }) {
   const [activeSection, setActiveSection] = useState("about");
-  const contentRef = useRef(null);
 
-  const { name, about, references, email, image, cv, instagramLink } =
-    info.fields;
+  const {
+    name,
+    about,
+    references,
+    email,
+    image,
+    cv,
+    instagramLink,
+    clientLogos,
+  } = info.fields;
 
   const sections = {
     about: documentToReactComponents(about),
@@ -32,18 +39,30 @@ export default function About({ info }) {
     ...(cv && { cv: <ReactMarkdown>{cv}</ReactMarkdown> }),
   };
 
+  const ClientLogosGrid = ({ logos }) => (
+    <div className="grid grid-cols-3 lg:grid-cols-4 w-full gap-8 mt-0">
+      {logos?.map((logo, index) => (
+        <div key={index} className="relative h-20 md:h-28 w-20 md:w-28">
+          <Image
+            src={`https:${logo.fields.file.url}`}
+            alt={`Client logo ${index + 1}`}
+            fill
+            className="object-contain"
+            sizes="33vw"
+          />
+        </div>
+      ))}
+    </div>
+  );
+
   const toggleSection = (section) => {
     setActiveSection(section);
-
-    if (contentRef.current) {
-      contentRef.current.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 50);
   };
 
   const getTitle = (key) => {
-    if (key === "cv") {
-      return "CV";
-    }
     return key.charAt(0).toUpperCase() + key.slice(1);
   };
 
@@ -58,6 +77,7 @@ export default function About({ info }) {
             width={300}
             height={300}
             className="rounded mb-6"
+            loading="eager"
           />
 
           {/* Navigation - hidden on mobile, visible on desktop */}
@@ -76,19 +96,6 @@ export default function About({ info }) {
               </button>
             ))}
           </div>
-
-          {instagramLink && (
-            <div className="flex justify-center">
-              <a
-                href={instagramLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-text-secondary hover:text-text-primary"
-              >
-                <FaInstagram size={30} />
-              </a>
-            </div>
-          )}
         </div>
       </div>
 
@@ -98,29 +105,37 @@ export default function About({ info }) {
 
         {/* Desktop content - with toggle */}
         <div className="hidden md:block">
-          <div ref={contentRef} className="prose max-w-none">
+          <div className="prose text-xl leading-relaxed max-w-none">
             {Object.keys(sections).map(
               (key) =>
-                activeSection === key && <div key={key}>{sections[key]}</div>
+                activeSection === key && (
+                  <div key={key}>
+                    {sections[key]}
+                    {key === "about" &&
+                      clientLogos &&
+                      clientLogos.length > 0 && (
+                        <ClientLogosGrid logos={clientLogos} />
+                      )}
+                  </div>
+                ),
             )}
           </div>
         </div>
 
         {/* Mobile content - show about and references in sequence */}
         <div className="md:hidden space-y-8">
-          <div className="prose max-w-none">{sections.about}</div>
-          <div className="prose max-w-none">
-            <h2 className="text-2xl font-bold mb-4 text-text-primary">
+          <div className="prose text-xl leading-relaxed max-w-none">
+            {sections.about}
+          </div>
+          <div className="prose text-xl leading-relaxed max-w-none">
+            {clientLogos && clientLogos.length > 0 && (
+              <ClientLogosGrid logos={clientLogos} />
+            )}
+            <h2 className="text-2xl font-bold mb-4 mt-20 text-text-primary">
               References
             </h2>
             {sections.references}
           </div>
-          {cv && (
-            <div className="prose max-w-none">
-              <h2 className="text-2xl font-bold mb-4 text-text-primary">CV</h2>
-              {sections.cv}
-            </div>
-          )}
         </div>
       </div>
     </div>

@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+  },
   reactStrictMode: true,
   images: {
     remotePatterns: [
