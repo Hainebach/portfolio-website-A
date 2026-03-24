@@ -11,7 +11,6 @@ import {
   fetchSEOMetadata,
   generatePageMetadata,
 } from "../../lib/contentful-seo";
-import { AnimatePresence, motion } from "framer-motion";
 import Container from "@/components/Container";
 import { ptSerif } from "../lib/fonts";
 import "swiper/css";
@@ -69,27 +68,23 @@ export default function App({ Component, pageProps }) {
         <SEOHead metadata={effectiveMetadata} />
       )}
 
-      <AnimatePresence mode="wait">
-        <div key={router.route}>
-          <Header />
-          {isIndexPage ? (
-            <Component {...pageProps} projects={projects} />
-          ) : (
-            <Container>
-              <Component {...pageProps} projects={projects} />
-            </Container>
-          )}
-          {!isIndexPage && <Footer />}
-          {isPreviewEnv && (
-            <div
-              aria-label="Preview environment"
-              className="fixed right-3 bottom-16 md:bottom-6 z-[9999] pointer-events-none select-none rounded-md bg-black/60 px-2.5 py-1.5 text-xs font-medium text-white backdrop-blur-sm shadow-md"
-            >
-              Preview
-            </div>
-          )}
+      <Header />
+      {isIndexPage ? (
+        <Component {...pageProps} projects={projects} />
+      ) : (
+        <Container>
+          <Component {...pageProps} projects={projects} />
+        </Container>
+      )}
+      {!isIndexPage && <Footer />}
+      {isPreviewEnv && (
+        <div
+          aria-label="Preview environment"
+          className="fixed right-3 bottom-16 md:bottom-6 z-[9999] pointer-events-none select-none rounded-md bg-black/60 px-2.5 py-1.5 text-xs font-medium text-white backdrop-blur-sm shadow-md"
+        >
+          Preview
         </div>
-      </AnimatePresence>
+      )}
     </div>
   );
 }

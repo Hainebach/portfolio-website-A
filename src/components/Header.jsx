@@ -36,16 +36,15 @@ export default function Header() {
     };
   }, [isOpen]);
 
-  if (!headerData) {
-    return null; // Render nothing until data is loaded
-  }
-
-  const { title, logo, navigationLinks, textLogo } = headerData;
-
   const toggleMenu = (e) => {
     e.stopPropagation();
     setIsOpen(!isOpen);
   };
+
+  const title = headerData?.title;
+  const logo = headerData?.logo;
+  const navigationLinks = headerData?.navigationLinks || [];
+  const textLogo = headerData?.textLogo;
 
   return (
     <header className="header fixed top-0 w-full bg-white">
@@ -58,7 +57,7 @@ export default function Header() {
               href="/"
               className="flex items-center hover:opacity-75 transition-opacity cursor-pointer"
             >
-              {textLogo && textLogo.fields?.file?.url ? (
+              {textLogo?.fields?.file?.url ? (
                 <div className="max-w-[275px]">
                   <Image
                     src={`https:${textLogo.fields.file.url}`}
@@ -78,7 +77,7 @@ export default function Header() {
           {/* Logo - absolutely centered horizontally only */}
           <div className="absolute left-1/2 transform -translate-x-1/2 flex items-center">
             <Link className="header-title" href="/">
-              {logo && logo.fields?.file?.url ? (
+              {logo?.fields?.file?.url ? (
                 <div className="logo-container">
                   <Image
                     src={`https:${logo.fields.file.url}`}
@@ -149,7 +148,7 @@ export default function Header() {
               href="/"
               className="flex items-center justify-center hover:opacity-75 transition-opacity cursor-pointer"
             >
-              {textLogo && textLogo.fields?.file?.url ? (
+              {textLogo?.fields?.file?.url ? (
                 <Image
                   src={`https:${textLogo.fields.file.url}`}
                   alt={title || "Header Logo"}
