@@ -96,19 +96,6 @@ export default function About({ info }) {
               </button>
             ))}
           </div>
-
-          {/* {instagramLink && (
-            <div className="flex justify-center">
-              <a
-                href={instagramLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-text-secondary hover:text-text-primary"
-              >
-                <FaInstagram size={30} />
-              </a>
-            </div>
-          )} */}
         </div>
       </div>
 
@@ -141,14 +128,13 @@ export default function About({ info }) {
             {sections.about}
           </div>
           <div className="prose text-xl leading-relaxed max-w-none">
-            <h2 className="text-2xl font-bold mb-4 text-text-primary">
-              References
-            </h2>
-            {sections.references}
-            {/* Client Logos Grid - Mobile */}
             {clientLogos && clientLogos.length > 0 && (
               <ClientLogosGrid logos={clientLogos} />
             )}
+            <h2 className="text-2xl font-bold mb-4 mt-20 text-text-primary">
+              References
+            </h2>
+            {sections.references}
           </div>
         </div>
       </div>
